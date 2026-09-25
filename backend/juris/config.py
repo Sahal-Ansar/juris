@@ -46,7 +46,7 @@ class _Strict(BaseModel):
 
 class ModelSpec(_Strict):
     provider: str = "anthropic"
-    name: str = "claude-sonnet-5"
+    name: str = "claude-opus-5-5"
 
 
 class ModelsConfig(_Strict):
