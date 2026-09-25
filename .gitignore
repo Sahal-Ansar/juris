@@ -1,0 +1,33 @@
+# Planning docs (kept local)
+Plan/
+
+# graphify knowledge graph output
+graphify-out/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Tool caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Data and raw eval output
+data/
+eval/results/raw/
+
+# Frontend
+node_modules/
+.next/
