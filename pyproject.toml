@@ -4,7 +4,10 @@ version = "0.1.0"
 description = "Evidence-grounded multi-agent legal case deliberation for Indian law"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
-dependencies = []
+dependencies = [
+    "psycopg[binary]>=3.2",
+    "python-dotenv>=1.0",
+]
 
 [dependency-groups]
 dev = [
@@ -32,7 +35,7 @@ select = ["E", "W", "F", "I", "B", "UP", "SIM", "RUF"]
 
 [tool.mypy]
 python_version = "3.12"
-files = ["backend/juris", "backend/tests"]
+files = ["backend/juris", "backend/tests", "scripts"]
 mypy_path = "backend"
 explicit_package_bases = true
 warn_redundant_casts = true

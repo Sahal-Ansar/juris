@@ -11,6 +11,18 @@ uv sync
 uv run pre-commit install
 ```
 
+## Database
+
+Postgres 16 with pgvector runs in Docker. On Windows, use Docker Desktop with the WSL2 backend.
+
+```bash
+cp .env.example .env
+docker compose up -d
+uv run scripts/db_check.py
+```
+
+`db_check.py` prints `OK` with the Postgres and pgvector versions. The port and credentials come from `.env`.
+
 ## Checks
 
 ```bash
@@ -24,6 +36,7 @@ uv run pytest
 
 - `backend/juris/`: the Python package (LLM gateway, ingestion, retrieval, agents, pipeline, API, eval)
 - `backend/tests/`: tests
+- `scripts/`: CLI entry points (`db_check.py`)
 - `eval/`, `schemas/`, `fixtures/`: eval sets, exported JSON Schema, UI mock runs
 - `apps/web/`: frontend
 - `docs/`: technical docs and reports
