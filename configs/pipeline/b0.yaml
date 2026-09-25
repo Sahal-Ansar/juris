@@ -1,0 +1,5 @@
+# B0: LLM only, no retrieval (IDEA_final §5). Filled in by PLAN 6.2.
+name: b0
+description: Question -> LLM -> answer. No retrieval.
+kind: b0
+seed: 0

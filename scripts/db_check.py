@@ -3,28 +3,16 @@
 Usage: docker compose up -d && uv run scripts/db_check.py
 """
 
-import os
 import sys
 
 import psycopg
-from dotenv import load_dotenv
 
-
-def conninfo() -> str:
-    load_dotenv()
-    return psycopg.conninfo.make_conninfo(
-        host=os.getenv("POSTGRES_HOST", "localhost"),
-        port=os.getenv("POSTGRES_PORT", "5432"),
-        user=os.getenv("POSTGRES_USER", "juris"),
-        password=os.getenv("POSTGRES_PASSWORD", "juris"),
-        dbname=os.getenv("POSTGRES_DB", "juris"),
-        connect_timeout=5,
-    )
+from juris.config import get_settings
 
 
 def main() -> int:
     try:
-        with psycopg.connect(conninfo()) as conn:
+        with psycopg.connect(get_settings().database_url(driver=None), connect_timeout=5) as conn:
             conn.execute("CREATE EXTENSION IF NOT EXISTS vector;")
             row = conn.execute(
                 "SELECT extversion FROM pg_extension WHERE extname = 'vector'"
