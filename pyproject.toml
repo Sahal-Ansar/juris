@@ -67,4 +67,7 @@ extra_checks = true
 testpaths = ["backend/tests"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
-markers = ["live: calls a real provider API (needs a key, costs money)"]
+markers = [
+    "live: calls a real provider API (needs a key, may cost money)",
+    "db: needs the Postgres from docker-compose.yml",
+]

@@ -47,7 +47,7 @@ def test_settings_load_from_env_file(tmp_path: Path) -> None:
     assert settings.models.default.name == "test-model"
     assert settings.budget.max_tokens_per_case == 200000
     assert settings.database_url() == (
-        "postgresql+psycopg://juris:p%40ss%20word@localhost:6543/juris"
+        "postgresql+psycopg://juris:p%40ss%20word@127.0.0.1:6543/juris"
     )
     assert settings.database_url(driver=None).startswith("postgresql://")
 
