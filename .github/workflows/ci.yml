@@ -19,4 +19,4 @@ jobs:
       - run: uv run ruff format --check
       - run: uv run mypy
       # FakeProvider only: no network, no API keys, no database.
-      - run: uv run pytest -m "not live"
+      - run: uv run pytest -m "not live and not db"

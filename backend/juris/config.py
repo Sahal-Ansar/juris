@@ -151,7 +151,7 @@ class Settings(BaseSettings):
     )
 
     # Database: shares its variables with docker-compose.yml.
-    postgres_host: str = Field(default="localhost", validation_alias="POSTGRES_HOST")
+    postgres_host: str = Field(default="127.0.0.1", validation_alias="POSTGRES_HOST")
     postgres_port: int = Field(default=5432, validation_alias="POSTGRES_PORT")
     postgres_user: str = Field(default="juris", validation_alias="POSTGRES_USER")
     postgres_password: SecretStr = Field(

@@ -28,13 +28,21 @@ uv run scripts/db_check.py
 - `.env` holds secrets and machine settings (database, API keys). See `.env.example` and `backend/juris/config.py`.
 - `configs/pipeline/*.yaml` are named system configurations (`juris_full`, `b0`, `b1`, `b2`): stage switches, deliberation parameters, and optional model and budget overrides.
 
+## Runs
+
+Every run writes a manifest (git commit, resolved config, models per role, prompt hashes, corpus snapshot, seeds, token and dollar totals) to `data/runs/<run_id>/manifest.json`, and optionally to the `runs` table in Postgres. To try it without an API key:
+
+```bash
+uv run scripts/dummy_run.py --db
+```
+
 ## Checks
 
 ```bash
 uv run ruff check
 uv run ruff format --check
 uv run mypy
-uv run pytest
+uv run pytest            # add -m "not db" if Postgres isn't running
 ```
 
 ## Layout
