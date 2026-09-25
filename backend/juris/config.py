@@ -19,7 +19,7 @@ from typing import Literal, Self
 from urllib.parse import quote
 
 import yaml
-from pydantic import BaseModel, ConfigDict, Field, SecretStr, model_validator
+from pydantic import BaseModel, ConfigDict, Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -44,9 +44,15 @@ class _Strict(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
 
+Effort = Literal["low", "medium", "high", "xhigh", "max"]
+
+
 class ModelSpec(_Strict):
     provider: str = "anthropic"
     name: str = "claude-opus-5-5"
+    # Thinking depth / token spend on Claude models that support it. Opus 5.5
+    # defaults to "medium" when unset, so set it explicitly (D-006).
+    effort: Effort | None = "high"
 
 
 class ModelsConfig(_Strict):
@@ -65,6 +71,21 @@ class BudgetConfig(_Strict):
     max_tokens_per_case: int | None = Field(default=None, gt=0)
     max_usd_per_case: float | None = Field(default=None, gt=0)
 
+
+class TokenPrice(_Strict):
+    """USD per million tokens."""
+
+    input: float = Field(ge=0)
+    output: float = Field(ge=0)
+
+
+# Anthropic first-party list prices (per MTok), checked 2026-09-25.
+DEFAULT_PRICES: dict[str, TokenPrice] = {
+    "claude-opus-5-5": TokenPrice(input=4.0, output=20.0),
+    "claude-opus-5": TokenPrice(input=5.0, output=25.0),
+    "claude-sonnet-5": TokenPrice(input=2.0, output=10.0),
+    "claude-haiku-4-5": TokenPrice(input=1.0, output=5.0),
+}
 
 CacheMode = Literal["read_write", "read_only", "off"]
 StageMode = Literal["on", "off", "passthrough"]
@@ -141,6 +162,8 @@ class Settings(BaseSettings):
     # Provider keys.
     anthropic_api_key: SecretStr | None = Field(default=None, validation_alias="ANTHROPIC_API_KEY")
     openai_api_key: SecretStr | None = Field(default=None, validation_alias="OPENAI_API_KEY")
+    # Any OpenAI-compatible endpoint (OpenAI, a local server, a gateway).
+    openai_base_url: str | None = Field(default=None, validation_alias="OPENAI_BASE_URL")
 
     # Defaults that profiles may override.
     models: ModelsConfig = ModelsConfig()
@@ -149,11 +172,20 @@ class Settings(BaseSettings):
     # LLM gateway flags.
     llm_cache: CacheMode = "read_write"
     llm_max_concurrency: int = Field(default=4, ge=1)
+    llm_max_retries: int = Field(default=5, ge=0)
+    llm_prices: dict[str, TokenPrice] = Field(default_factory=lambda: dict(DEFAULT_PRICES))
 
     # Paths.
     data_dir: Path = REPO_ROOT / "data"
     runs_dir: Path = REPO_ROOT / "data" / "runs"
+    llm_cache_path: Path = REPO_ROOT / "data" / "cache" / "llm.sqlite"
     pipeline_configs_dir: Path = PIPELINE_CONFIGS_DIR
+
+    @field_validator("anthropic_api_key", "openai_api_key", "openai_base_url", mode="before")
+    @classmethod
+    def _blank_is_unset(cls, value: object) -> object:
+        """``ANTHROPIC_API_KEY=`` in .env means no key, not an empty one."""
+        return None if isinstance(value, str) and not value.strip() else value
 
     def database_url(self, driver: str | None = "psycopg") -> str:
         """SQLAlchemy URL (``postgresql+psycopg://``), or a libpq URI if ``driver`` is None."""
