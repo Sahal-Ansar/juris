@@ -1,0 +1,6 @@
+# B2: compute-matched single agent (IDEA_final §5). Filled in by PLAN 6.4;
+# its budget is recalibrated against juris_full in PLAN 7.12.
+name: b2
+description: B1 plus multi-query retrieval and self-critique, at Juris's token budget.
+kind: b2
+seed: 0

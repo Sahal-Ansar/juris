@@ -1,0 +1,26 @@
+# Full Juris pipeline (IDEA_final §5 "P", §6). These match the defaults in
+# juris.config and are spelled out so the profile is explicit.
+name: juris_full
+description: Full adversarial deliberation pipeline, S0-S10.
+kind: juris
+seed: 0
+stages:
+  s0_issue_framing: "on"
+  s1_research: "on"
+  s2_opening: "on"
+  s3_precedent: "on"
+  s4_verify: "on"
+  s5_rebuttal: "on"
+  s6_cross_exam: "on"
+  s7_verify: "on"
+  s8_jury: "on"
+  s9_judge: "on"
+  s10_final_verify: "on"
+params:
+  max_issues: 4
+  positions_per_issue: 2
+  evidence_per_issue_min: 10
+  evidence_per_issue_max: 25
+  rebuttal_rounds: 1
+  extra_searches_per_counsel: 3
+  jurors: 3

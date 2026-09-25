@@ -1,0 +1,5 @@
+# B1: single-agent RAG (IDEA_final §5). Filled in by PLAN 6.3.
+name: b1
+description: Hybrid retrieval -> one LLM call -> cited answer.
+kind: b1
+seed: 0

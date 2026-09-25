@@ -23,6 +23,11 @@ uv run scripts/db_check.py
 
 `db_check.py` prints `OK` with the Postgres and pgvector versions. The port and credentials come from `.env`.
 
+## Configuration
+
+- `.env` holds secrets and machine settings (database, API keys). See `.env.example` and `backend/juris/config.py`.
+- `configs/pipeline/*.yaml` are named system configurations (`juris_full`, `b0`, `b1`, `b2`): stage switches, deliberation parameters, and optional model and budget overrides.
+
 ## Checks
 
 ```bash
@@ -36,6 +41,7 @@ uv run pytest
 
 - `backend/juris/`: the Python package (LLM gateway, ingestion, retrieval, agents, pipeline, API, eval)
 - `backend/tests/`: tests
+- `configs/pipeline/`: pipeline profiles
 - `scripts/`: CLI entry points (`db_check.py`)
 - `eval/`, `schemas/`, `fixtures/`: eval sets, exported JSON Schema, UI mock runs
 - `apps/web/`: frontend
