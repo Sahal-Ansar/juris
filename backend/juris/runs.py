@@ -14,47 +14,18 @@ import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 from types import TracebackType
-from typing import Literal, Self
+from typing import Self
 
 import psycopg
-from pydantic import BaseModel, Field
 
-from juris.config import REPO_ROOT, ModelSpec, Role, RunConfig
+from juris.config import REPO_ROOT, Role, RunConfig
 from juris.llm.cost import CostLedger
+from juris.models.run import GitState, Run, RunStatus, RunTotals
 from juris.prompts import PROMPTS_DIR, prompt_hashes
 
-RunStatus = Literal["running", "completed", "failed"]
+RunManifest = Run  # the manifest is the domain model's Run (juris.models.run)
 
-
-class GitState(BaseModel):
-    commit: str
-    dirty: bool
-
-
-class RunTotals(BaseModel):
-    llm_calls: int = 0
-    cached_calls: int = 0
-    input_tokens: int = 0
-    output_tokens: int = 0
-    usd: float = 0.0
-    unpriced_calls: int = 0
-
-
-class RunManifest(BaseModel):
-    run_id: str
-    status: RunStatus
-    profile: str
-    config: RunConfig
-    git: GitState
-    models: dict[Role, ModelSpec]
-    prompt_hashes: dict[str, str]
-    corpus_snapshot_id: str
-    embedding_model: str
-    seeds: dict[str, int]
-    started_at: datetime
-    ended_at: datetime | None = None
-    error: str | None = None
-    totals: RunTotals = Field(default_factory=RunTotals)
+__all__ = ["GitState", "RunManifest", "RunRecorder", "RunStatus", "RunTotals", "git_state"]
 
 
 def new_run_id(profile: str) -> str:
