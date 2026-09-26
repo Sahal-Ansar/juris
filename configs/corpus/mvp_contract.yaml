@@ -1,0 +1,60 @@
+# MVP corpus slice: Indian contract law (IDEA_final §7.2, PLAN 1.3).
+# Rationale and estimates: docs/data/corpus_slice.md. Schema: juris.ingest.slice.SliceConfig.
+name: mvp_contract
+seed: 20260926
+
+supreme_court:
+  source: aws_sc              # s3://indian-supreme-court-judgments, English PDFs
+  years: [1950, 2026]         # all years; pre-1970 judgments get page-level pinpoints only
+  core:
+    # A judgment is "core" if its text mentions one of these Acts at least
+    # `min_mentions` times, or cites a section of one of them at least `min_section_refs` times.
+    acts: [contract_act, specific_relief_act]
+    min_mentions: 2
+    min_section_refs: 1
+  one_hop:
+    # SC judgments cited by core judgments, resolvable through SCR or INSC citations
+    # (our metadata has no SCC/AIR mapping). Ranked by how many core judgments cite them.
+    resolve_via: [scr, insc]
+    max_judgments: 1000
+    min_cited_by: 2
+  distractors:
+    # Random non-matching SC judgments, so retrieval is tested against noise.
+    fraction_of_selected: 0.10
+    min: 200
+  size_bounds: [2000, 5000]   # total SC judgments (core + one_hop + distractors)
+  # If the core set is outside these bounds, apply the adjustments in order until it fits.
+  if_too_large:
+    - {min_mentions: 3}
+    - {min_mentions: 3, min_section_refs: 2}
+  if_too_small:
+    - {acts: [contract_act, specific_relief_act, sale_of_goods_act]}
+    - {one_hop_max_judgments: 2000}
+
+high_courts:
+  source: aws_hc
+  courts:                     # large commercial dockets; codes from high_courts.csv
+    - {name: High Court of Delhi, code: "7_26"}
+    - {name: Bombay High Court, code: "27_1"}
+  years: [2018, 2025]         # Commercial Courts Act regime; modern formatting
+  # Prefix of the metadata `title` before the first "/" (e.g. "CS(COMM)/123/2020 of ...").
+  # Delhi/Bombay title formats are not yet sampled: verify in PLAN 3.1.
+  candidate_case_types: ["CS(COMM)", "RFA(COMM)", "FAO(COMM)", "O.M.P.(COMM)", "COMM", "RFA", "FA"]
+  core:
+    acts: [contract_act, specific_relief_act]
+    min_mentions: 2
+    min_section_refs: 1
+  reasoned_only:              # drop short procedural orders
+    min_pages: 4
+    min_numbered_paragraphs: 5
+  max_judgments: 400
+
+statutes:
+  source: hf_legal_docs       # KanoonGPT/indian-legal-documents (local research use only)
+  acts:
+    - {key: contract_act, title: "The Indian Contract Act, 1872", act_no: "9 of 1872"}
+    - {key: specific_relief_act, title: "The Specific Relief Act, 1963", act_no: "47 of 1963",
+       note: "Amended 2018 (Act 18 of 2018) - track in_force dates for ss. 10, 14, 16, 20"}
+    - {key: sale_of_goods_act, title: "The Sale of Goods Act, 1930", act_no: "3 of 1930", optional: true}
+  split: section              # one chunk per section (PLAN 3.5)
+  verify_against: india_code_manual_spot_check
