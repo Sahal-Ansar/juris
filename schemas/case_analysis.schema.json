@@ -1,0 +1,384 @@
+{
+  "$defs": {
+    "Confidence": {
+      "enum": [
+        "low",
+        "moderate",
+        "high"
+      ],
+      "title": "Confidence",
+      "type": "string"
+    },
+    "CreatedBy": {
+      "additionalProperties": false,
+      "description": "Which stage and agent produced an object (e.g. ``counsel_a``, ``case_record``).",
+      "properties": {
+        "stage": {
+          "$ref": "#/$defs/Stage"
+        },
+        "agent": {
+          "minLength": 1,
+          "title": "Agent",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage",
+        "agent"
+      ],
+      "title": "CreatedBy",
+      "type": "object"
+    },
+    "EvidenceRef": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "pattern": "^E-\\d{3,}$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "pinpoint": {
+          "minLength": 1,
+          "title": "Pinpoint",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "pinpoint"
+      ],
+      "title": "EvidenceRef",
+      "type": "object"
+    },
+    "IssueAnalysis": {
+      "additionalProperties": false,
+      "properties": {
+        "issue_id": {
+          "pattern": "^I-\\d+$",
+          "title": "Issue Id",
+          "type": "string"
+        },
+        "issue_text": {
+          "minLength": 1,
+          "title": "Issue Text",
+          "type": "string"
+        },
+        "positions": {
+          "items": {
+            "$ref": "#/$defs/PositionAnalysis"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Positions",
+          "type": "array"
+        },
+        "key_conflicts": {
+          "items": {
+            "$ref": "#/$defs/KeyConflict"
+          },
+          "title": "Key Conflicts",
+          "type": "array"
+        },
+        "leaning": {
+          "$ref": "#/$defs/Leaning"
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "confidence_reason": {
+          "minLength": 1,
+          "title": "Confidence Reason",
+          "type": "string"
+        },
+        "unresolved_questions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unresolved Questions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "issue_id",
+        "issue_text",
+        "positions",
+        "key_conflicts",
+        "leaning",
+        "confidence",
+        "confidence_reason",
+        "unresolved_questions"
+      ],
+      "title": "IssueAnalysis",
+      "type": "object"
+    },
+    "KeyConflict": {
+      "additionalProperties": false,
+      "description": "Two authorities that pull in different directions, and which weighs more.",
+      "properties": {
+        "authority_a": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Authority A",
+          "type": "string"
+        },
+        "authority_b": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Authority B",
+          "type": "string"
+        },
+        "distinction": {
+          "minLength": 1,
+          "title": "Distinction",
+          "type": "string"
+        },
+        "weightier": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "None if neither prevails",
+          "title": "Weightier"
+        },
+        "reason": {
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "authority_a",
+        "authority_b",
+        "distinction",
+        "weightier",
+        "reason"
+      ],
+      "title": "KeyConflict",
+      "type": "object"
+    },
+    "Leaning": {
+      "enum": [
+        "strongly_A",
+        "leaning_A",
+        "balanced",
+        "leaning_B",
+        "strongly_B",
+        "insufficient_evidence"
+      ],
+      "title": "Leaning",
+      "type": "string"
+    },
+    "PositionAnalysis": {
+      "additionalProperties": false,
+      "properties": {
+        "position_id": {
+          "pattern": "^I-\\d+\\.[A-C]$",
+          "title": "Position Id",
+          "type": "string"
+        },
+        "summary": {
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "supporting_authorities": {
+          "items": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Supporting Authorities",
+          "type": "array"
+        },
+        "key_evidence": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "title": "Key Evidence",
+          "type": "array"
+        }
+      },
+      "required": [
+        "position_id",
+        "summary",
+        "supporting_authorities",
+        "key_evidence"
+      ],
+      "title": "PositionAnalysis",
+      "type": "object"
+    },
+    "SourceRef": {
+      "additionalProperties": false,
+      "properties": {
+        "document_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Document Id",
+          "type": "string"
+        },
+        "court": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Court"
+        },
+        "date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Date"
+        },
+        "citation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Citation"
+        },
+        "pinpoints_used": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Pinpoints Used",
+          "type": "array"
+        },
+        "link": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Link"
+        }
+      },
+      "required": [
+        "document_id",
+        "court",
+        "date",
+        "citation",
+        "pinpoints_used",
+        "link"
+      ],
+      "title": "SourceRef",
+      "type": "object"
+    },
+    "Stage": {
+      "description": "Pipeline stages S0-S10 (IDEA_final §6).",
+      "enum": [
+        "S0",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S8",
+        "S9",
+        "S10"
+      ],
+      "title": "Stage",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The Judge's final analysis. Gives a leaning per issue, never a verdict.\n\nChecks that need the whole Case Record (citations only to verified/weak evidence,\nevery S0 issue covered, unverified treatment listed in ``limitations``) are enforced\nby the Case Record, not here.",
+  "properties": {
+    "question": {
+      "minLength": 1,
+      "title": "Question",
+      "type": "string"
+    },
+    "facts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Facts",
+      "type": "array"
+    },
+    "assumptions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/IssueAnalysis"
+      },
+      "minItems": 1,
+      "title": "Issues",
+      "type": "array"
+    },
+    "overall_summary": {
+      "minLength": 1,
+      "title": "Overall Summary",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/SourceRef"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "disclaimer": {
+      "default": "This is a research output generated by an automated system. It is not legal advice and not a judgment. Verify every authority against the official source before relying on it.",
+      "title": "Disclaimer",
+      "type": "string"
+    },
+    "created_by": {
+      "$ref": "#/$defs/CreatedBy"
+    }
+  },
+  "required": [
+    "question",
+    "facts",
+    "assumptions",
+    "issues",
+    "overall_summary",
+    "limitations",
+    "sources",
+    "disclaimer",
+    "created_by"
+  ],
+  "title": "CaseAnalysis",
+  "type": "object"
+}

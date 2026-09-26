@@ -10,13 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      # Python version comes from .python-version; uv installs it.
       - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
-      # Python version comes from .python-version; uv installs it.
+      # Node only for json-schema-to-typescript (PLAN 2.3).
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
       - run: uv sync --locked
+      - run: npm ci
       - run: uv run ruff check
       - run: uv run ruff format --check
       - run: uv run mypy
       # FakeProvider only: no network, no API keys, no database.
       - run: uv run pytest -m "not live and not db"
+      # JSON Schemas + TypeScript types must match the models.
+      - run: uv run scripts/export_schemas.py --check

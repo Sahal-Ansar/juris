@@ -36,6 +36,17 @@ Every run writes a manifest (git commit, resolved config, models per role, promp
 uv run scripts/dummy_run.py --db
 ```
 
+## UI contract (schemas)
+
+The Pydantic models are the source of truth. `schemas/` holds the exported JSON Schemas and `schemas/ts/juris.d.ts` (TypeScript types for the UI). After changing a model:
+
+```bash
+npm ci                               # once: json-schema-to-typescript
+uv run scripts/export_schemas.py     # rewrite schemas/ and schemas/ts/
+```
+
+CI fails if the committed files are stale (`--check`).
+
 ## Checks
 
 ```bash

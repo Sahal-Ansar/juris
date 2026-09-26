@@ -15,7 +15,14 @@ class JurisModel(BaseModel):
     mutating them.
     """
 
-    model_config = ConfigDict(extra="forbid", frozen=True, use_enum_values=False)
+    model_config = ConfigDict(
+        extra="forbid",
+        frozen=True,
+        use_enum_values=False,
+        # Fields with defaults are always present in output, so the exported schema
+        # (and the UI's TypeScript types) mark them required.
+        json_schema_serialization_defaults_required=True,
+    )
 
 
 # ---- IDs -------------------------------------------------------------------------------
