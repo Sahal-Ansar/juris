@@ -1,0 +1,527 @@
+{
+  "run_id": "run_mock_failure",
+  "case_id": "CASE-MOCK-002",
+  "question": "Can a contract be enforced when consent was obtained through coercion?",
+  "profile": "juris_full",
+  "corpus_snapshot_id": "mock-snapshot-2026-09",
+  "status": "failed",
+  "error": "Budget exhausted before S9 (Judge); the partial record is preserved.",
+  "current_stage": "S2",
+  "stages": {
+    "S0": {
+      "status": "completed",
+      "reason": null
+    },
+    "S1": {
+      "status": "completed",
+      "reason": null
+    },
+    "S2": {
+      "status": "completed",
+      "reason": null
+    },
+    "S3": {
+      "status": "skipped",
+      "reason": "budget"
+    },
+    "S5": {
+      "status": "skipped",
+      "reason": "budget"
+    }
+  },
+  "agents": {
+    "issue_framer": {
+      "role": "issue_framer",
+      "status": "done",
+      "model": "claude-opus-5-5",
+      "input_tokens": 1700,
+      "output_tokens": 700,
+      "cost_usd": 0.0208
+    },
+    "researcher": {
+      "role": "researcher",
+      "status": "done",
+      "model": "claude-opus-5-5",
+      "input_tokens": 9000,
+      "output_tokens": 1200,
+      "cost_usd": 0.06
+    },
+    "counsel_a": {
+      "role": "counsel",
+      "status": "done",
+      "model": "claude-opus-5-5",
+      "input_tokens": 20000,
+      "output_tokens": 2600,
+      "cost_usd": 0.132
+    },
+    "counsel_b": {
+      "role": "counsel",
+      "status": "done",
+      "model": "claude-opus-5-5",
+      "input_tokens": 19000,
+      "output_tokens": 2300,
+      "cost_usd": 0.122
+    }
+  },
+  "facts": [
+    "A contractor (the claimant) completed works for a developer (the respondent).",
+    "The respondent admitted that Rs 48 lakh was due but withheld payment for five months.",
+    "The claimant signed a settlement accepting Rs 30 lakh 'in full and final settlement'."
+  ],
+  "assumptions": [
+    "The claimant's pleadings describe how and when the pressure was applied."
+  ],
+  "issues": {
+    "I-1": {
+      "id": "I-1",
+      "question": "Was consent to the settlement caused by coercion within s. 15?",
+      "positions": [
+        {
+          "id": "I-1.A",
+          "statement": "Yes: coercion."
+        },
+        {
+          "id": "I-1.B",
+          "statement": "No: commercial pressure."
+        }
+      ],
+      "created_by": {
+        "stage": "S0",
+        "agent": "issue_framer"
+      }
+    }
+  },
+  "queries": [
+    {
+      "query": "section 15 coercion settlement",
+      "issue_ids": [
+        "I-1"
+      ],
+      "stage": "S1",
+      "agent": "researcher"
+    }
+  ],
+  "documents": {
+    "MOCK-ICA-S15": {
+      "id": "MOCK-ICA-S15",
+      "kind": "statute",
+      "title": "[MOCK] Indian Contract Act, 1872, s. 15 (coercion) - paraphrase",
+      "court": null,
+      "court_level": null,
+      "bench_strength": null,
+      "judges": [],
+      "decision_date": null,
+      "cnr": null,
+      "citations": [],
+      "source_url": "mock://statutes/ica-1872/s15",
+      "licence": "MOCK (fictitious, for UI development only)",
+      "corpus_snapshot": "mock-snapshot-2026-09"
+    },
+    "MOCK-SC-1994-03": {
+      "id": "MOCK-SC-1994-03",
+      "kind": "judgment",
+      "title": "[MOCK] Deccan Infrastructure Ltd. v. State Supply Corp.",
+      "court": "[MOCK] Supreme Court of India",
+      "court_level": "supreme_court",
+      "bench_strength": 3,
+      "judges": [
+        "[MOCK] Justice A",
+        "[MOCK] Justice B"
+      ],
+      "decision_date": "1994-02-17",
+      "cnr": null,
+      "citations": [
+        "[MOCK] [1994] 1 S.C.R. 812"
+      ],
+      "source_url": "mock://judgments/MOCK-SC-1994-03",
+      "licence": "MOCK (fictitious, for UI development only)",
+      "corpus_snapshot": "mock-snapshot-2026-09"
+    },
+    "MOCK-DHC-2020-08": {
+      "id": "MOCK-DHC-2020-08",
+      "kind": "judgment",
+      "title": "[MOCK] Northstar Logistics v. Gupta Warehousing",
+      "court": "[MOCK] High Court of Delhi",
+      "court_level": "high_court",
+      "bench_strength": 1,
+      "judges": [
+        "[MOCK] Justice A"
+      ],
+      "decision_date": "2020-12-03",
+      "cnr": null,
+      "citations": [
+        "[MOCK] 2020 DHC 9003"
+      ],
+      "source_url": "mock://judgments/MOCK-DHC-2020-08",
+      "licence": "MOCK (fictitious, for UI development only)",
+      "corpus_snapshot": "mock-snapshot-2026-09"
+    }
+  },
+  "chunks": {
+    "MOCK-ICA-S15#s": {
+      "id": "MOCK-ICA-S15#s",
+      "document_id": "MOCK-ICA-S15",
+      "text": "Paraphrase: coercion is committing, or threatening to commit, any act forbidden by the Indian Penal Code, or unlawfully detaining or threatening to detain property, to the prejudice of any person, with the intention of causing any person to enter into an agreement.",
+      "para_start": null,
+      "para_end": null,
+      "page_start": null,
+      "page_end": null,
+      "char_start": 0,
+      "char_end": 265,
+      "section": null,
+      "statute": {
+        "act": "contract_act",
+        "section": "15",
+        "title": null,
+        "in_force_from": "1872-09-01",
+        "in_force_to": null,
+        "amended_by": [],
+        "amendments_curated": false
+      }
+    },
+    "MOCK-SC-1994-03#p21": {
+      "id": "MOCK-SC-1994-03#p21",
+      "document_id": "MOCK-SC-1994-03",
+      "text": "21. Commercial pressure is a normal incident of bargaining. Hard bargaining, or insistence on strict contractual rights, does not become coercion merely because one party is in a weaker position.",
+      "para_start": 21,
+      "para_end": 21,
+      "page_start": null,
+      "page_end": null,
+      "char_start": 21000,
+      "char_end": 21195,
+      "section": null,
+      "statute": null
+    },
+    "MOCK-DHC-2020-08#p18": {
+      "id": "MOCK-DHC-2020-08#p18",
+      "document_id": "MOCK-DHC-2020-08",
+      "text": "18. Withholding amounts that the payer itself admits are due, in order to force the payee to accept a lower settlement, is an unlawful detention of the payee's property. Consent to such a settlement is caused by coercion.",
+      "para_start": 18,
+      "para_end": 18,
+      "page_start": null,
+      "page_end": null,
+      "char_start": 18000,
+      "char_end": 18221,
+      "section": null,
+      "statute": null
+    }
+  },
+  "evidence": {
+    "E-001": {
+      "id": "E-001",
+      "chunk_id": "MOCK-ICA-S15#s",
+      "document_id": "MOCK-ICA-S15",
+      "issue_ids": [
+        "I-1"
+      ],
+      "retrieval_score": 0.807,
+      "rerank_score": 0.93,
+      "retrieved_by_query": "coercion consent section 15 settlement",
+      "registered_at_stage": "S1",
+      "created_by": {
+        "stage": "S1",
+        "agent": "researcher"
+      }
+    },
+    "E-007": {
+      "id": "E-007",
+      "chunk_id": "MOCK-SC-1994-03#p21",
+      "document_id": "MOCK-SC-1994-03",
+      "issue_ids": [
+        "I-1"
+      ],
+      "retrieval_score": 0.729,
+      "rerank_score": 0.81,
+      "retrieved_by_query": "coercion consent section 15 settlement",
+      "registered_at_stage": "S1",
+      "created_by": {
+        "stage": "S1",
+        "agent": "researcher"
+      }
+    },
+    "E-016": {
+      "id": "E-016",
+      "chunk_id": "MOCK-DHC-2020-08#p18",
+      "document_id": "MOCK-DHC-2020-08",
+      "issue_ids": [
+        "I-1"
+      ],
+      "retrieval_score": 0.612,
+      "rerank_score": 0.63,
+      "retrieved_by_query": "coercion consent section 15 settlement",
+      "registered_at_stage": "S1",
+      "created_by": {
+        "stage": "S1",
+        "agent": "researcher"
+      }
+    }
+  },
+  "claims": {
+    "C-002": {
+      "id": "C-002",
+      "text": "Commercial pressure is not coercion.",
+      "position_id": "I-1.B",
+      "author_agent": "counsel_b",
+      "status": "proposed",
+      "created_by": {
+        "stage": "S2",
+        "agent": "counsel_b"
+      }
+    }
+  },
+  "arguments": {},
+  "counterarguments": {},
+  "precedent_cards": {},
+  "objections": {},
+  "unresolved_questions": [],
+  "verifications": [],
+  "jury_ballots": {},
+  "jury_aggregate": null,
+  "validation_failures": [
+    {
+      "stage": "S2",
+      "agent": "counsel_a",
+      "errors": [
+        "Argument A-001 cites evidence E-099, which is not registered"
+      ],
+      "dropped": null
+    },
+    {
+      "stage": "S2",
+      "agent": "counsel_a",
+      "errors": [
+        "Repair attempt still cites E-099"
+      ],
+      "dropped": "Argument A-001 and claim C-001"
+    }
+  ],
+  "budget_warnings": [
+    {
+      "tokens_used": 76500,
+      "tokens_budget": 80000,
+      "usd_used": 0.3348,
+      "usd_budget": 0.5,
+      "action": "Skipping S3 (precedent analysis) and S5 (rebuttal)"
+    }
+  ],
+  "analysis": null,
+  "totals": null,
+  "timeline": [
+    {
+      "seq": 1,
+      "event_id": "evt_000001",
+      "ts": "2026-09-27T10:00:00Z",
+      "type": "case_created",
+      "stage": null,
+      "agent": null
+    },
+    {
+      "seq": 2,
+      "event_id": "evt_000002",
+      "ts": "2026-09-27T10:00:03Z",
+      "type": "stage_started",
+      "stage": "S0",
+      "agent": null
+    },
+    {
+      "seq": 3,
+      "event_id": "evt_000003",
+      "ts": "2026-09-27T10:00:06Z",
+      "type": "agent_started",
+      "stage": "S0",
+      "agent": "issue_framer"
+    },
+    {
+      "seq": 4,
+      "event_id": "evt_000004",
+      "ts": "2026-09-27T10:00:09Z",
+      "type": "issue_framed",
+      "stage": "S0",
+      "agent": "issue_framer"
+    },
+    {
+      "seq": 5,
+      "event_id": "evt_000005",
+      "ts": "2026-09-27T10:00:12Z",
+      "type": "agent_completed",
+      "stage": "S0",
+      "agent": "issue_framer"
+    },
+    {
+      "seq": 6,
+      "event_id": "evt_000006",
+      "ts": "2026-09-27T10:00:15Z",
+      "type": "stage_completed",
+      "stage": "S0",
+      "agent": null
+    },
+    {
+      "seq": 7,
+      "event_id": "evt_000007",
+      "ts": "2026-09-27T10:00:18Z",
+      "type": "stage_started",
+      "stage": "S1",
+      "agent": null
+    },
+    {
+      "seq": 8,
+      "event_id": "evt_000008",
+      "ts": "2026-09-27T10:00:21Z",
+      "type": "agent_started",
+      "stage": "S1",
+      "agent": "researcher"
+    },
+    {
+      "seq": 9,
+      "event_id": "evt_000009",
+      "ts": "2026-09-27T10:00:24Z",
+      "type": "query_issued",
+      "stage": "S1",
+      "agent": "researcher"
+    },
+    {
+      "seq": 10,
+      "event_id": "evt_000010",
+      "ts": "2026-09-27T10:00:27Z",
+      "type": "evidence_registered",
+      "stage": "S1",
+      "agent": "researcher"
+    },
+    {
+      "seq": 11,
+      "event_id": "evt_000011",
+      "ts": "2026-09-27T10:00:30Z",
+      "type": "evidence_registered",
+      "stage": "S1",
+      "agent": "researcher"
+    },
+    {
+      "seq": 12,
+      "event_id": "evt_000012",
+      "ts": "2026-09-27T10:00:33Z",
+      "type": "evidence_registered",
+      "stage": "S1",
+      "agent": "researcher"
+    },
+    {
+      "seq": 13,
+      "event_id": "evt_000013",
+      "ts": "2026-09-27T10:00:36Z",
+      "type": "agent_completed",
+      "stage": "S1",
+      "agent": "researcher"
+    },
+    {
+      "seq": 14,
+      "event_id": "evt_000014",
+      "ts": "2026-09-27T10:00:39Z",
+      "type": "stage_completed",
+      "stage": "S1",
+      "agent": null
+    },
+    {
+      "seq": 15,
+      "event_id": "evt_000015",
+      "ts": "2026-09-27T10:00:42Z",
+      "type": "stage_started",
+      "stage": "S2",
+      "agent": null
+    },
+    {
+      "seq": 16,
+      "event_id": "evt_000016",
+      "ts": "2026-09-27T10:00:45Z",
+      "type": "agent_started",
+      "stage": "S2",
+      "agent": "counsel_a"
+    },
+    {
+      "seq": 17,
+      "event_id": "evt_000017",
+      "ts": "2026-09-27T10:00:48Z",
+      "type": "validation_failed",
+      "stage": "S2",
+      "agent": "counsel_a"
+    },
+    {
+      "seq": 18,
+      "event_id": "evt_000018",
+      "ts": "2026-09-27T10:00:51Z",
+      "type": "validation_failed",
+      "stage": "S2",
+      "agent": "counsel_a"
+    },
+    {
+      "seq": 19,
+      "event_id": "evt_000019",
+      "ts": "2026-09-27T10:00:54Z",
+      "type": "agent_completed",
+      "stage": "S2",
+      "agent": "counsel_a"
+    },
+    {
+      "seq": 20,
+      "event_id": "evt_000020",
+      "ts": "2026-09-27T10:00:57Z",
+      "type": "agent_started",
+      "stage": "S2",
+      "agent": "counsel_b"
+    },
+    {
+      "seq": 21,
+      "event_id": "evt_000021",
+      "ts": "2026-09-27T10:01:00Z",
+      "type": "claim_created",
+      "stage": "S2",
+      "agent": "counsel_b"
+    },
+    {
+      "seq": 22,
+      "event_id": "evt_000022",
+      "ts": "2026-09-27T10:01:03Z",
+      "type": "agent_completed",
+      "stage": "S2",
+      "agent": "counsel_b"
+    },
+    {
+      "seq": 23,
+      "event_id": "evt_000023",
+      "ts": "2026-09-27T10:01:06Z",
+      "type": "stage_completed",
+      "stage": "S2",
+      "agent": null
+    },
+    {
+      "seq": 24,
+      "event_id": "evt_000024",
+      "ts": "2026-09-27T10:01:09Z",
+      "type": "budget_warning",
+      "stage": "S3",
+      "agent": "orchestrator"
+    },
+    {
+      "seq": 25,
+      "event_id": "evt_000025",
+      "ts": "2026-09-27T10:01:12Z",
+      "type": "stage_completed",
+      "stage": "S3",
+      "agent": null
+    },
+    {
+      "seq": 26,
+      "event_id": "evt_000026",
+      "ts": "2026-09-27T10:01:15Z",
+      "type": "stage_completed",
+      "stage": "S5",
+      "agent": null
+    },
+    {
+      "seq": 27,
+      "event_id": "evt_000027",
+      "ts": "2026-09-27T10:01:18Z",
+      "type": "run_failed",
+      "stage": null,
+      "agent": null
+    }
+  ]
+}
