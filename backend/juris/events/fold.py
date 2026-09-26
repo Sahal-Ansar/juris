@@ -116,7 +116,7 @@ class TimelineEntry(JurisModel):
 class CaseView(BaseModel):
     """Everything the UI shows for one run. Dicts keep insertion (= event) order."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", json_schema_serialization_defaults_required=True)
 
     run_id: str
     case_id: str

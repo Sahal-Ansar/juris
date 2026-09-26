@@ -1,0 +1,2 @@
+# Generated contract files: always LF so the staleness check is byte-stable on every OS.
+schemas/** text eol=lf

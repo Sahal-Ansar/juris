@@ -1,0 +1,11 @@
+{
+  "name": "juris-tools",
+  "private": true,
+  "description": "Node tooling for the Python repo: TypeScript types from the exported JSON Schemas (PLAN 2.3)",
+  "scripts": {
+    "gen:types": "uv run scripts/export_schemas.py"
+  },
+  "devDependencies": {
+    "json-schema-to-typescript": "16.0.0"
+  }
+}
