@@ -115,6 +115,7 @@ class CourtLevel(StrEnum):
     HIGH_COURT = "high_court"
     TRIBUNAL = "tribunal"
     SUBORDINATE = "subordinate"
+    OTHER = "other"  # e.g. Privy Council, Federal Court of India (cited in old judgments)
 
 
 class ClaimStatus(StrEnum):
