@@ -225,6 +225,34 @@ class CorpusLoader:
             ]
             self.stats.add("statute_sections", upsert(conn, m.StatuteSection, rows, ["section_id"]))
 
+    def load_chunks(self, conn: Connection) -> None:
+        """Chunks from 3.7; chunks of these documents that are no longer produced are removed."""
+        path = self.data_dir / "processed" / "chunks" / f"{self.snapshot_id}.jsonl.gz"
+        if not path.exists():
+            return
+        columns = {c.name for c in m.Chunk.__table__.columns} - {"tsv"}
+        ids: set[str] = set()
+        docs: set[str] = set()
+
+        def rows() -> Iterator[dict[str, Any]]:
+            with gzip.open(path, "rt", encoding="utf-8") as fh:
+                for line in fh:
+                    record = json.loads(line)
+                    ids.add(record["chunk_id"])
+                    docs.add(record["doc_id"])
+                    yield {k: v for k, v in record.items() if k in columns}
+
+        self.stats.add("chunks", upsert(conn, m.Chunk, rows(), ["chunk_id"]))
+        stale = [
+            cid
+            for cid in conn.execute(
+                select(m.Chunk.chunk_id).where(m.Chunk.doc_id.in_(docs))
+            ).scalars()
+            if cid not in ids
+        ]
+        for batch in range(0, len(stale), BATCH):
+            conn.execute(delete(m.Chunk).where(m.Chunk.chunk_id.in_(stale[batch : batch + BATCH])))
+
     def register_embedding_models(self, conn: Connection) -> None:
         for model, dim in model_dims().items():
             register_model(conn, model, dim)
@@ -235,6 +263,7 @@ class CorpusLoader:
         self.load_documents(conn)
         self.load_paragraphs(conn)
         self.load_statutes(conn)
+        self.load_chunks(conn)
         self.register_embedding_models(conn)
         return self.stats
 
