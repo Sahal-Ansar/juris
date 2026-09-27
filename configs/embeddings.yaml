@@ -1,0 +1,11 @@
+# Candidate embedding models (IDEA_final §14; bake-off in PLAN 3.8/4.x). Each registered model
+# gets its own HNSW index in `chunk_embeddings` (juris.db.embeddings), so several can coexist.
+models:
+  BAAI/bge-m3:
+    dim: 1024
+    max_tokens: 8192
+    note: "starting candidate: multilingual, long context"
+  intfloat/multilingual-e5-large:
+    dim: 1024
+    max_tokens: 512
+    note: "alternative for the bake-off"

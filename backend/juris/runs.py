@@ -128,22 +128,9 @@ class RunRecorder:
             save_manifest_to_db(self.manifest, self._db_url)
 
 
-RUNS_TABLE_DDL = """
-CREATE TABLE IF NOT EXISTS runs (
-    run_id      text PRIMARY KEY,
-    profile     text NOT NULL,
-    status      text NOT NULL,
-    started_at  timestamptz NOT NULL,
-    ended_at    timestamptz,
-    manifest    jsonb NOT NULL
-)
-"""
-
-
 def save_manifest_to_db(manifest: RunManifest, db_url: str) -> None:
-    """Upsert into ``runs``. The table moves under Alembic in PLAN 3.6."""
+    """Upsert into ``runs`` (created by Alembic migration 0001: ``alembic upgrade head``)."""
     with psycopg.connect(db_url, connect_timeout=5) as conn:
-        conn.execute(RUNS_TABLE_DDL)
         conn.execute(
             """
             INSERT INTO runs (run_id, profile, status, started_at, ended_at, manifest)

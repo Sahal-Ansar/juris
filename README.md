@@ -23,6 +23,15 @@ uv run scripts/db_check.py
 
 `db_check.py` prints `OK` with the Postgres and pgvector versions. The port and credentials come from `.env`.
 
+Alembic owns the schema (`backend/juris/db/models.py`, migrations in `backend/juris/db/migrations/`). Create or update it, then load a processed corpus snapshot:
+
+```bash
+uv run alembic upgrade head
+uv run scripts/load_corpus.py
+```
+
+The loader upserts by stable IDs, so running it again changes nothing. Vectors live in `chunk_embeddings`, one row per chunk and embedding model, and each model in `configs/embeddings.yaml` gets its own HNSW index.
+
 ## Configuration
 
 - `.env` holds secrets and machine settings (database, API keys). See `.env.example` and `backend/juris/config.py`.
@@ -71,7 +80,7 @@ uv run pytest            # add -m "not db" if Postgres isn't running
 - `backend/juris/`: the Python package (LLM gateway, ingestion, retrieval, agents, pipeline, API, eval)
 - `backend/tests/`: tests
 - `configs/pipeline/`: pipeline profiles
-- `scripts/`: CLI entry points (`db_check.py`)
+- `scripts/`: CLI entry points (`db_check.py`, `load_corpus.py`, the ingestion steps)
 - `eval/`, `schemas/`, `fixtures/`: eval sets, exported JSON Schema, UI mock runs
 - `apps/web/`: frontend
 - `docs/`: technical docs and reports
