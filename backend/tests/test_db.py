@@ -231,6 +231,24 @@ def write_slice(root: Path, paragraphs: int = 3) -> None:
     (statutes / "contract_act.jsonl").write_text(
         "\n".join(json.dumps(dict(section, section=no)) for no in ("1", "2", "19A")) + "\n"
     )
+    chunks = root / "processed" / "chunks"
+    chunks.mkdir(parents=True, exist_ok=True)
+    records = [
+        {"chunk_id": f"SC-2015_3_243_286#c{i:04d}", "doc_id": "SC-2015_3_243_286",
+         "text": f"{i}. Paragraph.", "context_header": "A v. B", "char_start": 0, "char_end": 9,
+         "tokens": 4, "embed_tokens": 9, "kind": "paragraphs", "section": "body",
+         "para_start": i - 1, "para_end": i - 1, "page_start": 1, "page_end": 1,
+         "statute_section_id": None, "part": 1}
+        for i in range(1, paragraphs + 1)
+    ] + [
+        {"chunk_id": "ACT-contract_act#s19A", "doc_id": "ACT-contract_act", "text": "x",
+         "context_header": "ICA", "char_start": 0, "char_end": 1, "tokens": 1,
+         "embed_tokens": 4, "kind": "section", "section": "s. 19A", "para_start": None,
+         "para_end": None, "page_start": 1, "page_end": 1,
+         "statute_section_id": "contract_act:19A", "part": None}
+    ]  # fmt: skip
+    with gzip.open(chunks / f"{snap}.jsonl.gz", "wt", encoding="utf-8") as fh:
+        fh.write("".join(json.dumps(r) + "\n" for r in records))
 
 
 @pytest.mark.db
@@ -246,6 +264,7 @@ def test_loading_twice_leaves_the_same_rows(engine: Engine, tmp_path: Path) -> N
     assert counts[0] == counts[1]
     assert counts[0]["documents"] == 2 and counts[0]["paragraphs"] == 3
     assert counts[0]["statute_sections"] == 3 and counts[0]["embedding_models"] >= 2
+    assert counts[0]["chunks"] == 4
 
     with engine.begin() as conn:
         doc = conn.execute(
@@ -267,8 +286,11 @@ def test_loading_twice_leaves_the_same_rows(engine: Engine, tmp_path: Path) -> N
         ).one()
         assert act[0] == "Indian Contract Act, 1872" and act[1].startswith("Apache-2.0")
 
-    # re-segmenting to fewer paragraphs removes the stale tail rows
+    # re-segmenting to fewer paragraphs removes the stale paragraph and chunk rows
     write_slice(tmp_path, paragraphs=2)
     with engine.begin() as conn:
         CorpusLoader(tmp_path, "snap-t").load_all(conn)
-        assert row_counts(conn)["paragraphs"] == 2
+        after = row_counts(conn)
+        assert after["paragraphs"] == 2 and after["chunks"] == 3
+        stored = conn.execute(text("SELECT tokens, kind FROM chunks WHERE chunk_id LIKE 'ACT%'"))
+        assert stored.one() == (1, "section")

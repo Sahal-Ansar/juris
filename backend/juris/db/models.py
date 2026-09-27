@@ -154,6 +154,8 @@ class Chunk(Base):
     char_start: Mapped[int] = mapped_column(Integer)
     char_end: Mapped[int] = mapped_column(Integer)
     section: Mapped[str | None] = mapped_column(Text)
+    tokens: Mapped[int | None] = mapped_column(Integer)  # text tokens (bge-m3 tokenizer)
+    kind: Mapped[str | None] = mapped_column(Text)  # paragraphs | sentences | hard | section...
     statute_section_id: Mapped[str | None] = mapped_column(
         ForeignKey("statute_sections.section_id", ondelete="CASCADE")
     )
