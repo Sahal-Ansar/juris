@@ -1387,7 +1387,8 @@
         "supreme_court",
         "high_court",
         "tribunal",
-        "subordinate"
+        "subordinate",
+        "other"
       ],
       "title": "CourtLevel",
       "type": "string"

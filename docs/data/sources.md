@@ -89,6 +89,7 @@ This is a research reading of published licence terms, not legal advice. Where t
 | `source_*` | 100% | Provenance back to AWS S3 |
 
 - **Use for Juris:** a cleaner metadata join layer for the AWS data (parties, bench, dates, quality flags, SC headnotes). Not a text source.
+- **How we fetch it (PLAN 3.4):** `scripts/fetch_case_metadata.py` pins revision `42dd6a97` and range-reads only the row groups whose CNR statistics can hold a snapshot judgment. For `mvp_contract-1f53c208a8` that's 0.55 GB transferred of 10.9 GB, keeping 2,643 rows for 2,286 of 2,295 CNRs (`raw/hf_case_laws/structured_v1_subset.parquet`, 1.1 MB, plus a JSON manifest). The 9 misses are recent judgments (5 SC from 2026, 4 Delhi HC decided 2024–2026) that aren't in that revision.
 
 ## 4. Hugging Face `KanoonGPT/indian-legal-documents`
 

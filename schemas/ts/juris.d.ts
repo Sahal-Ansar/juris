@@ -61,7 +61,7 @@ export type DocumentKind = "judgment" | "statute" | "other";
  * This interface was referenced by `JurisContract`'s JSON-Schema
  * via the `definition` "CourtLevel".
  */
-export type CourtLevel = "supreme_court" | "high_court" | "tribunal" | "subordinate";
+export type CourtLevel = "supreme_court" | "high_court" | "tribunal" | "subordinate" | "other";
 /**
  * proposed → verified | weak | unsupported → contested → survives | falls.
  *
