@@ -115,3 +115,11 @@ def test_invalid_profiles_are_rejected(tmp_path: Path, body: str) -> None:
     path.write_text(body, encoding="utf-8")
     with pytest.raises(ValidationError):
         load_profile(path)
+
+
+def test_run_and_cache_paths_follow_data_dir(tmp_path: Path) -> None:
+    settings = Settings(_env_file=None, data_dir=tmp_path / "d")
+    assert settings.runs_dir == tmp_path / "d" / "runs"
+    assert settings.llm_cache_path == tmp_path / "d" / "cache" / "llm.sqlite"
+    explicit = Settings(_env_file=None, data_dir=tmp_path / "d", runs_dir=tmp_path / "r")
+    assert explicit.runs_dir == tmp_path / "r"

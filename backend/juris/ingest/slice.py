@@ -83,6 +83,9 @@ class SupremeCourtSlice(_Strict):
 class Court(_Strict):
     name: str
     code: str
+    # Prefix of the metadata title before the first '/' (e.g. 'RFA(COMM)'); per court,
+    # because naming differs between courts.
+    case_types: list[str] = Field(min_length=1)
 
 
 class ReasonedOnly(_Strict):
@@ -94,10 +97,10 @@ class HighCourtSlice(_Strict):
     source: Literal["aws_hc"]
     courts: list[Court]
     years: tuple[int, int]
-    candidate_case_types: list[str]
     core: CoreRule
     reasoned_only: ReasonedOnly
     max_judgments: int
+    max_examined: int = Field(ge=1, description="Stop screening after this many candidates")
 
 
 class StatuteSpec(_Strict):
