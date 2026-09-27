@@ -28,6 +28,16 @@ uv run scripts/db_check.py
 - `.env` holds secrets and machine settings (database, API keys). See `.env.example` and `backend/juris/config.py`.
 - `configs/pipeline/*.yaml` are named system configurations (`juris_full`, `b0`, `b1`, `b2`): stage switches, deliberation parameters, and optional model and budget overrides.
 
+## Corpus
+
+The corpus slice is defined in `configs/corpus/mvp_contract.yaml` and downloaded by:
+
+```bash
+uv run scripts/acquire.py all      # resumable; about 23 GB streamed, about 2.3 GB kept
+```
+
+Data goes to `JURIS_DATA_DIR` (default `data/`; keep it outside cloud-synced folders). Sources and licences: `docs/data/sources.md`, `docs/DATA_NOTICE.md`.
+
 ## Runs
 
 Every run writes a manifest (git commit, resolved config, models per role, prompt hashes, corpus snapshot, seeds, token and dollar totals) to `data/runs/<run_id>/manifest.json`, and optionally to the `runs` table in Postgres. To try it without an API key:

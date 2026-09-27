@@ -33,13 +33,17 @@ supreme_court:
 
 high_courts:
   source: aws_hc
-  courts:                     # large commercial dockets; codes from high_courts.csv
-    - {name: High Court of Delhi, code: "7_26"}
-    - {name: Bombay High Court, code: "27_1"}
+  # Case types = prefix of the metadata title before the first "/", per court (naming differs).
+  # Chosen from the first screening pass (D-019): Delhi RFA 5.9%, RFA(COMM) 3.9%, CS(COMM) 2.2%
+  # kept; Bombay "FA" (25k first appeals, mostly non-contract) yielded 0.1% and was dropped.
+  courts:
+    - name: High Court of Delhi
+      code: "7_26"
+      case_types: ["RFA", "RFA(COMM)", "CS(COMM)", "FAO(COMM)", "O.M.P.(COMM)"]
+    - name: Bombay High Court
+      code: "27_1"
+      case_types: ["CARBP", "CARAP", "ARBP", "ARBAP"]   # commercial/arbitration; no COMS in this dataset
   years: [2018, 2025]         # Commercial Courts Act regime; modern formatting
-  # Prefix of the metadata `title` before the first "/" (e.g. "CS(COMM)/123/2020 of ...").
-  # Delhi/Bombay title formats are not yet sampled: verify in PLAN 3.1.
-  candidate_case_types: ["CS(COMM)", "RFA(COMM)", "FAO(COMM)", "O.M.P.(COMM)", "COMM", "RFA", "FA"]
   core:
     acts: [contract_act, specific_relief_act]
     min_mentions: 2
@@ -48,6 +52,7 @@ high_courts:
     min_pages: 4
     min_numbered_paragraphs: 5
   max_judgments: 400
+  max_examined: 12000        # screening budget (candidates downloaded and read)
 
 statutes:
   source: hf_legal_docs       # KanoonGPT/indian-legal-documents (local research use only)

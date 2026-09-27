@@ -52,3 +52,28 @@ From `uv run scripts/estimate_slice.py`, using the PLAN 1.1 samples (55 SC PDFs:
 - PLAN 3.1 computes the exact counts.
 
 **Measured along the way:** the sampled 2023 judgments cite a median of about 6.5 distinct SC authorities. About 40% of distinct citation strings are SCR/INSC (resolvable) and the rest SCC/AIR. Many cases are cited with SCC and SCR side by side, so more cases are resolvable than that 40% suggests.
+
+## Acquisition result (PLAN 3.1, 2026-09-27)
+
+Snapshot **`mvp_contract-1f53c208a8`** (`<data_dir>/snapshots/mvp_contract-1f53c208a8.json`), 2,298 documents, 2.26 GB. Reproduce with `uv run scripts/acquire.py all`; re-running downloads nothing already present.
+
+| | Estimate (1.3) | Acquired |
+|---|---|---|
+| SC judgments scanned | 43,547 | **38,361** unique (43,541 PDFs; 5,180 appear byte-identical in two consecutive years' tars) |
+| Core | ≈ 2,375 (CI 815–6,468) | **1,337** (3.5%) |
+| One hop | 1,000 (cap) | **561** (cited by ≥ 2 core judgments; max 14) |
+| Distractors | 338 | **200** (the minimum; 10% of 1,898 = 190) |
+| **Total SC** | ≈ 3,713 | **2,098**, within 2,000–5,000, no size-guard adjustment |
+| High Courts | ≤ 400 | **197** (164 Delhi, 33 Bombay) |
+| Statutes | 3 | 3 (Contract Act, Specific Relief Act, Sale of Goods Act) |
+
+**Why the numbers differ from the estimate:**
+- **Population:** the 1.3 count read row totals from the metadata Parquet footers, which include duplicate rows. The real population is 38,361 judgments.
+- **Core rate:** the 55-PDF sample (mostly 2023) overstated how often contract law appears across all years: 3.5% overall vs 5.5% in the sample, still inside the sample's confidence interval.
+- **One hop:** `min_cited_by: 2` binds before the 1,000 cap. Also, citations to *Supplementary* SCR volumes (`[1959] Supp. 1 S.C.R. 979`; judgments with `S_…` paths, 7,901 of them) were not captured by the scan's citation pattern, so those judgments can't be reached as one-hop targets. PLAN 3.9 extracts citations again from the selected texts and must handle `Supp.` (D-019).
+- **High Courts:** the first pass screened Bombay `FA` appeals (25k candidates, almost none about contracts), so the case types were retargeted per court (see the YAML). The 12,000-candidate screening budget yields 197, below the 400 cap. 3,871 of the 12,000 screened were reasoned judgments.
+
+**Quirks found in the data (handled in `juris.ingest.acquire`):**
+- Duplicate judgments across year tars: the copy whose tar year matches the path's year is kept.
+- `S_` paths (Supplementary volumes): the year is parsed from the path, and they are kept out of the regular SCR page-range index so volume numbers don't collide.
+- 3 SC PDFs and 17 HC PDFs are unreadable by pdfium; 16 HC PDFs listed in the metadata return HTTP 404.

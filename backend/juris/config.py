@@ -175,11 +175,20 @@ class Settings(BaseSettings):
     llm_max_retries: int = Field(default=5, ge=0)
     llm_prices: dict[str, TokenPrice] = Field(default_factory=lambda: dict(DEFAULT_PRICES))
 
-    # Paths.
+    # Paths. data_dir can live outside the repo (JURIS_DATA_DIR); runs_dir and
+    # llm_cache_path follow it unless set explicitly.
     data_dir: Path = REPO_ROOT / "data"
-    runs_dir: Path = REPO_ROOT / "data" / "runs"
-    llm_cache_path: Path = REPO_ROOT / "data" / "cache" / "llm.sqlite"
+    runs_dir: Path = Field(default=None, validate_default=False)  # type: ignore[assignment]
+    llm_cache_path: Path = Field(default=None, validate_default=False)  # type: ignore[assignment]
     pipeline_configs_dir: Path = PIPELINE_CONFIGS_DIR
+
+    @model_validator(mode="after")
+    def _derived_paths(self) -> Self:
+        if self.runs_dir is None:
+            self.runs_dir = self.data_dir / "runs"
+        if self.llm_cache_path is None:
+            self.llm_cache_path = self.data_dir / "cache" / "llm.sqlite"
+        return self
 
     @field_validator("anthropic_api_key", "openai_api_key", "openai_base_url", mode="before")
     @classmethod

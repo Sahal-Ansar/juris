@@ -11,6 +11,7 @@ dependencies = [
     "pyarrow>=17",
     "pydantic>=2.9",
     "pydantic-settings>=2.6",
+    "pypdfium2>=4.30",
     "pyyaml>=6.0",
 ]
 
@@ -54,6 +55,11 @@ mypy_path = "backend"
 explicit_package_bases = true
 warn_redundant_casts = true
 warn_unused_configs = true
+
+# Libraries without type information.
+[[tool.mypy.overrides]]
+module = ["pyarrow.*", "pypdfium2.*"]
+ignore_missing_imports = true
 
 # Strict on the contract-bearing packages (PLAN 0.1).
 [[tool.mypy.overrides]]
