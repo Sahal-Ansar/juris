@@ -1,0 +1,43 @@
+# Acts in the corpus: canonical ID, citation data, commencement and aliases (PLAN 3.5, D-014).
+# Commencement dates are taken from the official text (the Act's s. 1 or its commencement
+# notification) and checked on India Code; `source` says where.
+acts:
+  contract_act:
+    title: Indian Contract Act
+    year: 1872
+    act_no: "9 of 1872"
+    commencement:
+      date: 1872-09-01
+      source: "s. 1: 'shall come into force on the first day of September, 1872' (India Code)"
+    aliases:
+      - ICA
+      - Contract Act
+      - Indian Contract Act
+      - The Indian Contract Act, 1872
+      - Act 9 of 1872
+  specific_relief_act:
+    title: Specific Relief Act
+    year: 1963
+    act_no: "47 of 1963"
+    commencement:
+      date: 1964-03-01
+      source: "s. 1(3) and footnote: '1st March, 1964, vide notification No. S.O. 189, dated 13th January, 1964' (India Code)"
+    aliases:
+      - SRA
+      - Specific Relief Act
+      - The Specific Relief Act, 1963
+      - Act 47 of 1963
+  sale_of_goods_act:
+    title: Sale of Goods Act
+    year: 1930
+    act_no: "3 of 1930"
+    commencement:
+      date: 1930-07-01
+      source: "s. 1(3): 'It shall come into force on the 1st day of July, 1930' (India Code)"
+    aliases:
+      - SGA
+      - SOGA
+      - Sale of Goods Act
+      - Indian Sale of Goods Act, 1930
+      - The Sale of Goods Act, 1930
+      - Act 3 of 1930
