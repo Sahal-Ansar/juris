@@ -11,14 +11,19 @@ queries or both retrievers rises, and each chunk appears once in the result.
 
 Only ranks are used, so the retrievers' scores (IDF coverage, cosine similarity) never need
 to be put on one scale. Ties are broken by the chunk's best rank in any list, then its ID.
+
+With a ``Reranker`` (PLAN 4.4), the fused top ``top_n`` are re-scored by a cross-encoder
+against the first (primary) query and reordered; the rest follow in fused order. Reranking is
+on by default when a reranker is given and can be switched off per search.
 """
 
 from collections.abc import Mapping, Sequence
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Protocol
 
 from juris.retrieval.filters import SearchFilters
 from juris.retrieval.lexical import Mode
+from juris.retrieval.rerank import Reranker
 
 RRF_K = 60
 
@@ -50,9 +55,10 @@ class HybridHit:
     chunk_id: str
     doc_id: str
     score: float  # the RRF score
-    rank: int  # 1-based
+    rank: int  # 1-based, after reranking when there was one
     # the chunk's rank in each list that found it: {"lexical:0": 3, "dense:1": 7}
     ranks: Mapping[str, int] = field(default_factory=dict)
+    rerank_score: float | None = None  # the cross-encoder's score, if reranked
 
 
 def rrf(
@@ -91,6 +97,7 @@ class HybridRetriever:
         rrf_k: int = RRF_K,
         weights: Mapping[str, float] | None = None,
         lexical_mode: Mode = "any",
+        reranker: Reranker | None = None,
     ) -> None:
         if lexical is None and dense is None:
             raise ValueError("need at least one retriever")
@@ -100,6 +107,7 @@ class HybridRetriever:
         self.rrf_k = rrf_k
         self.weights = weights  # per retriever: {"lexical": 1.0, "dense": 1.0}
         self.lexical_mode = lexical_mode
+        self.reranker = reranker
 
     def ranked_lists(
         self, queries: Sequence[str], filters: SearchFilters | None = None
@@ -121,7 +129,11 @@ class HybridRetriever:
         queries: str | Sequence[str],
         filters: SearchFilters | None = None,
         k: int = 50,
+        rerank: bool | None = None,
     ) -> list[HybridHit]:
+        """Fused (and, by default, reranked) hits; ``rerank=False`` skips the reranker."""
+        if rerank and self.reranker is None:
+            raise ValueError("rerank requested but no reranker was given")
         queries = [queries] if isinstance(queries, str) else list(queries)
         queries = list(dict.fromkeys(q.strip() for q in queries if q.strip()))  # drop repeats
         if not queries:
@@ -130,4 +142,11 @@ class HybridRetriever:
         weights = None
         if self.weights:
             weights = {name: self.weights.get(name.split(":")[0], 1.0) for name in lists}
-        return rrf(lists, self.rrf_k, weights)[:k]
+        fused = rrf(lists, self.rrf_k, weights)
+        if self.reranker is None or rerank is False:
+            return fused[:k]
+        reranked = self.reranker.rerank(queries[0], fused)
+        by_id = {h.chunk_id: h for h in fused}
+        head = [replace(by_id[r.chunk_id], rerank_score=r.score) for r in reranked]
+        tail = fused[len(head) :]
+        return [replace(h, rank=i) for i, h in enumerate([*head, *tail][:k], 1)]
