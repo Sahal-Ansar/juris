@@ -7,26 +7,21 @@ database that is dropped afterwards, so they never touch the working ``juris`` d
 import datetime as dt
 import gzip
 import json
-import secrets
-from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
-import psycopg
 import pytest
-from alembic import command
 from alembic.autogenerate import compare_metadata
-from alembic.config import Config
 from alembic.migration import MigrationContext
-from sqlalchemy import create_engine, text
+from sqlalchemy import text
 from sqlalchemy.dialects import postgresql
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.engine import Connection, Engine
 
-from juris.config import REPO_ROOT, Settings
 from juris.db import models as m
 from juris.db.embeddings import index_name, model_dims, register_model, vector_expr
 from juris.db.load import CorpusLoader, row_counts
+from tests.conftest import migrate
 
 # ---- no database needed ------------------------------------------------------------------
 
@@ -50,35 +45,6 @@ def test_upsert_compiles_to_on_conflict_update() -> None:
     )
     sql = str(stmt.compile(dialect=postgresql.dialect()))
     assert "ON CONFLICT (snapshot_id) DO UPDATE" in sql
-
-
-# ---- fresh database per test ------------------------------------------------------------
-
-
-@pytest.fixture
-def engine() -> Iterator[Engine]:
-    settings = Settings()
-    admin = settings.database_url(driver=None)
-    try:
-        conn = psycopg.connect(admin, connect_timeout=2, autocommit=True)
-    except psycopg.OperationalError:
-        pytest.skip("Postgres not reachable (docker compose up -d)")
-    name = f"juris_test_{secrets.token_hex(4)}"
-    conn.execute(f"CREATE DATABASE {name}")
-    url = settings.database_url().rsplit("/", 1)[0] + f"/{name}"
-    eng = create_engine(url)
-    try:
-        yield eng
-    finally:
-        eng.dispose()
-        conn.execute(f"DROP DATABASE IF EXISTS {name} WITH (FORCE)")
-        conn.close()
-
-
-def migrate(conn: Connection, revision: str = "head", down: bool = False) -> None:
-    cfg = Config(str(REPO_ROOT / "alembic.ini"))
-    cfg.attributes["connection"] = conn
-    (command.downgrade if down else command.upgrade)(cfg, revision)
 
 
 def tables(conn: Connection) -> set[str]:
