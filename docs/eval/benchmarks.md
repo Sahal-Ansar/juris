@@ -47,7 +47,7 @@ Checked 2026-09-26. Decides which external benchmarks Juris uses, for what, and 
 
 ## COLIEE
 
-- **Access:** [coliee.org/data-request](https://coliee.org/data-request). The 2026 datasets include all previous years' train and test data. Each dataset needs its own **signed memorandum waiver**: name, group, email, position, department, address, and a signature. **Students need a supervisor's approval.** Signing adds you to the COLIEE mailing list.
+- **Access:** [coliee.org/data-request](https://coliee.org/data-request). The 2026 datasets include all previous years' train and test data. Each dataset needs its own **signed memorandum waiver**: name, group, email, position, department, address, and a signature. **Students need a supervisor's signature**; researchers who don't compete submit only the signed memoranda (no registration form), and an independent researcher signs them personally. Signing adds you to the COLIEE mailing list.
 - **Tasks (2026):**
   - Task 1: Canadian case retrieval (English)
   - Task 2: case-law entailment, i.e. which paragraph entails a given decision (English)
@@ -63,7 +63,7 @@ Checked 2026-09-26. Decides which external benchmarks Juris uses, for what, and 
 ## Actions for the author
 
 1. **IL-TUR (for IL-PCR):** request access on Hugging Face with your own account (the form above). Needed by PLAN 5.2/5.3.
-2. **COLIEE:** sign the memorandum waivers for the *Case Law Dataset* (Task 2) and the *Statute Law Dataset (English, 2025 archive)*. As a student you need a supervisor to approve. Needed by PLAN 6.1.
+2. **COLIEE:** sign the memorandum waivers for the *Case Law Dataset* (Task 2) and the *Statute Law Dataset (English, 2025 archive)* as an independent researcher. Juris is a personal project, so there is no supervisor. The supervisor signature applies only to students. If in doubt, email the organisers first. Needed by PLAN 6.1. It is optional: without it, the verifier is validated on the hand-checked subset (IDEA_final §11.2).
 3. **AILA 2020 (optional):** register or email `aila-fire@googlegroups.com` for the decryption key.
 
 AILA 2019 needs nothing: it's open and will be downloaded in PLAN 5.2.
