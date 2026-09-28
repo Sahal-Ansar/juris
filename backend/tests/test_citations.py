@@ -35,6 +35,8 @@ REAL = [
     ("(1985) Supp. 3 SCR 123", "[1985] Supp 3 SCR 123"),
     ("(1963) 1 SCR 47", "[1963] 1 SCR 47"),
     ("[2024] 5 SCR 612", "[2024] 5 SCR 612"),
+    ("2008 (14) SCR 621", "[2008] 14 SCR 621"),  # SCR "Case Law Reference" form
+    ("2003 (4) Suppl. SCR 450", "[2003] Supp 4 SCR 450"),
     # AIR
     ("AIR 1966 SC 1068", "AIR 1966 SC 1068"),
     ("AIR (1995) SC 1", "AIR 1995 SC 1"),

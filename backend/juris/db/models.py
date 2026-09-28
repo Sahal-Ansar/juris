@@ -208,8 +208,28 @@ class CitationEdge(Base):
     char_start: Mapped[int] = mapped_column(Integer)
     char_end: Mapped[int] = mapped_column(Integer)
     treatment: Mapped[str | None] = mapped_column(Text)  # followed | distinguished | ... (D-013)
+    kind: Mapped[str | None] = mapped_column(Text)  # case | statute
+    # the cited judgment's document ID even when it isn't in the corpus ("SC-1978_2_621_776")
+    target_ref: Mapped[str | None] = mapped_column(Text, index=True)
+    target_section_id: Mapped[str | None] = mapped_column(
+        ForeignKey("statute_sections.section_id", ondelete="SET NULL"), index=True
+    )
+    resolution: Mapped[str | None] = mapped_column(Text)  # direct | alias | act | conflict
+    source_para_seq: Mapped[int | None] = mapped_column(Integer)  # paragraphs.seq
+    treatment_cue: Mapped[str | None] = mapped_column(Text)  # the cue text (weak signal)
+    context: Mapped[str | None] = mapped_column(Text)
 
     __table_args__ = (UniqueConstraint("source_doc_id", "char_start", "raw"),)
+
+
+class CitationAlias(Base):
+    """Parallel-citation aliases: an SCC/AIR/... citation and the judgment it names (D-013)."""
+
+    __tablename__ = "citation_aliases"
+
+    alias: Mapped[str] = mapped_column(Text, primary_key=True)  # canonical, e.g. "(2015) 4 SCC 1"
+    target_ref: Mapped[str] = mapped_column(Text, index=True)
+    evidence: Mapped[int] = mapped_column(Integer)  # times printed next to its SCR/INSC twin
 
 
 class RunRow(Base):
