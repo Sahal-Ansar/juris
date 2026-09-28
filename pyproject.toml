@@ -31,6 +31,10 @@ dev = [
     "types-jsonschema>=4.26.0.20260518",
     "types-pyyaml>=6.0",
 ]
+embed = [
+    "torch>=2.8",
+    "transformers>=4.46",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -62,7 +66,7 @@ warn_unused_configs = true
 
 # Libraries without type information.
 [[tool.mypy.overrides]]
-module = ["pyarrow.*", "pypdfium2.*"]
+module = ["pyarrow.*", "pypdfium2.*", "torch.*", "transformers.*"]
 ignore_missing_imports = true
 
 # Strict on the contract-bearing packages (PLAN 0.1).
@@ -89,3 +93,13 @@ markers = [
     "live: calls a real provider API (needs a key, may cost money)",
     "db: needs the Postgres from docker-compose.yml",
 ]
+
+# GPU embedding (PLAN 3.8): `uv sync --group embed`. Not in the default groups, so CI and a
+# plain `uv sync` don't download PyTorch.
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]

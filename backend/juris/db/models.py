@@ -48,6 +48,8 @@ class Snapshot(Base):
     created_at: Mapped[dt.datetime | None] = mapped_column(DateTime(timezone=True))
     counts: Mapped[dict[str, Any]] = mapped_column(default=dict)
     notes: Mapped[Any] = mapped_column(JSONB, default=list)
+    # {model: {revision, dim, chunks, of, embedded_at}} (PLAN 3.8)
+    embeddings: Mapped[dict[str, Any]] = mapped_column(default=dict, server_default="{}")
     loaded_at: Mapped[dt.datetime] = _now()
 
 
@@ -172,6 +174,7 @@ class EmbeddingModel(Base):
     model: Mapped[str] = mapped_column(Text, primary_key=True)  # e.g. "BAAI/bge-m3"
     dim: Mapped[int] = mapped_column(Integer)
     index_name: Mapped[str] = mapped_column(Text)
+    revision: Mapped[str | None] = mapped_column(Text)  # weights commit on Hugging Face
     registered_at: Mapped[dt.datetime] = _now()
 
 

@@ -35,11 +35,11 @@ def vector_expr(model_dim: int) -> str:
     return f"(embedding::vector({int(model_dim)}))"
 
 
-def register_model(conn: Connection, model: str, dim: int) -> str:
+def register_model(conn: Connection, model: str, dim: int, revision: str | None = None) -> str:
     """Record ``model`` and create its HNSW (cosine) index if missing; returns the index name.
 
     Registering an existing model with a different dimension is an error: its stored vectors
-    would no longer match the index.
+    would no longer match the index. A given ``revision`` (the weights' commit) is recorded.
     """
     if dim < 1 or dim > 16000:
         raise ValueError(f"unsupported dimension {dim}")
@@ -56,6 +56,11 @@ def register_model(conn: Connection, model: str, dim: int) -> str:
         ),
         {"m": model, "d": dim, "i": name},
     )
+    if revision:
+        conn.execute(
+            text("UPDATE embedding_models SET revision = :r WHERE model = :m"),
+            {"r": revision, "m": model},
+        )
     # identifiers can't be bound; the name is a slug and the model is bound in a literal below
     literal = model.replace("'", "''")
     conn.execute(

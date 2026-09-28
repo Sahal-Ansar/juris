@@ -4,6 +4,9 @@ services:
   db:
     image: pgvector/pgvector:pg16
     restart: unless-stopped
+    # HNSW index builds use parallel workers with shared memory; Docker's 64 MB default
+    # /dev/shm fails them for the ~125k-vector corpus (PLAN 3.8).
+    shm_size: 2gb
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-juris}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-juris}

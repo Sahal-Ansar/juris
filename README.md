@@ -32,6 +32,14 @@ uv run scripts/load_corpus.py
 
 The loader upserts by stable IDs, so running it again changes nothing. Vectors live in `chunk_embeddings`, one row per chunk and embedding model, and each model in `configs/embeddings.yaml` gets its own HNSW index.
 
+Embedding needs PyTorch with CUDA, kept in an optional dependency group so CI and a plain `uv sync` don't download it. The bge-m3 weights go in `<data_dir>/models/BAAI__bge-m3` (config, `pytorch_model.bin`, tokenizer files at the revision pinned in `juris/ingest/tokens.py`). The run is resumable:
+
+```bash
+uv sync --group embed
+uv run --group embed scripts/embed_corpus.py
+uv run --group embed scripts/embed_corpus.py --check "ACT-contract_act#s73-1"
+```
+
 ## Configuration
 
 - `.env` holds secrets and machine settings (database, API keys). See `.env.example` and `backend/juris/config.py`.
