@@ -7,6 +7,9 @@ services:
     # HNSW index builds use parallel workers with shared memory; Docker's 64 MB default
     # /dev/shm fails them for the ~125k-vector corpus (PLAN 3.8).
     shm_size: 2gb
+    # The default 128 MB of shared buffers can't hold the chunks, their GIN index and the
+    # HNSW index, so every search read from disk (PLAN 4.1: < 300 ms per query).
+    command: ["postgres", "-c", "shared_buffers=2GB", "-c", "effective_cache_size=4GB"]
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-juris}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-juris}
