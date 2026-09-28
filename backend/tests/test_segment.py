@@ -55,6 +55,22 @@ def test_golden_hc_judgment_is_numbered_1_to_9() -> None:
     assert [p.page_start for p in seg.explicit] == sorted(p.page_start for p in seg.explicit)
 
 
+def test_golden_split_bench_attribution_starts_the_body() -> None:
+    # Bhagwandas Kedia (1965): "The Judgment of Wanchoo and Shah. JJ. was delivered by / Shah.
+    # J. Hidayatullah, J. delivered a dissenting Opinion." Before the fix only the closing
+    # "ORDER" matched, and the whole majority judgment was labelled front matter.
+    text, page_starts = golden("SC-1966_1_656_682")
+    seg = segment(text, page_starts)
+    front = [p for p in seg.paragraphs if p.section == "front"]
+    body = [p for p in seg.paragraphs if p.section == "body"]
+    assert any(p.section == "headnote" for p in seg.paragraphs)
+    assert front[-1].text.startswith("The Judgment of Wanchoo and Shah")
+    assert "dissenting" in front[-1].text  # the attribution stays in the front matter
+    assert body[0].text.startswith("Shah, J.") and "Girdharilal" in body[0].text
+    assert any("ORDER" in p.text for p in body)  # the closing order is body text
+    assert len(body) > len(front)
+
+
 @pytest.mark.parametrize(
     "doc_id", ["SC-1963_3_22_183", "SC-S_1996_7_641_643", "SC-2023_12_979_1033"]
 )
@@ -259,6 +275,65 @@ def test_unnumbered_judgment_falls_back_to_inferred_paragraphs() -> None:
     body_paras = [p for p in seg.paragraphs if p.section == "body"]
     assert [p.no for p in body_paras] == ["p-1", "p-2"]
     assert body_paras[0].text.endswith("and the appeal must fail.")
+
+
+LONG = "This line is a full-width line of judgment text, as in any reported case here."
+FRONT = [
+    "ABC LTD. v. XYZ LTD.",
+    "HELD: the appeal fails.",
+    LONG,
+    "and so it is held.",
+    "CIVIL APPELLATE JURISDICTION: Civil Appeal No. 1 of 1970.",
+    LONG,
+]
+
+
+def body_start(seg: Segmentation) -> str:
+    return next(p for p in seg.paragraphs if p.section == "body").text.split("\n")[0]
+
+
+def test_wrapped_attribution_and_dissent_line_are_front_matter() -> None:
+    text = "\n".join(
+        [
+            *FRONT,
+            "The Judgment of D. G. Palekar and V. R. Krishna Iyer, JJ. was",
+            "delivered by Krishna Iyer, J. R. S. Sarkaria, J. gave a dissenting",
+            "Opinion.",
+            "KRISHNA IYER, J.-The appellant sued for the price of goods sold.",
+            *[LONG] * 12,
+            "ORDER",
+            "The appeal is dismissed.",
+        ]
+    )
+    seg = segment(text)
+    assert body_start(seg).startswith("KRISHNA IYER, J.-The appellant")
+    assert [p.section for p in seg.paragraphs if "dissenting" in p.text] == ["front"]
+
+
+@pytest.mark.parametrize(
+    "marker",
+    [
+        "The following Judgment/Order of the Court was delivered by",
+        "1953. Nov. 16. The Judgment of the Court were delivered by",
+    ],
+)
+def test_attribution_variants(marker: str) -> None:
+    text = "\n".join([*FRONT, marker, "DAS J.-This appeal arises out of a suit.", *[LONG] * 12])
+    assert body_start(segment(text)) == "DAS J.-This appeal arises out of a suit."
+
+
+def test_judges_opening_line_starts_the_body() -> None:
+    text = "\n".join(
+        [*FRONT, "MUKHERJEA J.-The facts giving rise to this appeal are", *[LONG] * 12]
+    )
+    assert body_start(segment(text)).startswith("MUKHERJEA J.-The facts")
+
+
+def test_a_late_marker_is_not_the_start_of_the_body() -> None:
+    # Only the closing "ORDER" matches: the judgment must not become front matter.
+    text = "\n".join(["ABC LTD. v. XYZ LTD.", *[LONG] * 30, "ORDER", "Appeal dismissed."])
+    seg = segment(text)
+    assert all(p.section == "body" for p in seg.paragraphs)
 
 
 def test_sub_markers_are_recorded() -> None:

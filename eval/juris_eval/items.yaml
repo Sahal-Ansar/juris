@@ -42,7 +42,7 @@ items:
       - doc_id: SC-1964_1_270_315
         citation: "[1964] 1 SCR 270"
         title: Ladli Prasad Jaiswal v. Karnal Distillery Co. Ltd.
-        pinpoints: [p-97, p-102, p-111]
+        pinpoints: [p-99, p-104, p-113]
         proposition: >-
           Section 16(3) raises a rebuttable presumption, shifting the burden to the party
           benefiting, only when he is proved to be in a position to dominate the will of the
@@ -215,11 +215,12 @@ items:
       - doc_id: SC-1980_3_1278_1301
         citation: "[1980] 3 SCR 1278"
         title: Superintendence Company of India (P) Ltd. v. Krishan Murgai
-        pinpoints: [p-8, p-5]
+        pinpoints: [p-13, p-20, h-5]
         proposition: >-
-          The doctrine of restraint of trade applies once the contract of employment ends; a
-          post-service restrictive covenant falls within s. 27, and in any case one not worded
-          to cover the way the employment ended is not enforceable.
+          The majority held that a post-service covenant worded for an employee who leaves
+          could not be enforced where his service was terminated; A.P. Sen J. held that such
+          covenants fall within s. 27, since the doctrine of restraint of trade applies only
+          once the contract of employment ends.
       - doc_id: SC-2006_3_146_174
         citation: "[2006] 3 SCR 146"
         title: Percept D'Mark (India) Pvt. Ltd. v. Zaheer Khan
@@ -269,7 +270,7 @@ items:
       - doc_id: SC-S_1959_2_406_447
         citation: "[1959] Supp 2 SCR 406"
         title: Gherulal Parakh v. Mahadeodas Maiya
-        pinpoints: [p-90, h-2]
+        pinpoints: [p-94, h-2]
         proposition: >-
           A wagering contract is void under s. 30 but not forbidden by law, so an agreement
           collateral to it, such as a partnership to carry on wagering transactions, is not
@@ -316,7 +317,7 @@ items:
       - doc_id: SC-1954_1_310_329
         citation: "[1954] 1 SCR 310"
         title: Satyabrata Ghose v. Mugneeram Bangur & Co.
-        pinpoints: [p-1, f-21]
+        pinpoints: [p-20, p-9]
         proposition: >-
           "Impossible" in s. 56 means impracticable from the point of view of the object the
           parties had in view, not merely more onerous.
@@ -358,7 +359,7 @@ items:
       - doc_id: SC-1962_1_653_661
         citation: "[1962] 1 SCR 653"
         title: Murlidhar Chiranjilal v. Harishchandra Dwarkadas
-        pinpoints: [p-3, p-6]
+        pinpoints: [p-14, p-9, h-1]
         proposition: >-
           The injured party is to be put in the position as if the contract had been
           performed, but must take reasonable steps to mitigate; for non-delivery the measure
@@ -405,7 +406,7 @@ items:
       - doc_id: SC-1964_1_515_534
         citation: "[1964] 1 SCR 515"
         title: Fateh Chand v. Balkishan Das
-        pinpoints: [p-25, h-2]
+        pinpoints: [p-26, h-2]
         proposition: >-
           Section 74 caps recovery at reasonable compensation not exceeding the sum named,
           whether the stipulation is a penalty or liquidated damages.
@@ -500,7 +501,7 @@ items:
       - doc_id: SC-1964_1_515_534
         citation: "[1964] 1 SCR 515"
         title: Fateh Chand v. Balkishan Das
-        pinpoints: [p-25, h-2]
+        pinpoints: [p-26, h-2]
         proposition: >-
           "Any other stipulation by way of penalty" in s. 74 covers forfeiture of money already
           paid; the court awards only reasonable compensation.
@@ -561,7 +562,7 @@ items:
       - doc_id: SC-S_1995_2_53_58
         citation: "[1995] Supp 2 SCR 53"
         title: N.P. Thirugnanam v. R. Jagan Mohan Rao
-        pinpoints: [p-7]
+        pinpoints: [p-7, f-7]
         proposition: >-
           Continuous readiness and willingness from the date of the contract to the hearing is
           a condition precedent; the court looks at the plaintiff's conduct before and after
@@ -701,7 +702,7 @@ items:
       - doc_id: SC-1968_3_214_223
         citation: "[1968] 3 SCR 214"
         title: Mulamchand v. State of Madhya Pradesh
-        pinpoints: [p-25, p-7]
+        pinpoints: [p-14, h-3]
         proposition: >-
           A contract not complying with Article 299 is void, but s. 70 can found a claim for
           restitution, provided the claimant accounts for what he himself received under the
@@ -813,7 +814,7 @@ items:
       - doc_id: SC-1966_1_656_682
         citation: "[1966] 1 SCR 656"
         title: Bhagwandas Goverdhandas Kedia v. Girdharilal Parshottamdas & Co.
-        pinpoints: [f-14, f-18, h-2, h-3]
+        pinpoints: [p-8, p-12, h-2, h-3]
         proposition: >-
           The postal rule does not apply to telephone; a contract by telephone is complete
           only when acceptance is intimated to the offeror, so it is made where the acceptance
