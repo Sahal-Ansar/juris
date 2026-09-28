@@ -41,6 +41,25 @@ _BODY_START = re.compile(
     r"delivered by|the judgment of the court was delivered|"
     r".{0,60}\b(?:j\.|cji\b\.?)\s*[:-]?\s*(?:\([^)]{0,60}\)\s*)?$)"  # "X, J. (concurring)"
 )
+# "The Judgment of Wanchoo and Shah, JJ. was delivered by", "The following Judgment/Order of
+# the Court was delivered by", "1953. Nov. 16. The Judgment of the Court were delivered by":
+# matched on a line joined with the next two, since the names of a large bench wrap.
+_DELIVERED = re.compile(
+    r"(?i)^.{0,40}?\bthe\s+(?:following\s+)?(?:judgments?|orders?)(?:\s*/\s*orders?)?\b"
+    r".{0,200}?\b(?:was|were)\s+delivered\b"
+)
+# The SCR opening of a judgment: the judge's name, "J." and a dash, then the text on the same
+# line ("MUKHERJEA J.-The facts ...", "KHANNA, J.-This judgment ...", "BHAN, J. : This ...").
+_JUDGE_OPENING = re.compile(
+    r"^\s*[A-Z][\w.'\u2019 ]{1,40}?,?\s+(?:C\.\s*)?J\.\s*[-\u2013\u2014:]{1,2}\s*[A-Z(\"']"
+)
+# Attribution lines after "delivered by", skipped: "Shah, J. delivered a dissenting opinion."
+# and a wrapped "Opinion." (a judge's name alone stays, as the body's first line elsewhere).
+_ATTRIBUTION = re.compile(
+    r"(?i)^\s*(?:.{0,80}\b(?:delivered|ga\.?ve)\s+(?:a\s+)?(?:separate|dissenting|concurring)"
+    r"\b.{0,20}|opinions?\.?)\s*$"
+)
+MAX_FRONT_SHARE = 0.6  # front matter (with a long headnote) never runs this far into a judgment
 _HEADNOTE_START = re.compile(r"(?i)^\s*(headnotes?\b|held\s*[:,-])")
 # The jurisdiction line is upper case ("CIVIL APPELLATE JURISDICTION :"); in lower case the same
 # words occur in the body ("... appellate jurisdiction over the decision").
@@ -336,6 +355,29 @@ def _front_sections(lines: list[_Line]) -> list[tuple[Section, list[_Line]]]:
     return parts
 
 
+def _body_start(lines: list[_Line]) -> int:
+    """First body line of a judgment without numbered paragraphs (0 if no marker is found).
+
+    The marker is the "judgment ... was delivered by" attribution (the attribution lines after
+    it are skipped), a judge's opening line ("DAS J.-This appeal ...", where the body starts on
+    that line), or a judgment/judge heading line. Only the first 60% of the text is searched:
+    a late "ORDER" or "..., J." line is not where the body begins.
+    """
+    limit = int(len(lines) * MAX_FRONT_SHARE)
+    for i in range(limit):
+        window = " ".join(line.text for line in lines[i : i + 3])
+        if _DELIVERED.match(window):
+            j = next(k for k in range(i, i + 3) if "delivered" in lines[k].text.lower()) + 1
+            while j < len(lines) and _ATTRIBUTION.match(lines[j].text):
+                j += 1
+            return j
+        if _JUDGE_OPENING.match(lines[i].text):
+            return i
+        if _BODY_START.match(lines[i].text):
+            return i + 1
+    return 0
+
+
 def segment(text: str, page_starts: list[int] | None = None) -> Segmentation:
     page_starts = page_starts or [0]
     lines = _lines(text)
@@ -351,11 +393,7 @@ def segment(text: str, page_starts: list[int] | None = None) -> Segmentation:
     lo, hi = _headnote_span(lines)
     chains = find_chains([c for c in candidates if not lo <= c.line < hi], lines, len(text))
 
-    if chains:
-        front_end = chains[0][0].line
-    else:
-        body_idx = next((i for i, line in enumerate(lines) if _BODY_START.match(line.text)), None)
-        front_end = body_idx + 1 if body_idx is not None else 0
+    front_end = chains[0][0].line if chains else _body_start(lines)
 
     paragraphs: list[Paragraph] = []
     counters = {"front": 0, "headnote": 0}

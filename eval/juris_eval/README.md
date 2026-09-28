@@ -41,10 +41,9 @@ Pinpoint labels follow the corpus segmentation (D-021):
 - `p-N` is an unnumbered body paragraph;
 - `h-N` is a headnote paragraph and `f-N` front matter (both are the reporter's editorial text).
 
-Every authority except two has at least one pinpoint in the Court's own text:
-- Bhagwandas Kedia's body is mislabelled as front matter in the corpus, so its `f-` pinpoints
-  are the majority judgment;
-- Percept D'Mark is an interlocutory decision cited through its headnote.
+Every authority except Percept D'Mark (an interlocutory decision cited through its headnote)
+has at least one pinpoint in the Court's own text. Pinpoints were re-mapped by text after the
+2026-09-28 segmentation fix (D-035), which moved some labels.
 
 ## How the items were made
 
