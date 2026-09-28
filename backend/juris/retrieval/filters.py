@@ -51,8 +51,8 @@ def act_ids(names: tuple[str, ...]) -> list[str]:
     return out
 
 
-def filter_sql(filters: SearchFilters | None, chunk: str = "c", doc: str = "d") -> tuple[str, dict]:
-    """A WHERE fragment over ``chunks`` (alias ``chunk``) joined to ``documents`` (``doc``)."""
+def filter_sql(filters: SearchFilters | None, doc: str = "d") -> tuple[str, dict]:
+    """A WHERE fragment over ``documents`` (alias ``doc``): every filter is per document."""
     if filters is None:
         return "TRUE", {}
     parts: list[str] = []
@@ -71,12 +71,12 @@ def filter_sql(filters: SearchFilters | None, chunk: str = "c", doc: str = "d") 
         parts.append(f"({judgment_only}{doc}.decision_date <= :f_to)")
         params["f_to"] = filters.date_to
     if filters.doc_ids:
-        parts.append(f"{chunk}.doc_id = ANY(:f_docs)")
+        parts.append(f"{doc}.doc_id = ANY(:f_docs)")
         params["f_docs"] = list(filters.doc_ids)
     if filters.acts:
         parts.append(
-            f"({chunk}.doc_id IN (SELECT doc_id FROM statute_sections WHERE act_id = ANY(:f_acts))"
-            f" OR {chunk}.doc_id IN (SELECT e.source_doc_id FROM citation_edges e"
+            f"({doc}.doc_id IN (SELECT doc_id FROM statute_sections WHERE act_id = ANY(:f_acts))"
+            f" OR {doc}.doc_id IN (SELECT e.source_doc_id FROM citation_edges e"
             " JOIN statute_sections s ON s.section_id = e.target_section_id"
             " WHERE s.act_id = ANY(:f_acts)))"
         )

@@ -25,6 +25,16 @@ def model_dims(path: Path | None = None) -> dict[str, int]:
     return {name: int(m["dim"]) for name, m in data["models"].items()}
 
 
+def hnsw_params(path: Path | None = None) -> dict[str, int]:
+    """HNSW build parameters (``hnsw:`` in the config; pgvector's defaults are m 16, ef 64)."""
+    data = yaml.safe_load((path or EMBEDDINGS_CONFIG).read_text(encoding="utf-8"))
+    params = data.get("hnsw") or {}
+    return {
+        "m": int(params.get("m", 16)),
+        "ef_construction": int(params.get("ef_construction", 64)),
+    }
+
+
 def index_name(model: str) -> str:
     slug = re.sub(r"[^a-z0-9]+", "_", model.lower()).strip("_")
     return f"ix_chunk_embeddings_hnsw_{slug}"[:63]
@@ -61,12 +71,36 @@ def register_model(conn: Connection, model: str, dim: int, revision: str | None 
             text("UPDATE embedding_models SET revision = :r WHERE model = :m"),
             {"r": revision, "m": model},
         )
+    hnsw = hnsw_params()  # built with these once; changing them needs a DROP INDEX + rebuild
     # identifiers can't be bound; the name is a slug and the model is bound in a literal below
     literal = model.replace("'", "''")
     conn.execute(
         text(
             f"CREATE INDEX IF NOT EXISTS {name} ON chunk_embeddings "
-            f"USING hnsw ({vector_expr(dim)} vector_cosine_ops) WHERE model = '{literal}'"
+            f"USING hnsw ({vector_expr(dim)} vector_cosine_ops) "
+            f"WITH (m = {hnsw['m']}, ef_construction = {hnsw['ef_construction']}) "
+            f"WHERE model = '{literal}'"
         )
     )
     return name
+
+
+def prewarm(conn: Connection, model: str) -> int:
+    """Load ``model``'s HNSW index and the stored vectors into shared buffers (pg_prewarm).
+
+    A cold index makes the first searches after a restart several times slower (PLAN 4.2).
+    Returns the number of blocks read.
+    """
+    toast: int = conn.execute(
+        text("SELECT reltoastrelid FROM pg_class WHERE relname = 'chunk_embeddings'")
+    ).scalar_one()
+    blocks = 0
+    for rel in (index_name(model), "chunk_embeddings"):
+        blocks += conn.execute(
+            text("SELECT pg_prewarm(CAST(:r AS regclass))"), {"r": rel}
+        ).scalar_one()
+    if toast:
+        blocks += conn.execute(
+            text("SELECT pg_prewarm(CAST(:o AS oid))"), {"o": toast}
+        ).scalar_one()
+    return int(blocks)
