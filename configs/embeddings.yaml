@@ -1,5 +1,10 @@
 # Candidate embedding models (IDEA_final §14; bake-off in PLAN 3.8/4.x). Each registered model
 # gets its own HNSW index in `chunk_embeddings` (juris.db.embeddings), so several can coexist.
+# HNSW build parameters for every model's index (D-029): at m 16 / ef_construction 64 (pgvector's
+# defaults) short queries got recall@50 0.86 at ef_search 200; these give 0.98 at ef_search 400.
+hnsw:
+  m: 32
+  ef_construction: 200
 models:
   BAAI/bge-m3:
     dim: 1024
@@ -8,4 +13,5 @@ models:
   intfloat/multilingual-e5-large:
     dim: 1024
     max_tokens: 512
+    query_prefix: "query: "  # e5 is trained with "query: " / "passage: " prefixes
     note: "alternative for the bake-off"

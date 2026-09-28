@@ -9,7 +9,9 @@ services:
     shm_size: 2gb
     # The default 128 MB of shared buffers can't hold the chunks, their GIN index and the
     # HNSW index, so every search read from disk (PLAN 4.1: < 300 ms per query).
-    command: ["postgres", "-c", "shared_buffers=2GB", "-c", "effective_cache_size=4GB"]
+    # pg_prewarm's autoprewarm reloads the cached pages after a restart (PLAN 4.2).
+    command: ["postgres", "-c", "shared_buffers=2GB", "-c", "effective_cache_size=4GB",
+              "-c", "shared_preload_libraries=pg_prewarm"]
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-juris}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-juris}
