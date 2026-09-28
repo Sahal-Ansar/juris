@@ -30,6 +30,7 @@ from juris.eval.datasets import (
 from juris.eval.datasets import aila as aila_module
 from juris.eval.datasets import il_pcr as il_pcr_module
 from juris.eval.datasets.aila import aila_dir
+from juris.eval.datasets.coliee import find_task2, find_task4
 
 # ---- AILA 2019 -----------------------------------------------------------------------------
 
@@ -177,6 +178,23 @@ def test_coliee_task2_one_example_per_paragraph(tmp_path: Path) -> None:
     assert ds.validate() == []
     with pytest.raises(BenchmarkMissing, match="memorandum"):
         load_task2(tmp_path / "nowhere", labels)
+    # 100 of the 925 cases in the 2026 training labels are a comma-separated string, and a
+    # named paragraph missing from the files is recorded
+    labels.write_text(json.dumps({"001": "001.txt, 002.txt, 009.txt"}), encoding="utf-8")
+    both = load_task2(tmp_path / "files", labels)
+    assert [e.label for e in both.examples] == [True, True]
+    assert "001/009.txt" in both.notes
+
+
+def test_coliee_release_layout_is_found(tmp_path: Path) -> None:
+    release = tmp_path / "task2" / "task2_train_files_2026"
+    (release / "cases").mkdir(parents=True)
+    (release / "task2_train_labels_2026.json").write_text("{}", encoding="utf-8")
+    statutes = tmp_path / "task34_en" / "COLIEE2025statute_data-English" / "train"
+    statutes.mkdir(parents=True)
+    (statutes / "riteval_H18_en.xml").write_text("<dataset/>", encoding="utf-8")
+    assert find_task2(tmp_path) == (release / "cases", release / "task2_train_labels_2026.json")
+    assert find_task4(tmp_path) == statutes
 
 
 def test_coliee_task4_pairs(tmp_path: Path) -> None:
@@ -220,3 +238,12 @@ def test_validators_report_problems() -> None:
         "l",
     )
     assert "duplicate example IDs" in ent.validate() and len(ent.validate()) == 2
+
+
+@pytest.mark.skipif(
+    not any(find_task4().glob("riteval_*_en.xml")), reason="COLIEE Task 4 (English) not unpacked"
+)
+def test_real_coliee_task4_loads_and_validates() -> None:
+    ds = load_task4(find_task4())
+    assert len(ds.examples) == 1206 and sum(e.label for e in ds.examples) == 614
+    assert ds.validate() == []
