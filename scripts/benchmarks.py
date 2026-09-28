@@ -4,8 +4,9 @@
     uv run scripts/benchmarks.py fetch il-pcr     # needs approved Hugging Face access + token
     uv run scripts/benchmarks.py summary          # load and validate every benchmark on disk
 
-Data goes to ``<data_dir>/raw/benchmarks/`` and is never committed. COLIEE is placed there by
-hand after signing its memoranda (see ``juris.eval.datasets.coliee``).
+Data goes to ``<data_dir>/raw/benchmarks/`` and is never committed. COLIEE archives (Drive
+links emailed after the memoranda) are unpacked into ``coliee/task2/`` and ``coliee/task34_en/``
+(see ``juris.eval.datasets.coliee``).
 """
 
 import argparse
@@ -24,23 +25,20 @@ from juris.eval.datasets import (
     load_task2,
     load_task4,
 )
-from juris.eval.datasets.coliee import coliee_dir
+from juris.eval.datasets.coliee import find_task2, find_task4
 
 FETCHERS = {"aila2019": fetch_aila2019, "il-pcr": fetch_il_pcr}
 Loader = Callable[[], RetrievalDataset | EntailmentDataset]
 
 
 def loaders() -> dict[str, Loader]:
-    root = coliee_dir()
     return {
         "aila2019 precedents": lambda: load_aila2019("precedents"),
         "aila2019 statutes": lambda: load_aila2019("statutes"),
         "il-pcr test": lambda: load_il_pcr("test"),
         "il-pcr dev": lambda: load_il_pcr("dev"),
-        "coliee task2": lambda: load_task2(
-            root / "task2" / "files", root / "task2" / "labels.json"
-        ),
-        "coliee task4": lambda: load_task4(root / "task4"),
+        "coliee task2": lambda: load_task2(*find_task2()),
+        "coliee task4": lambda: load_task4(find_task4()),
     }
 
 
