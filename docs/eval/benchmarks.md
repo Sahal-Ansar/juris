@@ -67,3 +67,37 @@ Checked 2026-09-26. Decides which external benchmarks Juris uses, for what, and 
 3. **AILA 2020 (optional):** register or email `aila-fire@googlegroups.com` for the decryption key.
 
 AILA 2019 needs nothing: it's open and will be downloaded in PLAN 5.2.
+
+## Loaders (PLAN 5.2)
+
+Code: `backend/juris/eval/datasets/` (D-036). Retrieval benchmarks load as a `RetrievalDataset`
+(queries, relevant IDs, the benchmark's own candidate pool); entailment benchmarks as an
+`EntailmentDataset` (premise, hypothesis, yes/no). Data lives in `<data_dir>/raw/benchmarks/`
+and is never committed. `uv run scripts/benchmarks.py summary` loads and validates everything
+on disk.
+
+| Benchmark | Loader | Status (2026-09-28) |
+|---|---|---|
+| AILA 2019 Task 1 (precedents) | `load_aila2019("precedents")` | **Loaded and valid**: 50 queries (median 529 words), 2,914 case documents, 195 relevant pairs (1-22 per query, median 3) |
+| AILA 2019 Task 2 (statutes) | `load_aila2019("statutes")` | **Loaded and valid**: 50 queries, 197 statutes, 221 relevant pairs (2-5 per query) |
+| IL-PCR (IL-TUR `pcr`) | `load_il_pcr(split)`, `fetch_il_pcr()` | **Waiting for access** (author action 1). Reads the dataset's parquet files at revision `d16219ad`; tested on a sample in the same layout |
+| COLIEE Task 2 (case entailment) | `load_task2(files_dir, labels_json)` | **Waiting for the memorandum** (author action 2). Tested on a sample in the published layout |
+| COLIEE Task 4 (statute entailment, English 2025) | `load_task4(xml_dir)` | **Waiting for the memorandum** (author action 2). Tested on a sample in the published XML format |
+| AILA 2020 | — | Optional, not pursued (no key) |
+
+### AILA 2019 findings
+
+- Fetched from Zenodo record 4063986, MD5 `07f9621e385ff0d4540ce8dfd76b0c21` checked (`uv run scripts/benchmarks.py fetch aila2019`).
+- The README says statutes are `S1`…`S197`. The released files are `S1`…`S200` with `S32`, `S58` and `S162` missing.
+  - `S58` is judged relevant for Q2, Q33, Q49 and Q50, but no system can retrieve it.
+  - The loader drops those four judgments and records them in the dataset's `notes`. Every query keeps at least one relevant statute.
+- The statute pool is mostly constitutional, penal and procedural provisions. Only a handful of the 197 titles mention contracts, agreements or sale, so Task 2 measures the retriever, not contract-law coverage.
+- The queries are long fact descriptions (about 530 words), much longer than an agent's search queries. This matters for tuning in 5.3.
+- All 50 queries are one split. 5.3 must choose how to use them (e.g. cross-validation, or report-only) without tuning on reported queries.
+
+### Adding IL-PCR and COLIEE when access arrives
+
+- **IL-PCR:** request access at huggingface.co/datasets/Exploration-Lab/IL-TUR. Then `huggingface-cli login` (or set `HF_TOKEN`) and run `uv run scripts/benchmarks.py fetch il-pcr`. It downloads the six `pcr/*.parquet` files at the pinned revision.
+- **COLIEE:** after the memoranda, unpack the data as follows, then run `uv run scripts/benchmarks.py summary`. The loaders follow the published task formats; confirm them on the real files, since they were written without access.
+  - Task 2: case directories into `<data_dir>/raw/benchmarks/coliee/task2/files/`, and the labels JSON as `task2/labels.json`.
+  - Task 4: XML files into `coliee/task4/`.
