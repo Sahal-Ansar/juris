@@ -253,6 +253,53 @@ class CorpusLoader:
         for batch in range(0, len(stale), BATCH):
             conn.execute(delete(m.Chunk).where(m.Chunk.chunk_id.in_(stale[batch : batch + BATCH])))
 
+    def load_citations(self, conn: Connection) -> None:
+        """Citation edges and aliases from 3.9; edges no longer produced are removed."""
+        base = self.data_dir / "processed" / "citations" / self.snapshot_id
+        edges_path, aliases_path = Path(f"{base}.edges.jsonl.gz"), Path(f"{base}.aliases.jsonl.gz")
+        if not edges_path.exists():
+            return
+        with gzip.open(aliases_path, "rt", encoding="utf-8") as fh:
+            aliases = [json.loads(line) for line in fh]
+        self.stats.add("citation_aliases", upsert(conn, m.CitationAlias, aliases, ["alias"]))
+        keep = {a["alias"] for a in aliases}
+        stale_aliases = [
+            a for a in conn.execute(select(m.CitationAlias.alias)).scalars() if a not in keep
+        ]
+        for i in range(0, len(stale_aliases), BATCH):
+            conn.execute(
+                delete(m.CitationAlias).where(
+                    m.CitationAlias.alias.in_(stale_aliases[i : i + BATCH])
+                )
+            )
+
+        keys: set[tuple[str, int, str]] = set()
+        docs: set[str] = set()
+
+        def rows() -> Iterator[dict[str, Any]]:
+            with gzip.open(edges_path, "rt", encoding="utf-8") as fh:
+                for line in fh:
+                    edge = json.loads(line)
+                    keys.add((edge["source_doc_id"], edge["char_start"], edge["raw"]))
+                    docs.add(edge["source_doc_id"])
+                    yield edge
+
+        key_cols = ["source_doc_id", "char_start", "raw"]
+        self.stats.add("citation_edges", upsert(conn, m.CitationEdge, rows(), key_cols))
+        current = conn.execute(
+            select(
+                m.CitationEdge.edge_id,
+                m.CitationEdge.source_doc_id,
+                m.CitationEdge.char_start,
+                m.CitationEdge.raw,
+            ).where(m.CitationEdge.source_doc_id.in_(docs))
+        )
+        stale = [r[0] for r in current if (r[1], r[2], r[3]) not in keys]
+        for i in range(0, len(stale), BATCH):
+            conn.execute(
+                delete(m.CitationEdge).where(m.CitationEdge.edge_id.in_(stale[i : i + BATCH]))
+            )
+
     def register_embedding_models(self, conn: Connection) -> None:
         for model, dim in model_dims().items():
             register_model(conn, model, dim)
@@ -264,6 +311,7 @@ class CorpusLoader:
         self.load_paragraphs(conn)
         self.load_statutes(conn)
         self.load_chunks(conn)
+        self.load_citations(conn)
         self.register_embedding_models(conn)
         return self.stats
 
@@ -277,6 +325,7 @@ TABLES = [
     m.EmbeddingModel,
     m.ChunkEmbedding,
     m.CitationEdge,
+    m.CitationAlias,
 ]
 
 

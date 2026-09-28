@@ -64,11 +64,18 @@ def load_acts(path: Path | None = None) -> dict[str, Act]:
 
 
 def resolve_act(name: str, acts: dict[str, Act]) -> str | None:
-    """Canonical Act ID for 'ICA', 'Contract Act', 'Indian Contract Act, 1872' ...; else None."""
+    """Canonical Act ID for 'ICA', 'Contract Act', 'Indian Contract Act, 1872' ...; else None.
+
+    Any alias may carry the Act's year ('Contract Act, 1872'); a different year is a different
+    Act ('Specific Relief Act, 1877' is the 1963 Act's predecessor) and doesn't resolve.
+    """
     key = _alias_key(name)
+    m = re.fullmatch(r"(.*?)\s*(\d{4})", key)
+    base, year = (m.group(1), int(m.group(2))) if m else (key, None)
     for act in acts.values():
-        names = (act.act_id, act.title, f"{act.title}, {act.year}", *act.aliases)
-        if key in {_alias_key(n) for n in names}:
+        names = {_alias_key(n) for n in (act.act_id, act.title, *act.aliases)}
+        names = {re.sub(r"\s*\d{4}$", "", n) for n in names}  # aliases stored with a year
+        if key in names or (base in names and year in (None, act.year)):
             return act.act_id
     return None
 

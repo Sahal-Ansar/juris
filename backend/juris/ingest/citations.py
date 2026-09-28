@@ -84,6 +84,12 @@ _PATTERNS: list[tuple[Reporter, re.Pattern[str]]] = [
         ),
     ),
     (
+        "SCR",  # SCR "Case Law Reference" lists: "2008 (14) SCR 621", "2003 (4) Suppl. SCR"
+        re.compile(
+            rf"\b{_YEAR}\s*\(\s*(?P<vol>\d{{1,2}})\s*\)\s*(?:{_SUPP}\s*)?{_SCR}\s*{_PAGE}\b"
+        ),
+    ),
+    (
         "SCC",  # 1994 Supp (2) SCC 116 / (1994) Supp 2 SCC 116
         re.compile(
             rf"(?:{_O}\s*|\b){_YEAR}(?:\s*{_C})?\s*{_SUPP}\s*\(?(?P<vol>\d{{1,2}})?\)?\s*"
@@ -186,17 +192,23 @@ def normalise_citation(text: str) -> str | None:
     return c.canonical if c else None
 
 
-def find_citations(text: str) -> list[ReporterCitation]:
-    """All recognised citations in running text, in order (overlaps resolved left to right)."""
+def find_citation_spans(text: str) -> list[tuple[int, int, ReporterCitation]]:
+    """(start, end, citation) for every recognised citation, in order, overlaps resolved."""
     hits: list[tuple[int, int, ReporterCitation]] = []
     for reporter, pattern in _PATTERNS:
         for m in pattern.finditer(text):
             if c := _build(reporter, m):
                 hits.append((m.start(), m.end(), c))
     hits.sort(key=lambda h: (h[0], -h[1]))
-    out, end = [], -1
+    out: list[tuple[int, int, ReporterCitation]] = []
+    end = -1
     for start, stop, c in hits:
         if start >= end:
-            out.append(c)
+            out.append((start, stop, c))
             end = stop
     return out
+
+
+def find_citations(text: str) -> list[ReporterCitation]:
+    """All recognised citations in running text, in order (overlaps resolved left to right)."""
+    return [c for _, _, c in find_citation_spans(text)]
