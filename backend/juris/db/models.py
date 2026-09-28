@@ -139,7 +139,11 @@ class StatuteSection(Base):
 
 
 class Chunk(Base):
-    """A retrievable span (PLAN 3.7). ``tsv`` is generated from ``text`` for lexical search."""
+    """A retrievable span (PLAN 3.7).
+
+    ``tsv`` is generated for lexical search from the text and the header's title, through the
+    ``juris_chunk_tsv`` SQL function (migration 0005, PLAN 4.1).
+    """
 
     __tablename__ = "chunks"
 
@@ -162,10 +166,19 @@ class Chunk(Base):
         ForeignKey("statute_sections.section_id", ondelete="CASCADE")
     )
     tsv: Mapped[Any] = mapped_column(
-        TSVECTOR, Computed("to_tsvector('english', text)", persisted=True)
+        TSVECTOR, Computed("juris_chunk_tsv(context_header, text)", persisted=True)
     )
 
     __table_args__ = (Index("ix_chunks_tsv", "tsv", postgresql_using="gin"),)
+
+
+class LexemeStat(Base):
+    """How many chunks contain each lexeme (``ts_stat``): IDF weights for lexical search."""
+
+    __tablename__ = "lexeme_stats"
+
+    lexeme: Mapped[str] = mapped_column(Text, primary_key=True)
+    ndoc: Mapped[int] = mapped_column(Integer)
 
 
 class EmbeddingModel(Base):

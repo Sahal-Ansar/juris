@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from sqlalchemy import delete, func, select
+from sqlalchemy import delete, func, select, text
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.engine import Connection
 
@@ -51,6 +51,17 @@ def upsert(conn: Connection, table: Any, rows: Iterable[dict[str, Any]], keys: l
         conn.execute(stmt if cols else stmt.on_conflict_do_nothing(index_elements=keys))
         n += len(batch)
     return n
+
+
+def refresh_lexeme_stats(conn: Connection) -> int:
+    """Recount each lexeme's chunk frequency (``lexeme_stats``, IDF for lexical search, 4.1)."""
+    conn.execute(delete(m.LexemeStat))
+    return conn.execute(
+        text(
+            "INSERT INTO lexeme_stats (lexeme, ndoc) "
+            "SELECT word, ndoc FROM ts_stat('SELECT tsv FROM chunks')"
+        )
+    ).rowcount
 
 
 def _date(value: str | None) -> dt.date | None:
@@ -252,6 +263,7 @@ class CorpusLoader:
         ]
         for batch in range(0, len(stale), BATCH):
             conn.execute(delete(m.Chunk).where(m.Chunk.chunk_id.in_(stale[batch : batch + BATCH])))
+        self.stats.add("lexeme_stats", refresh_lexeme_stats(conn))
 
     def load_citations(self, conn: Connection) -> None:
         """Citation edges and aliases from 3.9; edges no longer produced are removed."""
@@ -326,6 +338,7 @@ TABLES = [
     m.ChunkEmbedding,
     m.CitationEdge,
     m.CitationAlias,
+    m.LexemeStat,
 ]
 
 
