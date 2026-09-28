@@ -1,0 +1,163 @@
+{
+  "$defs": {
+    "Authority": {
+      "additionalProperties": false,
+      "description": "A judgment in the corpus and what it is authority for in this item.",
+      "properties": {
+        "doc_id": {
+          "minLength": 1,
+          "title": "Doc Id",
+          "type": "string"
+        },
+        "citation": {
+          "description": "A reporter citation of the judgment, e.g. '[2003] 3 SCR 691'",
+          "minLength": 1,
+          "title": "Citation",
+          "type": "string"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "pinpoints": {
+          "description": "Paragraph numbers in the corpus text ('12', 'h-2', 'p-8')",
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Pinpoints",
+          "type": "array"
+        },
+        "proposition": {
+          "description": "The rule the authority stands for, in one sentence",
+          "minLength": 1,
+          "title": "Proposition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "doc_id",
+        "citation",
+        "title",
+        "pinpoints",
+        "proposition"
+      ],
+      "title": "Authority",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "pattern": "^JE-\\d{3}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "topic": {
+      "minLength": 1,
+      "title": "Topic",
+      "type": "string"
+    },
+    "question": {
+      "minLength": 1,
+      "title": "Question",
+      "type": "string"
+    },
+    "facts": {
+      "minLength": 1,
+      "title": "Facts",
+      "type": "string"
+    },
+    "gold_issues": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Gold Issues",
+      "type": "array"
+    },
+    "gold_supporting_authorities": {
+      "items": {
+        "$ref": "#/$defs/Authority"
+      },
+      "minItems": 1,
+      "title": "Gold Supporting Authorities",
+      "type": "array"
+    },
+    "gold_contrary_authorities": {
+      "items": {
+        "$ref": "#/$defs/Authority"
+      },
+      "title": "Gold Contrary Authorities",
+      "type": "array"
+    },
+    "gold_sections": {
+      "items": {
+        "pattern": "^[a-z_]+:\\d+[A-Z]{0,2}$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Gold Sections",
+      "type": "array"
+    },
+    "key_points": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Key Points",
+      "type": "array"
+    },
+    "difficulty": {
+      "enum": [
+        "easy",
+        "medium",
+        "hard"
+      ],
+      "title": "Difficulty",
+      "type": "string"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    },
+    "reviewed_by": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reviewed By"
+    }
+  },
+  "required": [
+    "id",
+    "topic",
+    "question",
+    "facts",
+    "gold_issues",
+    "gold_supporting_authorities",
+    "gold_sections",
+    "key_points",
+    "difficulty"
+  ],
+  "title": "Juris-Eval item",
+  "type": "object",
+  "$id": "juris_eval_item"
+}
