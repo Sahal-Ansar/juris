@@ -98,7 +98,18 @@ def corpus(engine: Engine) -> Engine:
         conn.execute(insert(m.Snapshot).values(snapshot_id="s", slice_name="t"))
         conn.execute(
             insert(m.Document),
-            [{**d, "snapshot_id": "s", "source": "test", "licence": "test"} for d in docs],
+            [
+                {
+                    "neutral_citation": None,
+                    "decision_date": None,
+                    "citations": [],
+                    **d,
+                    "snapshot_id": "s",
+                    "source": "test",
+                    "licence": "test",
+                }
+                for d in docs
+            ],  # every row with the same keys, for executemany
         )
         conn.execute(
             insert(m.StatuteSection),
