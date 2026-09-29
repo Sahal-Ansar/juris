@@ -117,6 +117,18 @@ def test_multi_query_fusion_dedupes_by_chunk() -> None:
     assert all(c[1] == 10 for c in lexical.calls)
 
 
+def test_extra_dense_retrievers_add_their_own_lists() -> None:
+    lexical = StubLexical({"q": ranked("A#1", "B#1")})
+    dense = StubDense({"q": ranked("B#1", "C#1")})
+    other = StubDense({"q": ranked("C#1", "D#1")})
+    hybrid = HybridRetriever(lexical, dense, extra_dense=[other], weights={"dense2": 2.0})
+    hits = hybrid.search("q")
+    assert {h.chunk_id for h in hits} == {"A#1", "B#1", "C#1", "D#1"}
+    c1 = next(h for h in hits if h.chunk_id == "C#1")
+    assert c1.ranks == {"dense:0": 2, "dense2:0": 1}
+    assert c1.score == pytest.approx(1 / 62 + 2 / 61) and hits[0].chunk_id == "C#1"
+
+
 def test_one_retriever_weights_and_k() -> None:
     lexical = StubLexical({"q": ranked("A#1", "B#1", "C#1")})
     dense = StubDense({"q": ranked("C#1", "B#1", "A#1")})

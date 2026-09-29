@@ -48,6 +48,8 @@ _REFERENCE = re.compile(
     re.IGNORECASE,
 )
 _TOKEN = re.compile(r'(-?)"([^"]*)"?|(\S+)')
+_WORDLIKE = re.compile(r"[^\W_]")  # a letter or digit
+_EXCLUDE = re.compile(r"-[^\W_]")  # "-word" excludes; "--" or a lone "-" doesn't
 
 _ANALYSE = text(
     """
@@ -101,9 +103,11 @@ def parse_query(query: str) -> ParsedQuery:
     for m in _TOKEN.finditer(quoted):
         if m.group(3) is not None:
             word = m.group(3)
-            if word.lower() == "or":
+            # "or" is an operator; a token without letters or digits ("----", "...") can't
+            # match anything, and a run of dashes would read as nested negations
+            if word.lower() == "or" or not _WORDLIKE.search(word):
                 continue
-            if word.startswith("-") and len(word) > 1:
+            if _EXCLUDE.match(word):
                 excluded.append(word[1:])
             else:
                 terms.append(word)
@@ -141,11 +145,18 @@ class LexicalRetriever:
     """Ranked chunk IDs for a keyword query, with filters (``SearchFilters``)."""
 
     def __init__(
-        self, engine: Engine, max_candidates: int = 10_000, density_weight: float = 0.1
+        self,
+        engine: Engine,
+        max_candidates: int = 10_000,
+        density_weight: float = 0.1,
+        max_terms: int | None = None,
     ) -> None:
         self.engine = engine
         self.max_candidates = max_candidates
         self.density_weight = density_weight  # weight of ts_rank against term coverage
+        # a long query (a fact pattern, a whole judgment) keeps only its rarest terms in
+        # ``any`` mode: hundreds of terms would each be checked against every candidate
+        self.max_terms = max_terms
         self._n: int | None = None
 
     def chunk_count(self, conn: Connection) -> int:
@@ -203,6 +214,8 @@ class LexicalRetriever:
         terms = [t for t in self.analyse(conn, parsed.terms) if t.df > 0]
         if not terms:
             return None
+        if self.max_terms is not None and len(terms) > self.max_terms:
+            terms = sorted(terms, key=lambda t: (-t.idf, t.tsquery))[: self.max_terms]
         total = sum(t.idf for t in terms)
         rare = candidate_terms(terms, self.max_candidates)
         # candidates: chunks with a rarer term; if every term is common, chunks with all of them

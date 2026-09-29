@@ -98,11 +98,15 @@ class HybridRetriever:
         weights: Mapping[str, float] | None = None,
         lexical_mode: Mode = "any",
         reranker: Reranker | None = None,
+        extra_dense: Sequence[DenseSearch] = (),
     ) -> None:
         if lexical is None and dense is None:
             raise ValueError("need at least one retriever")
         self.lexical = lexical
         self.dense = dense
+        # more dense retrievers (other embedding models), each adding its own lists, named
+        # "dense2:<i>", "dense3:<i>" ...; weights key them as "dense2", "dense3" (5.3)
+        self.extra_dense = list(extra_dense)
         self.depth = depth  # how many hits each retriever returns per query
         self.rrf_k = rrf_k
         self.weights = weights  # per retriever: {"lexical": 1.0, "dense": 1.0}
@@ -119,9 +123,11 @@ class HybridRetriever:
                 lists[f"lexical:{i}"] = self.lexical.search(
                     q, filters, k=self.depth, mode=self.lexical_mode
                 )
-        if self.dense is not None:
-            for i, vector in enumerate(self.dense.encode(list(queries))):  # one batch
-                lists[f"dense:{i}"] = self.dense.search_vector(vector, filters, k=self.depth)
+        denses = ([self.dense] if self.dense is not None else []) + self.extra_dense
+        for n, dense in enumerate(denses, 1):
+            name = "dense" if n == 1 else f"dense{n}"
+            for i, vector in enumerate(dense.encode(list(queries))):  # one batch
+                lists[f"{name}:{i}"] = dense.search_vector(vector, filters, k=self.depth)
         return lists
 
     def search(
