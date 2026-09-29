@@ -130,7 +130,7 @@ class PipelineProfile(_Strict):
 
     name: str
     description: str = ""
-    kind: Literal["juris", "b0", "b1", "b2"]
+    kind: Literal["juris", "b0", "b1", "b2", "dummy"]  # dummy: tests the runner (PLAN 5.5)
     seed: int = 0
     models: ModelsConfig | None = None
     budget: BudgetConfig | None = None
