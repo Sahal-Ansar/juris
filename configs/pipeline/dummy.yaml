@@ -1,0 +1,12 @@
+# Dummy system for testing the experiment runner end to end (PLAN 5.5). No retrieval and no
+# real model: it builds an answer from the item's gold and makes one call to the offline
+# "dummy" provider (juris.baselines.dummy). Its scores mean nothing.
+name: dummy
+description: Offline stand-in that exercises the runner, events, manifests and metrics.
+kind: dummy
+seed: 0
+models:
+  default:
+    provider: dummy
+    name: dummy-echo
+    effort: null

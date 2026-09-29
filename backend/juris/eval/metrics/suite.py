@@ -1,10 +1,11 @@
 """Score answers with every metric; per-item values, and means with bootstrap 95% CIs."""
 
 import asyncio
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any
 
+from juris.config import TokenPrice
 from juris.eval.juris_eval import JurisEvalItem
 from juris.eval.metrics.authorities import authority_recall
 from juris.eval.metrics.citations import EntailmentJudge, citation_faithfulness, citation_validity
@@ -35,6 +36,7 @@ class Answer:
     view: CaseView
     calls: Sequence[CallLike] | None = None
     wall_seconds: float | None = None
+    prices: Mapping[str, TokenPrice] | None = None  # price every call, cache hits included
 
 
 @dataclass
@@ -98,7 +100,7 @@ async def score_answer(
         authority_recall(view, item),
         key_point_coverage(item, key_points, answered=answered),
         quality_rubric(rubric),
-        cost_latency(view, answer.calls, answer.wall_seconds),
+        cost_latency(view, answer.calls, answer.wall_seconds, answer.prices),
     ]
     return ItemScores(item.id, {r.name: r for r in results})
 

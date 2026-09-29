@@ -23,7 +23,7 @@ result.table()           # Markdown: mean, 95% bootstrap CI, n
 | `authority_recall` | Share of gold judgments (supporting and contrary) the analysis relies on | `.supporting`, `.contrary`, `.sections` |
 | `key_point_coverage` | LLM grader: mean credit over the key points (covered 1, partially 0.5, missing 0) | `.full` (share fully covered) |
 | `quality_rubric` | LLM grader: mean of four 1-5 scores | `.correctness`, `.completeness`, `.reasoning_consistency`, `.uncertainty_calibration` |
-| `cost_latency` | (no headline value) | `.llm_calls`, `.input_tokens`, `.output_tokens`, `.total_tokens`, `.usd`, `.wall_seconds` |
+| `cost_latency` | (no headline value) | `.llm_calls`, `.cached_calls`, `.input_tokens`, `.output_tokens`, `.total_tokens`, `.usd`, `.wall_seconds` |
 
 Details behind each number (which citations are invalid, which statements are unsupported, which gold authorities are missing, the graders' reasons) are in `ItemScores.to_json()`.
 
@@ -33,7 +33,7 @@ Details behind each number (which citations are invalid, which statements are un
 - **Faithfulness labels** come from the run's own latest verification of each (claim, evidence) pair, since every config uses the same verifier (IDEA_final §5). Pairs the run never verified go to an `EntailmentJudge` (6.1 plugs its entailment check in). Without one they are left out as "unjudged" and counted in the details.
 - **Statements of the final output**: each position summary (cited through its key evidence and any inline `E-###`), and each sentence of the overall summary (cited inline). A statement is supported when at least one evidence item it cites has a `verified` or `weak` verification anywhere in the record. An uncited position summary is unsupported. An uncited summary sentence counts only if the assertion grader says it makes a legal assertion (IDEA_final §10). Without the grader, every uncited sentence counts.
 - **What the analysis relies on**: positions' supporting authorities, both sides of key conflicts, sources, and the documents of the evidence it cites. Sections are the statute sections (`contract_act:15`) whose chunks it cites as evidence.
-- **Cost and latency**: from the run's LLM calls (`CallRecord`s or `llm_calls` rows) when given, else from the `run_completed` totals. Tokens and dollars count live calls only. Wall-clock is the first-to-last event span unless given.
+- **Cost and latency** (changed in D-039): from the run's LLM calls (`CallRecord`s or `llm_calls` rows) when given, else from the `run_completed` totals (live calls only). With calls, tokens count every call, cache hits included, so a warm cache doesn't make a config look cheaper. Dollars are the list price of every call when prices are given (the runner passes them), else the live spend. `.cached_calls` counts the hits. Wall-clock is the first-to-last event span unless given, and cache hits shorten it.
 
 ### Graders
 

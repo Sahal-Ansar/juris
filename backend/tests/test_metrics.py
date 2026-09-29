@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from juris.config import REPO_ROOT, ModelSpec
+from juris.config import REPO_ROOT, ModelSpec, TokenPrice
 from juris.db.models import LlmCall
 from juris.eval.juris_eval import JurisEvalItem
 from juris.eval.metrics import (
@@ -291,6 +291,7 @@ def test_cost_latency_from_totals(view: CaseView) -> None:
     result = cost_latency(view)
     assert result.values == {
         "cost_latency.llm_calls": 19,
+        "cost_latency.cached_calls": 0,
         "cost_latency.input_tokens": 405_800,
         "cost_latency.output_tokens": 37_000,
         "cost_latency.total_tokens": 442_800,
@@ -332,10 +333,17 @@ def test_cost_latency_from_calls(view: CaseView) -> None:
     ]
     result = cost_latency(view, calls, wall_seconds=12.5)
     assert result.values["cost_latency.llm_calls"] == 3
-    assert result.values["cost_latency.input_tokens"] == 150
-    assert result.values["cost_latency.usd"] == pytest.approx(0.5)
+    assert result.values["cost_latency.cached_calls"] == 1
+    # Tokens count the cache hit too: a warm cache must not make a config look cheaper.
+    assert result.values["cost_latency.input_tokens"] == 250
+    assert result.values["cost_latency.total_tokens"] == 275
+    assert result.values["cost_latency.usd"] == pytest.approx(0.5)  # live spend
     assert result.values["cost_latency.wall_seconds"] == 12.5
-    assert result.details == {"unpriced_calls": 1, "source": "calls"}
+    assert result.details == {"unpriced_calls": 1, "source": "calls", "usd": "live spend"}
+
+    priced = cost_latency(view, calls, prices={"m": TokenPrice(input=1.0, output=10.0)})
+    assert priced.values["cost_latency.usd"] == pytest.approx((250 * 1 + 25 * 10) / 1e6)
+    assert priced.details["unpriced_calls"] == 0 and priced.details["usd"] == "list price"
 
 
 # ---- graders -------------------------------------------------------------------------------

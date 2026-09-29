@@ -24,9 +24,9 @@ htmlcov/
 .env.*
 !.env.example
 
-# Data and raw eval output
+# Data and raw eval output (experiment folders; eval/results/results.csv stays tracked)
 /data/
-eval/results/raw/
+eval/results/*/
 
 # Frontend
 node_modules/
