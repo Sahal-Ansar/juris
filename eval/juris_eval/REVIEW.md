@@ -801,3 +801,1523 @@ Proposition: Section 65 restitution is not available where both parties knew fro
 **Reviewed by:** —
 
 ---
+
+## JE-021 (dev, easy): acceptance by conduct (s. 8)
+
+**Question.** Can a claimant that encashed cheques sent "in full and final settlement" later recover the balance of its claim because it wrote a letter of protest?
+
+**Facts.** Goods sent by rail were lost. The Railways admitted the claims but for far less than claimed, and sent cheques with letters saying that if the offer was not acceptable the cheques must be returned at once, and that keeping or encashing them would be taken as acceptance in full and final settlement. The claimant encashed the cheques and wrote that it placed the claims "under protest" and demanded the balance. Nothing on record shows whether the protest was sent before or after the cheques were encashed.
+
+**Issues.**
+- Did encashing the cheques amount to acceptance of the offer by conduct under s. 8 of the Contract Act?
+- Does a protest letter keep the balance claim alive, and does it matter when the protest was sent?
+
+**Sections.** contract_act:8, contract_act:63
+
+**Key points.**
+- Performance of the conditions of a proposal is acceptance (s. 8), and the offeror may prescribe the mode of acceptance.
+- Conduct amounts to acceptance only if the offeree acted with the intention (actual or apparent) of accepting; whether it did is decided on the evidence.
+- A protest or rejection must be conveyed before the cheque is encashed; encashment without reservation is unequivocal acceptance and the offeree cannot change its mind.
+- The claimant who relies on a prior protest must plead and prove when it was made.
+
+**Supporting: Bhagwati Prasad Pawan Kumar v. Union of India**, [2006] Supp 2 SCR 975 (`SC-S_2006_2_975_985`)
+
+Proposition: An offer may be accepted by conduct (s. 8), including by encashing a cheque sent on terms that encashment means full and final settlement; conduct is acceptance only if done with the intention of accepting, which is a question of fact, and a protest must be conveyed before encashment to prevent acceptance.
+
+> ¶ p-13: … ance if it is clear that the offeree did the act with the intention (actual or apparent) of accepting the offer. The decisions which we have noticed above also proceed on this principle. Each case must rest on its own facts. The courts must examine the evidence to find out whether in the facts and circumstances of the case the conduct of the "offeree" was ~uch as amounted to an unequivocal acceptance of the offer made. If lhe facts of the case· disclose that there was no reservation in signifying acceptance by conduct, it must follow that the offer has been accepted by conduct. On the other hand if the evidence disclose that the "offeree" had reservation in accepting the offer, his conduct may not amount to acceptance of the offer in terms of Section 8 of the Contract Act. Coming to the facts of this case if the appellant, before encashing the cheques, had sent the communication dated Au …
+
+> ¶ p-7: The moot question that arose for consideration of the High Court was whether the acceptance of the two cheques by the appellant and their encashment by it did not amount to acceptance of the offer contained in the two letters of April 7, 1993. The aforesaid letters of April 7, 1993, as noticed earlier, offered the amounts contained in the two cheques in full and final settlement of appellant's claim and further provided that in case the offer was not acceptable, the cheques should be returned forthwith. It is the case of the Railways that by retaining the cheques and encashing them, the appellant signified its acceptance of the amounts comprised in the two cheques in full and final settlement of its claims. Such acceptance by conduct is recognized by Section 8 of the Contract Act.
+
+> ¶ h-1: … l. In the instant case, the Railways made an offer to the appellant laying down the condition that ifthe offer was not acceptable the cheque should be returned forthwith, failing which it would be deemed that the appellant accepted the offer in full and final satisfaction of its claim. This was further clarified by providing that the retention of the cheque and/ or encashment thereof will automatically amount to satisfaction in full and final settlement of the claim. Thus, if the appellant accepted the cheques and encashed them without anything more, it would amount to an acceptance of the offer made in the letters of the Railways. The offer prescribed the mode of acceptance, and by conduct the appellant must be held to have accepted the offer and therefore, could not make a claim later. What, however, is significant is that the protest and non acceptance must be conveyed before the cheq …
+
+**Notes.** The Court distinguished cases where money was accepted "under protest" before encashment (p-10, p-11) as having no accord and satisfaction.
+
+**Reviewed by:** —
+
+---
+
+## JE-022 (test, medium): privity of contract
+
+**Question.** Can a creditor bank enforce, against the donor's son, a clause in a family settlement deed saying the son will pay whatever the donor owes the bank under a guarantee?
+
+**Facts.** A father guaranteed a company's overdraft with a bank. He then executed a deed dividing his property among his family, with a clause that any liability under his guarantee would be met by one son out of the property allotted to him. The company defaulted and the bank sued the father, the company and the son, claiming that the deed created a charge on the son's property in its favour and that the son was personally bound.
+
+**Issues.**
+- Did the clause in the deed create a charge on the property in the bank's favour?
+- Can the bank, not a party to the deed, enforce the son's covenant?
+
+**Sections.** contract_act:2
+
+**Key points.**
+- Only a party to the contract can sue on it (privity); the definitions of promisor and promisee in s. 2 exclude strangers.
+- Section 2(d) lets consideration move from a third person, but that does not let a stranger to the contract enforce it.
+- The exceptions are beneficiaries under a trust created by the contract and family arrangements, and the bank falls under neither.
+- A charge needs an intention, shown by the deed, to make specific property answer for the debt; an internal direction about who pays does not show it.
+
+**Supporting: M.C. Chacko v. State Bank of Travancore**, [1970] 1 SCR 658 (`SC-1970_1_658_664`)
+
+Proposition: A person who is not a party to a contract cannot enforce it, except a beneficiary under a trust created by the contract or where the contract is part of a family arrangement; a clause directing that a guarantee liability be paid out of allotted property creates no charge, since the guarantee is a personal obligation.
+
+> ¶ p-6: The Kottayam Bank not being ~ party to the deal was not bound by the coven3nts in the deed, nor could it enforce the covenants. It is settkd law that a person not a party to a contract cannot subject to certain well recognised exceptions, enforce the terms of the contract : the recognised exceptions are that beneficiaries under the terms of the contract or where the contract is a part of the family arrangement may enforce the covenant. In (t) 1.L.R. 55 Med. 436.
+
+> ¶ p-9: … aw knows nothing of a right gained by a third party arising out of a contract : Dunlop Pneumatic Tyre Co. v. Selfridge & Co. (2 ). It has however been recognised that where a tmst is created by a contract, a beneficiary may enforce the rights which the trust so created has given him. The basis of that rule is that though he is not a party to the contract his rights are equitable and not cQlltractual. The Judicial Committee applied that rule to an Indian case Khwaja Muhammad Khan v. Husaini Begam(8 ). In a later case /aman Das v. Ram A utar ( 4 ) the Judi<:ial Committee pointed out that the purchaser's contract to pay off a mortgage debt could not be enforced by the mortgagee who was not a party to the contract. It must therefore be taken as well settled that except in the case of a beneficiary under a trust created by a contract or in the case of a family arrangement, no right may be enf …
+
+> ¶ p-10: Even if it be granted that there was an intention to create a charge, the Kottayam Bank not being a party to the deed could enforce the charge only if it was a beneficiary under the terms of the contract, and it is not claimed that the Bank was a beneficiary under the deed Ex. D-1. The suit agrunst M. C. Chacko must therefore be dismised.
+
+> ¶ p-5: … ntended to be made liable to satisfy the debt due by him. The recitals in cl. 17 of the deed do not evidence any intention of the donor to create a charge in favour of the Kottayam Bank : they merely set out an arrangement between the donor and the members of bis family that the liability under the letter of guarantee, if and when it arises, will be satisfied by M. C. Chacko out of the property allotted to him under the deed. The debt which M. C. Chacko was directed by the deed to satisfy waS not in any sense a "family debt". It was a debt of K. C. Chacko; and K. C. Chacko was personally liable to pay -that debt. After hi,;. death his sons, his daughter and his widow would be liable to satisfy the debt out of his estate in their hands. From the recitals in the deed Ext. D-1 an intention to convert a personal debt into a secured debt in fa,our of the Bank, a third person, cannot be inferr …
+
+**Notes.** The deed was itself a family arrangement, but the exception protects members of the family, not an outside creditor. The appellant had conceded before the High Court that third-party beneficiaries could sue (p-15); the Court did not act on the concession.
+
+**Reviewed by:** —
+
+---
+
+## JE-023 (test, medium): concluded contract without a signed document
+
+**Question.** Are the parties bound by a supply contract, including its arbitration clause, when they agreed the terms by e-mail but never signed the formal contract?
+
+**Facts.** A trader offered by e-mail to supply five shipments of bauxite; the offer included a clause providing for Indian law and arbitration in Mumbai. After a day of e-mails on demurrage and termination, the buyer accepted the offer for five shipments. The trader chartered a ship the next day, and the parties signed minutes of a meeting that recorded the acceptance. The formal contract was never signed, and the buyer now says there was no concluded contract and so no arbitration agreement.
+
+**Issues.**
+- Was a contract concluded by the exchange of e-mails, though a formal contract was contemplated and never signed?
+- Is the arbitration clause in the accepted offer binding without a signed document?
+
+**Sections.** contract_act:7, contract_act:10
+
+**Key points.**
+- A contract is made when an offer is accepted absolutely; the medium (e-mail) does not matter.
+- A contemplated formal document prevents a contract only if the parties made its signing a condition of being bound.
+- Minor terms left to be settled do not prevent a concluded contract once the essential terms are agreed.
+- Distinguish an agreement on general conditions or a letter of intent, which is only a prelude to a contract.
+- An arbitration clause in the accepted offer binds without a signed agreement.
+
+**Supporting: Trimex International FZE Ltd. v. Vedanta Aluminium Ltd.**, [2010] 1 SCR 820 (`SC-2010_1_820_868`)
+
+Proposition: Once a contract is concluded orally or in writing, the fact that a formal contract was to be prepared and signed does not affect it, and an arbitration agreement can be inferred from an exchange of e-mails and letters without a signed document.
+
+> ¶ 9: 9. In the light of the details which have been extracted in the earlier paragraphs, I am unable to accept the stand of the respondent. It is clear that if the intention of the parties was to arbitrate any dispute which arose in relation to the offer of 15.10.2007 and the acceptance of 16.10.2007, the dispute is to be settled through arbitration. Once the contract is concluded orally orin writing, the mere fact that a formal contract has to be prepared and initialed by the parties would not affect either the acceptance of the contract so entered into or implementation thereof, even if the formal contract has never been initialed.
+
+> ¶ 14: 14. Both in the counter affidavit as well as at the time of arguments Mr. C.A. Sundaram, learned senior counsel for the respondent has pointed out various differences between the version of the respondent and the petitioner. However, a close scrutiny of the same shows that there were1only minor differences that would not affect the intention of the parties. It is essential that the intention of the parties be considered in order to conclude whether parties were ad idem as far as adopting arbitration as a method of dispute resolution was concerned. In those circumstances, the stand of the respondent that in the absence of signed contract, the arbitration clause cannot be relied upon is liable to be rejected.
+
+> ¶ 17: 17. It is clear that in the absence of signed agreement between the parties, it would be possible to infer from various documents duly approved and signed by the parties in the form of exchange of e-mails, letter, telex, telegrams and other means of tele-communication.
+
+**Supporting: Kollipara Sriramulu v. T. Aswatha Narayana**, [1968] 3 SCR 387 (`SC-1968_3_387_395`)
+
+Proposition: A mere reference to a future formal contract does not prevent a binding agreement unless the parties made its execution a condition of the bargain; that is a question of their intention.
+
+> ¶ p-5: We proceed to consider the next question raised in these appeals, namely whether the oral agreement was ineffective be· cause the parties contemplated the execution of a formal document or because the ruode of payment of the purchase money was not actually agreed upon. It was submitted on behalf of the appelant that there was no contract because the sale was conditional upon a regular agreement being executed and no such agreement . was executed. We do not accept this argument as correct. It is well-established that a mere reference to a future formal contract will not prevent a binding bargain between the parties. The fact that the parties refer to the preparation of an agreement. by which the terms agreed upon are to be put in a more formal shape does not prevent the existence of a binding contract. There are. however, cases where the reference to a future contract is made in such term …
+
+> ¶ p-7: In other words, th~re may be a c~s7 where the signing of a further formal agreement 1s made a cond1t1on or term of the bargain, and (I) 6 H.L.C. 238, 263. (2) 119121 I Ch. 284, 288. if the formal agreement is not approved and signed there is no concluded contract. In Rossier v. Mil/er(1) Lord Cairns said : "If you find not an unqualified. acceptance subject to the condition that an agreement is to be prepared and agreed upon. between. the parties, and until that condition. is fulfilled no contract is to arise then you cannot find a concluded contract."
+
+> ¶ p-8: In Currimbhoy and Company Ltd. v. Cree1( 2 ) the Judicial Committee expressed the view that the principle of the English law which is summarised in the judgment of Parker, J. in Von Hatz· feldt-Wildenburg v. Alexander(3 ) was be applicable in India. Tho question in the present appeals is whether the execution of a formal agreement was intended to be a condition of the bargain dated July 6, 1952 or whether it was a mere expression of the desire oi the parties for a formal agreement which can be ignored. The evidence adduced on behalf of respondent No. 1 does not show that the drawing up of a written agreement was a pre-requisite to the coming into effect of the oral agreement It is therefore not possible to accept the contention of the appellant that the oral agreement was ineffective in law because there is no execution of any formal written document. As regards the -other point, it is t …
+
+**Contrary: Dresser Rand S.A. v. Bindal Agro Chem Ltd.**, [2006] 1 SCR 308 (`SC-2006_1_308_341`)
+
+Proposition: Agreeing on the terms that will govern a contract if one is made is not making the contract, and a letter of intent that is only a prelude to a purchase order does not bind the parties.
+
+> ¶ 26: 26. Therefore, when DR suggested modifications to the general conditions of purchase, and when BIN DAL agreed to them, and both parties initialled Revision No. 4 containing the modifications to the General Conditions of Purchase, on 10.6. 1991, no contract or agreement came into exist1:nce as it did not involve either an offer or acceptance or performance of any promise. "Revision No.4" dated 10.6.1991 only consisted of the modifications to the General Conditions of Purchase, subject to which it was willing to enter into G. a contract with BINDAL for sale of machinery. Revision No.4 dated 10.6.1991 cleared the decks by finalizing the general conditions which would be applicable if and when BlNDAL decided to place a purchase order. In other words. the 'General Conditions of Purchase' and Revision No.4 dated I 0.6.1991 containing the modifications thereto. merely set out the terms on which …
+
+> ¶ 32: 32. The Preamble to the Letters of Intent states that KGK "hereby confirms its intention to place an order on Dresser Rand". This is further made clear from Clause (I) of each letter of intent which provides that "this letter of intent" will be followed by a regular and detailed purchase order to be issued by KGK simultaneous with the establishment of the Letter of Credit mentioned in Para B of letter of intent. This makes it clear that the letter of intent is only a prelude to the purchase order and not itself the purchase order. The last para of Leners of Intent requires DR to sign and return the duplicate copy of the letter as token acceptance of DR having agreed to the Letters of Intent. This would mean that the person issuing the Leners of Intent wanted concurrence of DR to the terms contained in the Letter of Intent so that it can place an order in terms of the conditions mentioned …
+
+> ¶ 34: …  into a contract. There was no binding legal relationship between the appellant and Respondent I at this stage and the appellant was entitled to look at the totality of circumstances in deciding whether to enter into a binding contract with Respondent I or not." It is no doubt true that a Letter of Intent may be construed as a letter of acceptance if such intention is evident from its terms. It is not uncommon in contracts involving detailed procedure, in order to save time. to issue a letter of intent communicating the acceptance of the offer and asking the contractor to start the work with a stipulation that the detailed contract would be drawn up later. If such a letter is issued to the contractor, though it may be termed as a Letter of Intent, it may amount to acceptance of the offer resulting in a concluded contract between the parties. But the question whether the letter of intent  …
+
+**Notes.** Trimex is a single-judge decision on an application to appoint an arbitrator; it distinguishes Dresser Rand at para 12.
+
+**Reviewed by:** —
+
+---
+
+## JE-024 (test, medium): certainty of terms (s. 29)
+
+**Question.** Is a sale of cotton "subject to the usual force majeure clause" void for uncertainty because the clause is not set out?
+
+**Facts.** A seller confirmed the sale of African cotton to a buyer "subject to the usual Force Majeure Clause", without setting out the clause. The buyer failed to obtain the import licence and did not perform. When the seller invoked arbitration, the buyer said the contract was void for vagueness, because force majeure clauses differ and the parties never agreed which one applied.
+
+**Issues.**
+- Is the reference to "the usual force majeure clause" so uncertain that the agreement is void under s. 29?
+- What does "force majeure" cover, and who decides which clause was usual?
+
+**Sections.** contract_act:29
+
+**Key points.**
+- Section 29 voids only agreements whose meaning is not certain or capable of being made certain.
+- The word "usual" points to a particular clause, provable by trade usage or the parties' dealings; a bare reference to "force majeure conditions" may be different.
+- Force majeure is wider than vis major (it includes e.g. strikes and breakdowns) and saves the party from the consequences of events beyond its control.
+- Who must prove the usual clause, and what it says, is for the arbitrators once the agreement is valid.
+
+**Supporting: Dhanrajamal Gobindram v. Shamji Kalidas and Co.**, [1961] 3 SCR 1020 (`SC-1961_3_1020_1042`)
+
+Proposition: A reference to "the usual force majeure clause" is capable of being made certain by proof of the clause usual between the parties or in the trade, so the agreement is not void under s. 29; force majeure is wider than vis major and saves a party from events beyond its control.
+
+> ¶ p-37: Applying these tests to the present case and in the light of the provisions of s. 29 of the Indian Contract Act, it is clear that the clause impugned is capable of being madE1 certain and definite by proof that between the parties or in the trade or in dealings with parties in British East Africa, there was invariably included a force majeure clause of a particular kind. In our opinion, the contract was not void for vagueness or uncertainty by reason of the reference in the terms stated, to theforcemajeure clause. Mr. Daphtary posed the question as to on whom was the burden of proving the usual force majeure clause. In our opinion, if the agreement is not void for uncertainty, that question would be a matter for the decision of the arbitrators. It is too early to say by what evidence and by whom the usual force majeure clause must be established.
+
+> ¶ p-34: … n expression " vis major ". It is undoubtedly a term of wider import. Difficulties have arisen in the past as to what could legitimately be included in "force majeure ". Judges have agreed that strikes, breakdown of machinery, which, though normally not included in " vis major " are included in "force majeure ". An analysis of rulings on the Bl' bject into which it is not necessary in this case to go, shows that where reference is made to "force majwre ", the intention is to save the performing party from the consequences of anything over which he has no control. This is the widflst meaning that can be given to" force majeure ", and even if this be the meaning, it is obvious that the condition about "force majeure" in the agreement was not vague. The use of the word "usual" makes all the difference, and the meaning of the condition may be made certain by evidence about a force majeure cl …
+
+> ¶ p-35: Learned counsel for the appellants relies strongly on a decision of McNair, J. in British Industries v. Patley Pressings('). There, the expression used was "subject to force maje.ure conditions". The learned Judge held that by "conditions" was meant clauses and not contingencies or circumstances, and that there being a variety off orce majeure clauses in the trade, there ( 1) [1 .. 20] ' K.B. 7 '4. (2) [1953] 1 All E.R. 94. i96i was no concluded agreement. The case is distinguishM 1 ,. Dhanrajamal able, because the reference. ~o force majeure clauses Gobindram was left at large. The add1t10n of the word "usual" v. makes it clear that here some specific clause was in MJs. Shamji the minds of the parties. Learned counsel also relies Kalidas &- Co. upon a decision of the House of Lords in Scammell (G.) Hidayatull•h J. and Nephew Ltd. v. Oustrm (H.C. and J.G.) ( 1 ), where the reference to " …
+
+**Notes.** The Court distinguished British Industries v. Patley Pressings and Scammell v. Ouston (English decisions, not in the corpus).
+
+**Reviewed by:** —
+
+---
+
+## JE-025 (test, hard): frustration and leases
+
+**Question.** Can a lessee of agricultural land recover the rent paid on the ground that the lease was frustrated when riots after Partition made it impossible to cultivate the land?
+
+**Facts.** A lessee took agricultural land on lease for two seasons and paid the rent. After the Partition the area fell in Pakistan, the lessee migrated to India, and riots made it unsafe to cultivate or collect the crops. He sued for a refund of the rent, arguing that the lease was frustrated under s. 56 of the Contract Act. The land itself was not destroyed.
+
+**Issues.**
+- Does s. 56 apply to a completed lease of immovable property?
+- When may a lessee avoid a lease because the land cannot be used?
+
+**Sections.** contract_act:56
+
+**Key points.**
+- Section 56 governs frustration of executory contracts and is exhaustive in India.
+- A lease is a completed transfer of an interest in land; events that discharge a contract do not undo a concluded transfer.
+- The lessee can avoid the lease only if a material part of the property is destroyed or rendered substantially and permanently unfit by irresistible force (s. 108(e) TPA, and its principle for agricultural leases).
+- Inability to use the land, without such destruction and without a covenant for remission, does not excuse rent.
+- Distinguish an agreement to lease with no lease executed, which s. 56 can frustrate (Sushila Devi).
+
+**Supporting: Raja Dhruv Dev Chand v. Raja Harmohinder Singh**, [1968] 3 SCR 339 (`SC-1968_3_339_345`)
+
+Proposition: Once a lease is granted the parties' rights rest not in contract but in a completed transfer, which events discharging a contract do not invalidate; the lessee may avoid the lease only if the property is destroyed or rendered substantially and permanently unfit (s. 108(e) TPA), not because he cannot use it.
+
+> ¶ p-9: We are unable to agree with counsel for the appellant in the present case that the relation between the appellant and the respondents rested in a contract. It is true that the Court of Wards bad accepted the tender of the appellant and had granted him a lease on agreed terms of lands of Dada Siba Estate. But the rights of the parties did not after the lease was granted rest in contract. By s. 4 of the Transfer of Property Act the chapters and sections of the Transfer of Property Act which relate to contracts are to be taken as part of the Indian Contract Act, 1872. That section however does not enact and cannot be read as enacting that the provisions of the Contract Act are to be read into the Transfer of Property Act. There is a clear distinction between a completed conveyance and an executory contract, and events which discharge a contract do not invalidate a concluded transfer. DHRUB  …
+
+> ¶ p-10: … ffective possession on account of circumstances beyond his control. Granting that the parties at the date of the lease did not contemplate that there may be riots in the area rendering it unsafe for the appellant to carry on cultivation, or that the crops grown by hiin may be looted, there was no covenant in the lease that in the event of the appellant being unable to remain in possession and to cultivate the land and to collect the crops, he will not be liable to pay the rent. Inability of the appellant to cultivate the land or to collect the crops becauSe of widespread riots cannot in the events that transpired clothe him with the right to claim refund of the rent paid. Authorities in the Courts in India have generally taken the view that s. 56 of the Contract Act is not applicable when the rights and obligations of the parties arise under a transfer of property under a lease. In Abdul …
+
+> ¶ h-1: …  material part of the propeny be wholly destroyed or rendered substantially and pcrman~ntly unfit for the purpose for which it was let out, because of fire, tempest, flood, violence of an army or a mob, or other irresistible force, the lease may, at the option of the lessee, be avoided. This rule is incorporatod in s. 108(e) of the Transfer of Property Act and applies to leases of land to which the Tran:sfer of Property Act applies, and the principle thei'eof applies to agricultural leases and to leases in areas to which the Transfer of Property Act is not extend!>!. {345 D-F] In the present case the relation between the appellant and the reopandents did not rest in contract. It is !'rue that the representative Of the res- pandents-owners had accepted the tender of the apPe}lant and had granted him a lease on agreed terms. But the rights of the parties did not after the lease was aranted …
+
+**Contrary: Sushila Devi v. Hari Singh**, [1971] Supp 1 SCR 671 (`SC-S_1971_1_671_676`)
+
+Proposition: Section 56 does not apply to a completed lease, but an agreement to lease, where no registered lease was ever executed, is an executory contract that can be frustrated when Partition made it impossible to take possession.
+
+> ¶ p-9: which the promisor could not prevent, unlawful, becomes void when the act becomes impossible or unlawful." The conclusion of the Division Bench of the Jammu and Kashmir High Court that Section 56 of the Contract Act applies to leases as well cannot be accepted as correct. Section 56 applies only to a contract. Once a valid lease comes into existence the agreement to lease disappears and its place is taken by the lease. It becomes a completed conveyance under which the lessee gets an interest in the property. There. is a clear distinction between a completed conveyance and an executory contract. Events which discharge a contract do not invalidate a concluded transfer-see Raja Dhruv Dev Chand v. Harmohinder Singh and anr('). In view of that decision the view taken by some of the High Courts that Section 56 of the Contract Act applies to leases cannot be accepted as correct. Further the Eng …
+
+> ¶ p-10: But in thjs case there was no lease. There was .only an agreement to lease. As seen earlier, the agreement between the parties was that the properties in question should be leased to the plain- 'liffs for a period of three years. Such a lease could not have been validly made except under a registered instrument. As seen earlier the contract between the parties provided that the lease deed should be registered within 15 days from the date of the acceptance of the tender. For one reason or the other, the contemplated lease deed was neither executed nor registered. There. fore we have before us only an agreement to lease and not a lease. Such an agreement comes within the scope of Section 56 of the Contract Act.
+
+> ¶ p-12: … ties. The impossibility contemplated by Section 56 of the Contract Act is not confined to something which is not humanly possible. If the performance of a contract becomes impracticable or useless having regard to the object and purpose the parties had in view then it must be held that the performance of the contract has become impossible. But the supervening events should take away the basis of the contract and it should be of such a character that it strikes at the root of the contract. From the facts found in this case it is clear that the plaintiffs sought to take on lease the properties in question with a view to enjoy those properties either by personally cultivating them or by sub-leasing them to others. That object became impossible because of the supervening events. Further the terms of the agreement between the parties relating to taking possession of the properties also become …
+
+**Notes.** The Transfer of Property Act is not in the corpus, so s. 108(e) cannot be a gold section. The Court disapproved a Punjab High Court view that frustration applies to leases (p-14).
+
+**Reviewed by:** —
+
+---
+
+## JE-026 (dev, medium): frustration (refusal of an import licence)
+
+**Question.** Is a buyer excused from a contract to buy imported jute because the government refused it an import licence?
+
+**Facts.** A mill contracted to buy Pakistani jute, undertaking to obtain the import licence. The contract excused a delay in providing the licence up to November and provided that if the licence was not delivered in December the contract would be settled at the market rate on 2 January. The licensing authority refused the licence because the mill already had sufficient stock. The mill said the contract was frustrated or impossible to perform.
+
+**Issues.**
+- Was the contract frustrated or void under s. 56 because the licence was refused?
+- Did the buyer take on an absolute obligation to obtain the licence?
+
+**Sections.** contract_act:56, contract_act:32
+
+**Key points.**
+- Section 56 (with s. 32) governs; the courts look primarily to the statute, not English theories.
+- Hardship, inconvenience or material loss does not frustrate a contract; the obligation must become radically different.
+- A refusal caused by the party's own position (sufficient stock) is not a supervening event beyond its control.
+- A term that allocates the risk of the licence and fixes damages on default leaves no room for frustration or an implied term.
+
+**Supporting: The Naihati Jute Mills Ltd. v. Khyaliram Jagannath**, [1968] 1 SCR 821 (`SC-1968_1_821_832`)
+
+Proposition: Frustration needs a change that makes the performance radically different, not mere hardship or loss; where the licence was refused for a personal disqualification and the buyer had absolutely undertaken to furnish it, with damages fixed on default, neither impossibility nor an implied term relieves it.
+
+> ¶ p-12: A manifest that their application was refused because of a personal disqualification and not by reason of any force majeure. Since this was the position there is no question of the performance becoming impossible by reason of any change in the Government's policy which could not be foreseen bv the parties. No question a !so would arise of importing an implied term into the contract. 11 Assuming. however, that there was a change of policy and that the Government in the intervening period had decided to place an embargo on i~port of Pakistan jute the question would still be whether the appella'nts were relieved from liability for their failure to deliver the licence. A contract is not frustrated merely because the circumstances in which it was made are ·C altered. The Courts ha.ve no general power to absolve a party from the performance of his part of the contract merely because its perfor …
+
+> ¶ p-19: …  appellants had taken upon themselves absolutely the burden of furnishing the licence latest by the end of December 1958 and had stipulated that in default they would pay damages on the basis of price prevailing on January 2. 1959. That being the position the defence c of impossibility of performance or of the contract being void for that reason or that the court should spell out an implied term in the contract would not be available to them. In the view that we take that the said contract cannot be said to be or t0 have been void and that in altly event the stipulation as to obtaining the import licence was absolute, the question that the arbitration clause perished along with the contract and consequently the arbitrators had no jilrisdiction cannot arise. But assuming that the appellants had established frustration even then it would not be as if the contract was ab initio void and the …
+
+> ¶ p-9: It is not hardship or incOnvenience or material loss which brings about the principle of frustration into play. There must be a. . change in the significance of obligation that the thing undertaken would, if performed, be a different thing from that which was contracted for. · These theories have been evolved in the main to adopt a realistic approach to the problem Of performance of contract when it is found that owing. to causes unforeseen and beyond the control of the parties intervening between the date of the contract and the date of its performance it would be both unreasonable and unjust to exact its performance in the clianged circumstances. Though none of them was fuHy accepted and the court construed the contracts coming before them applying one or the other of th~ as aI1PC3ring to be more rational than the other, the conclUSIOns arrived at were the same. The necessity of evolvi …
+
+**Reviewed by:** —
+
+---
+
+## JE-027 (test, hard): promissory estoppel against the government
+
+**Question.** Can a company that built a factory relying on the government's assurance of a three-year sales-tax exemption hold the government to it when the government later offers only a partial concession?
+
+**Facts.** A State's officers assured a company, in writing, that a new vanaspati factory would be exempt from sales tax for three years from the start of production. Relying on the assurance, the company raised loans and built the factory. Before production began the State announced only a partial concession. There was no contract in the form required by Article 299, and the company gave no consideration for the assurance.
+
+**Issues.**
+- Is the government bound by its assurance under the doctrine of promissory estoppel, though there is no consideration and no formal contract?
+- Can the government escape by pleading executive necessity or waiver?
+
+**Sections.** contract_act:25
+
+**Key points.**
+- The promise must be intended to create legal relations and be meant to be acted on, and the promisee must have acted on it and altered its position.
+- No consideration and no Article 299 contract are needed; promissory estoppel can found a cause of action.
+- The government cannot plead executive necessity to go back on such a promise.
+- The doctrine cannot be used to compel the government to act against a statutory prohibition.
+- Waiver must be pleaded and proved as an intentional abandonment with knowledge.
+
+**Supporting: Motilal Padampat Sugar Mills Co. Ltd. v. State of Uttar Pradesh**, [1979] 2 SCR 641 (`SC-1979_2_641_698`)
+
+Proposition: Where the government makes a promise knowing or intending that it will be acted on, and the promisee alters its position in reliance, the promise binds the government though there is no consideration and no contract in the form of Article 299; executive necessity is no defence, and the promisee need only have altered its position, not suffered detriment.
+
+> ¶ p-57: The iaw may, therefore, now be taken lo be settled as a result of this decision that where the Government makes a promise knowing or intrnding that it would be acted on by the promises and, in fact, the promisee, acting in reliance on it, alters his position, the Government would be held bound by the promise and the promise would be enforceable against the Government at the instance of the promises, notwithstanding that there is no consideration for the promise and the promise is not recorded in the form of a formal contract I T MOTILAL SUGAR MILLS v. u. P. (Bhagwati, J.) 6~3 as required by Article 299 of the Constitution. It is elementary that in a Republic governed by the rule of law, no one, howsoever high or low, is above the law. Every one is subject to the law as fully and completely as any other and the Government is no exception. It is indeed the pride of constitutional democracy …
+
+> ¶ p-67: …  may be said of that of Lord Coheb. Then agaill' in Emmanuel Avodeji v. Briscoe (supra) Lord Hodson said: "This equity is. however, subject to the qualification (1) that the other party has altered his position''. The same requirement was also emphasised by Lord Diplock in Kammms Ballrooms Ltd. v. Zenith Investments (Torquay) Ltd. ( 3) What is necessary, therefore, is no more than that there should be alteration of position on the part of the promisee. The alteration of position need not involve any detriment to the promises. If detriment were a necessary eleme11t, there would be no need for the doctrine of promissory estoppel because in that event, in quite a few cases, the detriment would form the consideration and the promise could be binding as a contract. There 1s in fact not a single case in England where detriment is insisted upon as a. necessary ingredient (1) [19721 2 All E.R. 1 …
+
+> ¶ p-55: The defence of executive necessity was thus clearly negatived by this Court and it was pointed out that it did not release the Government from its obligation to honour the promis~ made by it, if the citizen, u~ting in reliance on the promise, had altered liis position. The doctrine of promissory estoppel was !ll such a case applicable against the Government and it could not be defeated by invoking the defence of executive necessity.
+
+> ¶ p-28: … uld be enforceable, if the promisee has altered his position to his detriment in reliance on the promise. We do not see any valid reason why promissory estoppel should not be allowed to found a cause of action where, in order to satisfy the equity, it is necessary to do so. We may point out that even in England where the judges apprnhcnding that if a cause of action is allowed to be founded on promissory estoppel it would considerably erode,, if not completely overthrow, the doctrine of consideration, have been fearful to allow promissory estoppel to be used as a weapon of offence, it is interesting to find that promissory e·stoppe.J has not been confined to a purely defensive role. Lord Denning himself said in Combe v. Combe (supra) that promissory estoppel "may be a part of a cause of action", though "not a canse of action itself'. In fact there have been several cases where promissory …
+
+**Notes.** Promissory estoppel is an equitable doctrine outside the Contract Act; s. 25 is the gold section because the doctrine enforces a promise without consideration (p-28 refers to the Law Commission's proposed exception to s. 25). The statutory-prohibition limit is discussed at p-38 and p-43. Later cases qualify the doctrine by overriding public interest; they are not gold here.
+
+**Reviewed by:** —
+
+---
+
+## JE-028 (test, hard): jurisdiction clauses (ss. 23, 28)
+
+**Question.** Can a consignment agent in Jaipur apply to the Rajasthan courts when its agreement says only that it "shall be subject to jurisdiction of the Courts at Kolkata"?
+
+**Facts.** An oil company appointed a consignment agent to market lubricants from Jaipur. The agreement, which the company says was signed in Kolkata, provided: "The agreement shall be subject to jurisdiction of the Courts at Kolkata." Part of the cause of action arose in Kolkata and part in Jaipur, where the goods were delivered and sold. After disputes, the agent applied to the Rajasthan High Court to appoint an arbitrator. The clause does not say "only", "alone" or "exclusive".
+
+**Issues.**
+- Is a clause choosing one of several competent courts void as an ouster of jurisdiction under ss. 23 and 28?
+- Does a clause without words like "only" or "exclusive" exclude the other competent courts?
+
+**Sections.** contract_act:23, contract_act:28
+
+**Key points.**
+- An agreement ousting the jurisdiction of all competent courts is void (ss. 23, 28), and parties cannot confer jurisdiction on a court that has none.
+- Choosing one of several courts that have jurisdiction through connecting factors is valid.
+- The absence of "only", "alone" or "exclusive" is not decisive; naming one competent court implies excluding the others unless something indicates the contrary.
+- A.B.C. Laminart reached the opposite result on a similar clause; the later decisions explain it as turning on its facts.
+- Here only the Kolkata courts (and the Calcutta High Court for the arbitrator) have jurisdiction.
+
+**Supporting: Swastik Gases P. Ltd. v. Indian Oil Corp. Ltd.**, [2013] 7 SCR 581 (`SC-2013_7_581_616`)
+
+Proposition: Where the contract names the courts of one place that have jurisdiction, the parties are taken to have excluded all other courts even without words like "alone", "only" or "exclusive" (expressio unius est exclusio alterius); such a clause is not hit by s. 23 or s. 28.
+
+> ¶ 31: … ement the words like 'alone', 'only', 'exclusive' cir 'exciusive ·jurisdiction' have not been used but this, in our view, is not decisive and does not make any.material difference. The intention of the parties - by having clause 18 in the agreement - is clear and unambiguous that the courts at Kolkata shall have jurisdiction which means that the courts at Kolkata alone.shall have jurisdiction. It is so because for construction of jurisdiction. ' clause, like clause 18 in the agreement, the maxim expressio unius est exc/usio alterius comes into play as there is nothing to indicate to the contrary. This legal maxim means that expression of one is the exclusion of another. By making a provision that the agreement is subject to the jurisdiction of the courts at Kolkata, the parti~s have impliedly excluded the jurisdiction of other courts. Where the contract specifies the jurisdiction of the  …
+
+> ¶ 14: 14. Hakam Singh3 is one of the earlier cases of this Court wherein this Court highlighted that where two Courts have territorial jurisdiction to try the dispute between the parties and the parties have agreed that dispute should be tried by only one of them, the court mentioned in the agreement shall have jurisdiction. This principle has been followed in many subsequent decisions. 3. Hakam Singh v. Mis. Gammon (India) Ltd; (1971) 1 SCC 286. · · A 15. In Globe Transport' while dealing with the jurisdiction clause which read "the Court in Jaipur City alone shall have jurisdiction in respect of all claims and matters arising (sic) under the consignment or of the goods entrusted for transportation", this Court held that the jurisdiction clause in the agreement was valid and effective and the Courts at Jaipur only had jurisdiction and not the courts at Allahabad which had jurisdiction over Na …
+
+> ¶ 26: … d to exclude the jurisdiction of the Courts in Salem, in all other similar cases an inference was drawn (explicitly or implicitly) that the parties intended the implementation of the exclusion clause as it reads notwithstanding the absence of the words "only", "alone" or "exclusively" and the like. The reason for this is quite obvious. The parties would not have included the ouster clause in their agreement were it not to carry any meaning at all. The very fact that the ouster clause is included in the agreement between the parties conveys their clear intention to exclude the jurisdiction of Courts other than those mentioned in the concerned clause. Conversely, if the parties had intended that all Courts where the cause of action or a part thereof had arisen would continue to have jurisdiction over the dispute, the exclusion clause would not have found a place in the agreement between th …
+
+**Contrary: A.B.C. Laminart Pvt. Ltd. v. A.P. Agencies**, [1989] 2 SCR 1 (`SC-1989_2_1_13`)
+
+Proposition: Choosing one of several competent courts is not a void ouster, but exclusion of the other courts must be clear, and "subject to Kaira jurisdiction" without words like "only" did not exclude the court where the goods were delivered.
+
+> ¶ p-15: So long as the parties to a contract do not oust the jurisdiction of all the Courts which would otherwise have jurisdiction to decide the cause of action under the law it cannot be said that the parties have by their contract ousted the jurisdiction of the Courts. If under the law several Courts would have jurisdiction and the parties have agreed to submit to one of these jurisdictions and not to other or others of them it cannot be said that there is total ouster of jurisdiction. In other words, where the parties to a contract agreed to submit the disputes A.B.C. LAMINART v. A.P. AGENCIES [SAIKIA, J.[ 9 arising from it to a particular jurisdiction which would otherwise also be a proper jurisdiction under the law their agreement to the extent they agreed not to submit to other jurisdictions cannot be said to be void as against public policy. If on the other hand the jurisdiction they agr …
+
+> ¶ p-18: … , and when a part of the cause of action had arisen at Salem, the Court there had also jurisdiction to entertain the suit under section 20(c) of the Code of Civil Procedure. From the foregoing decisions it can be reasonably deduced that where such an ouster clause occurs, it is pertinent to see whether there is ouster of jurisdiction of other Courts. When the clause is clear, unambiguous and specific accepted notions of contract would bind the parties and unless the absence of ad idem can be shown, the other Courts should avoid exercising jurisdiction. As regards construction of the ouster clause when words like 'alone', 'only', 'exclusive' and the like have been used there may be no difficulty. Even without such words in appropriate cas~es the maxim 'expressio unius est exclusio alterius' -expression of one is the exclusion of another may be applied. What is an appropriate case shall de …
+
+**Notes.** Swastik Gases has two opinions (Lodha J. for the Court, Lokur J. concurring) whose paragraph numbers overlap in the corpus: "31" and "14" are Lodha J.'s, "26" is Lokur J.'s review of the case law. The dispute was about appointing an arbitrator (s. 11 of the Arbitration Act), but the clause is construed under the Contract Act.
+
+**Reviewed by:** —
+
+---
+
+## JE-029 (test, hard): agreements contrary to statute (s. 23)
+
+**Question.** Is a lease void because the landlord let the building without the allotment order the rent control Act requires, so that neither party can rely on it?
+
+**Facts.** A landlord let a building in Uttar Pradesh to a tenant without obtaining an allotment order, as the State's rent control Act required. Disputes arose and the tenant argued that the lease was void as made in contravention of the Act, so the landlord could not enforce its terms. The Act makes an occupant without an allotment order an unauthorised occupant but does not say that such a lease is void.
+
+**Issues.**
+- Is a lease made in contravention of the rent control Act void under s. 23?
+- What remedy does the landlord have against an occupant without an allotment order?
+
+**Sections.** contract_act:23
+
+**Key points.**
+- An agreement whose object defeats a law or is forbidden by it is void under s. 23, but not every statutory contravention makes a contract void.
+- Where the statute does not declare such contracts void or require eviction, the parties are bound inter se (Nanakram, followed).
+- The landlord can also sue the occupant as an unauthorised occupant or trespasser; such a suit does not rest on the contract and is not barred by public policy.
+
+**Supporting: Nutan Kumar v. IInd Additional District Judge**, [2002] Supp 2 SCR 686 (`SC-S_2002_2_686_697`)
+
+Proposition: Unless the statute provides that a contract in contravention of it is void, or mandates eviction, the lease is not void and binds the parties between themselves; the landlord may also sue an occupant without an allotment order as a trespasser, a suit not on the contract.
+
+> ¶ p-21: In the case Nanakram v. Kundairai, reported in [1986] 3 SCC 83 the question was whether a lease in violation of statutory provisions was void. It was held that in the absence of any mandatory provision obliging eviction in -case of contravention of the provisions of the Act the lease would not be void and the parties would be bound, as between themselves, to .observe the conditions of lease. It was held that neither of them could assail the lease in a proceeding between themselves. This authority was in respect of the Central Provinces and Berar Letting of Houses and Rent Control Order, 1949, whereunder also the landlord was obliged to intimate a vacancy to the Deputy Commissioner of the District and the Deputy Commissioner could allot or direct the landlord to let the house to any person. The provisions were more or less identical to the provisions of the said Act. This authority has di …
+
+> ¶ p-28: …  for another reason also. Section 13 of the said Act specifically provides that a person who occupies, without an allotment order· in his favour, shall be deemed to be an unauthorised occupant of such premises. As he is in unauthorised occupation he is like a trespasser. A suit for ejectment of a trespasser to get back possession from a trespasser could always be tiled. Such a Suit would not be on th~ contract/agreement between the parties and would thus not be hit by principles of public policy also. Jn this view of the matter the decision of the Full Bench dated 20th May, 1993 cannot be sustained and is set aside. It is held that the law, as laid NUT AN KUMAR v. llND ADDITIONAL DISTRICT JUDGE (S.N. VARIAVA .. I.] 697 down in Nanakram 's case, still holds the field. Thus unless the statute specifically provides that a contract contrary to the provisions of the statute would be void the  …
+
+> ¶ h-1: HELD: I. The principle that iii the absence of any mandatory •f provision obliging eviction in case of contravention of the provisions of the Act the lease would not be void and the parties would be bound as between themselves, to observe the conditions of lease laid down in Nanakram 's case still hold the field. There is no contrary or connicting decision or authority. Full Bench of High Court was bound by the authority in Nanakram 's case and could not have taken a contrary view. 1693-B-C; 696-Ef Nanakram v. Kundairai, 1198613 SCC 83, affirmed.
+
+**Supporting: Nanakram v. Kundalrai**, [1986] 2 SCR 839 (`SC-1986_2_839_850`)
+
+Proposition: A lease made in contravention of a rent control order is valid between the parties, though it may not bind the rent control authority, and neither party can assail it as void in a proceeding between them.
+
+> ¶ p-11: … t on appeal the High Court reversed the decree holding that the suit was not maintainable in view of section 3, and in the circumstances, it dismissed the suit. On appeal to this Court, the Court repelled the plea raised by the appellants-landlords that the respondent was not a tenant and held that, therefore, permission was necessary in order to maintain the suit. In taking that view this Court referred to 1ldboo Dass v. Prell Prakash and Anr., A.I.R. 1964 Allahabad 1, where a Full Bench of the Allahabad High Court had laid down that a lease made in violation of the provisions of s. 7(2) of the U.P. Rent Act would be valid between the parties and would create a relationship of landlord and tenant between them although it NANAKRAM v. KUNDALRAI [PATHAK, J. ] 847 ._,...._ might not bind the Rent Control Officer. This Court did not doubt the correctness of the principle propounded in that c …
+
+> ¶ p-13: … nt Control Order, the Deputy Commissioner has t power under clause 28 to take steps and use force for the purpose of securing compliance with, or for preventing or rectifying, any contravention of the Rent Control Order. Clause 28 speaks of a power conferred on the Deputy Commissioner in that behalf. Nowhere does the Rent Control Order mandate that the Deputy Commissioner must eject a person who has entered into possession of a house in violation of clause 22. If upon a view of the circumstances prevailing then the Deputy Commissioner takes no action in the matter, there is no reason why the lease between the landlord and the tenant, although inconsistent with clause 22, should not be binding as between the parties thereto. It is not a void transaction. There is nothing in the Rent Control Order d'eclaring it to be so. Now if the lease is not void then it is not open to either party to a …
+
+**Notes.** The Court reaffirmed Nanakram v. Kundalrai (1986), a three-judge bench; Manna Lal Khetan (1977), which treats contracts prohibited by statute as void, is referred to in the headnote.
+
+**Reviewed by:** —
+
+---
+
+## JE-030 (test, medium): negative covenants during a franchise (s. 27)
+
+**Question.** Can a bottler under a subsisting franchise be restrained by injunction from bottling a competitor's drinks, or is the exclusivity clause void as a restraint of trade?
+
+**Facts.** A soft-drinks company granted a bottler a franchise to make and sell its beverages. The agreement barred the bottler from making or selling any competing beverage while the agreement subsisted, and could be ended only on a year's notice. A competitor then took control of the bottler, which gave 90 days' notice and began preparing to bottle the competitor's drinks. The franchisor sued for an injunction; the bottler said the negative covenant was void under s. 27.
+
+**Issues.**
+- Is a negative covenant operating only while the franchise subsists a restraint of trade void under s. 27?
+- Should an injunction be granted to enforce it?
+
+**Sections.** contract_act:27, specific_relief_act:42
+
+**Key points.**
+- Section 27 voids agreements restraining a lawful trade, and Indian law does not ask whether the restraint is reasonable.
+- A stipulation that operates only while the agreement subsists and promotes the trade is not a restraint of trade.
+- Restraints operating after the contract ends are treated differently and are void.
+- An injunction may enforce a negative covenant (s. 42 SRA), subject to the usual tests of prima facie case, balance of convenience and irreparable injury.
+
+**Supporting: Gujarat Bottling Co. Ltd. v. Coca Cola Co.**, [1995] Supp 2 SCR 514 (`SC-S_1995_2_514_555`)
+
+Proposition: A negative stipulation in a commercial franchise that operates only while the agreement subsists, and serves to promote the trade, is not a restraint of trade under s. 27, and its breach may be restrained by injunction.
+
+> ¶ p-26: If the negative stipulation contained in paragraph 14 of the 1993 Agreement is considered in the light of the observations inEsso Petroleum Co. Ltd. (supra), it will be found that the 1993 Agreement is an agreement for grant of franchise by Coca Cola to GBC to manufacture, bottle, sell and distribute the various beverages for which the trade marks were acquired by Coca Cola. The 1993 Agreement is thus a commercial agreement whereunder both the parties have undertaken obligations for promoting the trade in beverages for their mutual benefit. The purpose underlying paragraph 14 of the said agreement is to promote the trade and the negative stipulation under challenge seeks to achieve the said purpose by requiring GBC to wholeheartedly apply to promoting the sale of the products of Coca Cola. In that context, it is also relevant to mention that the said negative stipulation operates only du …
+
+> ¶ p-27: Since the negative stipulation in paragraph 14 ot the 1993 Agreement is confined in its application to the period of subsistence of the agreement and the restriction imposed therein is operative only during the period the' 1993 Agreement is subsisting, the said stipulation cannot be held to be in restraint of trade so as to attract the bar of Section 27 of the contract Act. We are, therefore, unable to uphold the contention of Shri Shanti Bhushan that the negative stipulation contained in paragraph 14 of the 1993 Agreement, being in restraint of trade, is void under Section 27 of the Contract Act.
+
+> ¶ p-39: … s would be rendered unemployed. We cannot lose sight of the fact that this complaint is being made by Pepsi through the mouth of the appellants. It is difficult to appreciate how Pepsi can ask Coca Cola to part with its trade secrets to its business rival by supplying the essence/syrup etc. for which Coca Cola holds the trade marks to GBC which is under effective control or Pepsi. Pepsi took a deliberate decision to take over GBC with the full knowledge of the terms of the 1993 Agreement. It did so with a view to paralyse the operations of Coca Cola in that region and promote its products. In view of the negative stipulation contained in paragraph 14 of the 1993 Agreement which has been enforced by the High Court, Pepsi has not succeeded in this effort. It must suffer the consequences of the failure of the effort and it cannot assail the interim injunction granted by the High Court by in …
+
+> ¶ p-36: … and injunction is normally granted as a matter of course, even though the remedy is equitable and thus in principle a discretionary one and a defendant cannot resist an injunction simply on the ground that observance of the contract is burdensome to him and its breach would cause little or no prejudice to the plaintiff and that breach of an express negative stipulation can be restrained even though the plaintiff cannot show that the breach will cause him any loss. See : Chitty on Contracts, 27th. Edn., Vol. I, General PrinH ciples, para 27-040 at p. 1310; Halsbury's Laws of Engla11d, 4th Edn. Vol. GUJ.BOTfLINGCO.LTD. v. COCACOLACO.[S.C.AGRAWAL,J.] 551 24, para 992. in India Section 42 of the Specific Relief Act, 1963 prescribes that notwithstanding anything contained in clause (e) of Section 41, where a contract comprises an affirmative agreement to do a certain act, coupled with a negat …
+
+**Supporting: Niranjan Shankar Golikari v. Century Spinning and Mfg. Co. Ltd.**, [1967] 2 SCR 378 (`SC-1967_2_378_390`)
+
+Proposition: Negative covenants operating during the term of a contract of service are not restraints of trade under s. 27 and can be enforced.
+
+> ¶ p-15: The courts however have drawn a distinction between restraints applicable during the term of the contract of employment and those that apply after its cessation. (Halsbury's Laws of England (3rd ed.) Vol. 38, p. 31). But in W. H. Mi/sted and Son Ltd. v. Hamp(') where the contract of service was terminable only by notice by the employer, Eve J. held it to be bad as being wholly one-sided. But where the contract is not assailable on any such ground, a stipulation therein that the employee shall devote his whole time to the employer, and shall not during the term of the contract serve any other employer would generally be enforceable. In Gaumont Corporation v. Alexander(6) clause 8 of the agreement provided that :
+
+> ¶ p-36: as the court would refuse lo enforce. There is therefore no validity in the contention that the negative covenant contained in clause 17 amounted to a restraint of trade and was therefore against public policy.
+
+**Contrary: Superintendence Company of India (P) Ltd. v. Krishan Murgai**, [1980] 3 SCR 1278 (`SC-1980_3_1278_1301`)
+
+Proposition: A restraint that operates after the contract ends falls within s. 27 and cannot be enforced, however reasonable.
+
+> ¶ p-13: … pellant company sholl1d have taken care · td use appropriate language while incorporat~ of employment arising from any reason whats0ever and not used the expression "leave," which normally is synonymous to the expression · "quit" and indicates voluntary act on the part of the employee. In the reswt the appeal is dismissed with no order as to costs. SEN, J. I regret that my learned brethren propose to express nd opinion on the question on which, in my view, the appeal turns. The question is whether a negative covenant which restricts the right of the employee, after the cdnclusion of the term of service, or the termination of the employment for other reasons, to engage in any business similar to or competitive with that of the employer, is in restraint of1 trade and, therefore, void under section 27 of the Contract Act,' 1972. i have no doubt in my mind that the appeal · can'not be decide …
+
+> ¶ p-20: Four questions arise in this appeal : 1. Whether Clause 1 O of the agreement was in restraint of trade; and if so, being partial was }. valid and enforceable being reasonable?; 2. Whether according to the test of reasonableness laid down by Lor!! Macnaghten irt Norden/ell v. Hakim Nordenfelt Guns & Ammunition Co. Ltd.,(') an injunction to enforce the negative covenent can be granted under illustrations ( c) and ( d) to section 57 of the Specific Relief Act, 1963, despite section 27 of the Contract Act, 1872? 3. Whether, and to what extent, the provisions of Section 27 of the Contract Act are subject to the common law doctrine of restraint of trade ? 4. Whether the word "leave" in Clause 10 of the agreement between y the parties makes the negative covenant operative only when a servant voluntarily leaves his employment, or, applies even in a case of termination of his services by an order …
+
+**Notes.** The Court also held that the 1993 franchise agreement was not superseded by a later registered-user agreement, so the one-year notice still applied (p-13).
+
+**Reviewed by:** —
+
+---
+
+## JE-031 (dev, medium): money paid under a mistake of law (s. 72)
+
+**Question.** Can a trader recover sales tax it paid under a law later held invalid, when it paid without protest and the State has spent the money?
+
+**Facts.** A bullion dealer was assessed to sales tax on its forward transactions in silver for three years and paid the tax. The High Court later held the levy of sales tax on forward transactions ultra vires, so the tax had not been due. The dealer asked for a refund and, when it was refused, applied to the High Court. The State argued that the payments were voluntary, made under a mistake of law rather than fact, and that it had spent the money in the ordinary course of government.
+
+**Issues.**
+- Does "mistake" in s. 72 include a mistake of law?
+- Can the State resist repayment because the payment was voluntary or the money has been spent?
+
+**Sections.** contract_act:72, contract_act:21
+
+**Key points.**
+- Section 72 makes no distinction between a mistake of law and a mistake of fact.
+- There is no conflict with s. 21, which concerns contracts caused by a mistake of law, not payments of money not due.
+- A tax is treated like any other payment not due; there is no special rule for taxes.
+- That the receiver has spent the money is no defence; recovery remains subject to estoppel, waiver, limitation or the like.
+
+**Supporting: Sales Tax Officer, Banaras v. Kanhaiya Lal Mukundlal Saraf**, [1959] 1 SCR 1350 (`SC-1959_1_1350_1367`)
+
+Proposition: "Mistake" in s. 72 covers a mistake of law as well as of fact, so money paid under a mistake of law, including a tax not due, must be repaid, even if paid voluntarily and even if the State has spent it; equitable considerations cannot cut down the plain terms of s. 72.
+
+> ¶ p-24: W eo are of opinion that this interpretation put by Bhagwati J. their Lordships of the Privy Council on s. 72 is correct. There is no warrant for ascribing any limited meaning to the word ' mistake ' as has been used therein and it is wide enough to cover not only a mistake of fact but also a mistake of law. There is no conflict between the provisions of s. 72 on the one hand and ss. 21 and 22 of the Indian Contract Act on the other and the true principle enunciated is that if one party under. a mistake, whether of fact or law, pays to another party money which is not due by contract or otherwise that money must be repaid. The mistake lies in thinking that the money paid was due when in fact it was not due and tha.t mistake, if established, entitles the party :uaying the money to recover it back from the party receiving the same.
+
+> ¶ p-26: … t, if money is paid voluntarily, without compulsion, extortion, or undue influence, without fraud by the person to whom it is paid and with full knowledge of all the facts, it cannot be recovered, although paid without consideration, or in discharge of a claim which was not due or which might have been successfully resisted." The principle of estoppel which has been adverted to by the Privy Council in Shiba Prasad Singh v. Srish Chandra N andi (') as disentitling the plaintiff to recover the monies paid under mistake can best be illustrated by the decision of the Appeal Court in England reported in Holt v. Markham ( 3) where it was held that as .the defendant had been led by the plain- • 'tiffs' conduct to believe that he might treat the money as his own, and in that belief had altered his position by spent!ing it, the plaintiffs were estopped from allegi>1g that it was paid under a "mis …
+
+> ¶ p-29: That ratio was applied by their Lordships to the . facts of the case before them and the contention was negatived. Merely because the State of U. P. had not retained the monies paid by the respondent but had spent them a way in the ordinary course of the business of the State would not make any difference to the µpsition and under the plain terms of s. 72 of the Indian Contract Act the respondent would be entitled to recover back the monies paid by it to the State of U. P. under mistake of law.
+
+> ¶ p-7: As will be observed the section in terms does nut make any distinction between a mistake of law or a mistake of fact. Tho term " mistake " has been used without any qualification or limitation whatever and comprises within its scope a mistake of law as well a.s a mistake of fact. It was, however, attempted to be argued on the a11!1logy of the position in law obtaining in England, America and Australia that money pa.id under a mistake of law could not be recovered and that that was also the intcndment of s. 72 of the Indian Contract Act.
+
+**Notes.** The Court followed the Privy Council in Shiba Prasad Singh v. Srish Chandra Nandi (p-22 to p-24) and disapproved a Nagpur view that spending the money bars recovery (p-28).
+
+**Reviewed by:** —
+
+---
+
+## JE-032 (test, hard): substituted contract and the arbitration clause (s. 62)
+
+**Question.** After the parties settle disputes under cancelled supply contracts by a new settlement agreement, can the government invoke the arbitration clause of the original contracts?
+
+**Facts.** A contractor had three contracts to supply military stores, each with a wide arbitration clause. The government cancelled them, and claims and counter-claims followed. The parties then signed a settlement under which the contractor agreed to pay fixed sums by instalments. The contractor paid part and defaulted. The government referred the whole dispute to arbitration under the original contracts, and the arbitrator made an award in its favour.
+
+**Issues.**
+- Did the settlement substitute a new contract for the original contracts (s. 62)?
+- Did the arbitration clause of the original contracts survive the substitution?
+
+**Sections.** contract_act:62, contract_act:63
+
+**Key points.**
+- Under s. 62, if the parties substitute a new contract, the original need not be performed; whether they intended substitution is a question of fact.
+- Once the original contract is extinguished by substitution, its arbitration clause goes with it, and disputes are governed by the new contract.
+- Distinguish repudiation, frustration or breach, where the contract survives for disputes about it and so does the arbitration clause.
+- Non-performance of the new contract does not revive the old one unless the new one was conditional.
+
+**Supporting: Union of India v. Kishorilal Gupta and Bros.**, [1960] 1 SCR 493 (`SC-1960_1_493_526`)
+
+Proposition: Parties may discharge a contract by a substituted agreement; the original contract is then extinguished and its arbitration clause perishes with it, whereas on repudiation, frustration or breach the contract survives for the purposes of disputes and so does the clause.
+
+> ¶ p-25: "The plaintiff may agree to accept the performance of a substituted consideration in satisfaction, or he may agree to. accept the promise of such performance. In the former there is no satisfaction until performance, and the debtor remains liable . upoI\ the original claim until the satisfaction is executed. . In the latter, if the promise be not performed, the plaintiff's remedy is by action for the breach of the substituted agreement, and he has no right of resort to the original claim." _ From the aforesaid authorities it is· manifest that a cont.ract may be discharged by the parties thereto by a substituted agreement and thereafter the original cause of action arising under the earlier contract is discharged and the parties are governed only by the terms of the substituted contract. The ascertainment of t>he intention of the parties is essent.ially a question of fact to be decided on …
+
+> ¶ p-27: … n the question whether the said contract was discharged by any of the ways known to law came within its fold. z959 Uninfluenced by authorities or case.Jaw, the logical n u -. - 1 1 d' outcome of the earlier discussion would be that the ' n•o; 0 n •a arbitration clause perished with the original contract. Kishor11:1 Gupta Whether the said clause was a substantive term or a <5- Bros. collateral one, it was none the less an integral part of the contract, which had no existence de hors the Subba Rao J. contract. It was intended to cover all the disputes arising under the conditions of, or in connection with, the contracts. Though the phraseology was of the widest amplitude, it is inconceivable that the parties intended its survival even after the contract was mutually rescinded and substituted by a new agreement. The fact that the new contract not only did not provide for the survival of the …
+
+> ¶ p-44: x959 original contract is extinguished by the substituted The u -. - 1 d' one, the arbitration clause of the original contract m';, 0 1 " ••perishes with it; and (6) between the two falls many Kishorilal Gupta categories of disputes in connection with a contract, <f.. Bro.<. ~uch as the question of repudiation, frustration, breach etc. In those cases it is the performance of the contract Subba Rao J. that has come to an end, but, the contract is still in existence for certain purposes in respect of disputes arising under it. or in connection with it. As the contract subsists for certain purposes, the arbitration clause operates in respect of these purposes. Sarkar].
+
+> ¶ p-45: … t the new contract was not a conditional one and after its execution t.he parties should work out their rights only under its terms. In this view, the judgment of the High Court is c-orrect. This appeal fails and is dismissed with costs. SARKAR J.-On different dates in 1943 and 1944, a firm of contractors of the name of Kishorilal Gupta & Brothers entered into three contracts with the appellant. to fabricate and supply certain milita.1·y stores. The first eontraut was for 43,000 ladles cook, the second for 15,500 bath ovals and the third for 1,00,000 kettles camp. Each of these contracts contained an arbitratfon clause. The last mentioned contract provided that the appellant would supply materials for the fabrication of the articles to be delivered under it. Before the contracts had been finally executed, disputes arose between die parties. These disputes were settfad by mutual agreement …
+
+**Notes.** Sarkar J. dissented, holding that the settlement only settled disputes about breach and did not substitute a new contract (p-76). The survival of arbitration clauses is now also governed by the separability rule in s. 16 of the Arbitration and Conciliation Act, 1996, which is not in the corpus.
+
+**Reviewed by:** —
+
+---
+
+## JE-033 (test, hard): extension of time for performance (s. 63)
+
+**Question.** Can a buyer sue for non-delivery on the footing that the delivery period was extended, when the seller's letter proposing the extension contained a vague condition the buyer never accepted?
+
+**Facts.** A mill agreed to deliver printed cloth to a buyer in September and October 1942. During a political strike the mill wrote that the time for delivery would be "automatically extended for the period the working is stopped and till the normal state of affairs recurs". The buyer never accepted the second condition. The mill did not deliver, and the buyer sued for damages on the footing that the delivery period had been extended.
+
+**Issues.**
+- Can a promisee extend time for performance under s. 63 unilaterally, and how must an extension be agreed?
+- Was there a binding agreement to extend time given the vague second condition?
+
+**Sections.** contract_act:63, contract_act:29
+
+**Key points.**
+- Section 63 lets the promisee extend time, but the extension must be agreed by both parties; neither can extend it for its own benefit alone.
+- An agreement to extend time need not be in writing; it can be oral or inferred from conduct.
+- A condition in the extension that is vague and uncertain (s. 29), and not accepted, leaves no concluded agreement to extend.
+- Without a valid extension, damages cannot be measured on the extended date.
+
+**Supporting: Keshavlal Lallubhai Patel v. Lalbhai Trikumlal Mills Ltd.**, [1959] 1 SCR 213 (`SC-1959_1_213_226`)
+
+Proposition: An extension of time under s. 63 must rest on an agreement between the parties, not the promisee's unilateral act, though it may be oral or shown by conduct; a proposal for extension subject to a vague condition that was never accepted creates no binding extension.
+
+> ¶ p-2: The true legal position in regard to the extension t>f time •for the performance of a contract is quite cleat ' •under s. 63 of the Indian Contract Act. Every promisee, as the section provides, may extend time for the performance of/the contract. The que~tion as to how "'<. extension of time may be agreed upon by the parties has been the subject1-matter of some argument at the Bar in the present appeal. There can be no doubt, we think, that both the buyer and the seller must agree to extenB. time for the delivery of goods. It would not be open to the promisee by his unilateral act to extend '958 the time for performance of his own accord for his own Keshav-;:;; Lallu- benefit. It is true that the agreement to extend time bhai Patel need not necessarily be reduced to writing. It may be • v. proved by oral evidence. In some cases it may be Lalbhai Trikumlal proved by evidence of conduct. F …
+
+> ¶ p-3: … ortunate if the law should say otherwise ". "You would find ", observed the learned Lord Justice," defaulters all scanning their contracts to find some meaningless clause on which to ride free".· In our opinion, this decision can be of no assfStance to the appellants' case before us. The second .condition in the letter in question constitutes a clause which had to be agreed upon by the parties since it formed one of the conditions of the respondent's proposals for the extension of time. The respondent's proposal was to extend time for the performance of the contract subject to two conditions and unless both the conditions were agreed upon between the parties th~re would be no valid or binding extension of time under s. 63 of the Indian Contract Act. The fact that the second condition introduced by the respondent is vague and uncertain, does not neoossarily show that the said condition wa …
+
+> ¶ h-3: uncertain does not necessarily show that it was intended to be treated as a meaningless surplusage. As there was no acceptance Keshavlal Lallu- by the appellants of the second condition there was no valid or bhai Patel binding agreement for extension of time under s. 63 of the Indian "v. Contract Act.
+
+**Notes.** The Court decided against the buyer "with some reluctance", noting the mill's lack of bona fides; the vagueness plea was first raised in the High Court (p-5, p-6).
+
+**Reviewed by:** —
+
+---
+
+## JE-034 (test, medium): pledge (rights of the pawnee, s. 176)
+
+**Question.** Can a lender who received goods in pledge sue on the promissory note for the debt while denying the pledge and being unable to return the goods?
+
+**Facts.** A lender advanced money against a promissory note. The borrower agreed to pledge aircraft scrap as security and said he delivered it to the lender's premises. The lender denied that the goods were ever delivered and sued on the note. The trial court found that the goods had been delivered to and were in the lender's custody, but the lender could not produce them.
+
+**Issues.**
+- What are a pawnee's rights on the pawnor's default under s. 176?
+- Can the pawnee obtain a decree for the debt if he cannot redeliver the pledged goods?
+
+**Sections.** contract_act:176, contract_act:172
+
+**Key points.**
+- A pledge is a bailment of goods as security for a debt (s. 172).
+- On default the pawnee may sue on the debt and retain the goods as collateral, or sell them after reasonable notice and account for the surplus (s. 176).
+- Until sale the pawnor may redeem the goods on paying the debt.
+- A pawnee who cannot redeliver the goods, having denied the pledge or parted with them, cannot recover the debt.
+
+**Supporting: Lallan Prasad v. Rahmat Ali**, [1967] 2 SCR 233 (`SC-1967_2_233_240`)
+
+Proposition: On default the pawnee may sue on the debt while retaining the goods as security, or sell them after reasonable notice; but the right to sue assumes he can redeliver the goods on payment, so a pawnee who has denied the pledge or cannot return the goods cannot get a decree for the debt.
+
+> ¶ p-11: … d provides that in case of default by the pawner the pawnee has (I) the right to sue upon the debt and to retain the goods as collateral security and (2) to sell the goods after reasonable notice of the intended sale to the pawner. Cncc the pawnee by virtue of his right under section 176 sells the goods the right of the pawner to redeem them is of course extinguished. But as aforesaid the pawnee is bound to apply the sale proceeds 1owards satisfaction of the debt and pay the surplus, if any, to the pawner. So long, however, as the sale does not take place the pawner is entitled to redeem the goods on payment of the debt. It follows therefore llhat where a pawnee files a suit for recovery of debt, though he is entitled to retain the goods he is bound to return them on payment of the debt. The right to sue on the debt assumes that he is in a position (o redeliver the goods on payment of th …
+
+> ¶ h-1: HELD : The appellant would not be entitled· to a decree on the promissory note and also retain the goods found to have been deliverec;. to him and to be in his custody. [240 F.G] · Section 176 of the Indian Contract Act, 1872. deals with the rights of a pawnee and provides that in. case of .default by tho pawner the· pawnec has (I) the right to sue upon the debt and to retain the goods as collateral security, and (2) the right to sell the goods after reasonable notice of the intended sale to the pawner. So Jong, however. as theSi!le docs not take place, the pawner is entilted to redeem the goods on payment of the deht. Therefore, the right to sue on the debt assumes th~t he is in ~ position to redeliver the goods on payment of t'1e debt, and. 1f by denying the pledge or otherwise, he has put himself 1n 11 pos1tton whereby he 1s not ·able to redeliver the goolls, he cailnot obtain a decre …
+
+**Reviewed by:** —
+
+---
+
+## JE-035 (test, medium): determinable contracts (s. 14 SRA)
+
+**Question.** Can a distributor whose distributorship was wrongly terminated obtain restoration of the distributorship, when the agreement allowed either party to end it on thirty days' notice?
+
+**Facts.** An oil company appointed a distributor of cooking gas under an agreement that the company could end forthwith on specified defaults, and that either party could end on thirty days' notice without giving reasons. The company terminated the distributorship at once, alleging a default. An arbitrator found that no default under the forthwith clause was proved, and awarded restoration of the distributorship and compensation until restoration.
+
+**Issues.**
+- Can a contract that is in its nature determinable be specifically enforced by restoring it?
+- What compensation is due for a wrongful termination of a contract terminable on notice?
+
+**Sections.** specific_relief_act:14, contract_act:73
+
+**Key points.**
+- A contract terminable at will or on notice is "in its nature determinable" and cannot be specifically enforced (s. 14(1) SRA).
+- Wrongful termination sounds in damages, not restoration of the contract.
+- Damages are limited to what the party would have earned during the notice period, since the other side could lawfully have ended the contract by notice.
+- The claim rests on private contract law; public-law (Article 14) arguments do not change the remedy where the suit is for breach of contract.
+
+**Supporting: Indian Oil Corporation Ltd. v. Amritsar Gas Service**, [1990] Supp 3 SCR 196 (`SC-S_1990_3_196_211`)
+
+Proposition: A distributorship revocable by either party on notice is a contract in its nature determinable, which s. 14(1) of the Specific Relief Act bars from specific enforcement; restoring it is an error of law, and the only relief for wrongful termination is compensation for the notice period.
+
+> ¶ p-29: … s one for an indefinite period, that is, till terminated in accordance with Clauses 27 and 28. The finding in the award being that the Distributorship Agreement was revokable and the same being admittedly for rendering personal service, the relevant provisions of the Specific Relief Act were automatically attracted. Sub-section ( 1) of Section 14 of the Specific Relief Act specifies the contracts which cannot be specifically enforced, one of which is 'a contract which is in its nature determin- able'. In the present Call!', it is not necessary to refer to the other clauses of Sub-section (1) of Section 14, which also may be attracted in the present case since clause (c) clearly applies on the finding read with the reasons given in the award itself that the contract by its nature is determinable. This being so granting the relief of restoration of the distributorship even on the finding t …
+
+> ¶ p-31: …  of the Agreement. No doubt, the notice of termination of distributorship dated ll.3.1983 specified the several acts of the distributor on which the termination was based and there were complaints to that effect made against the distributor which had the effect of prejudicing the reputation of the appellant-Corporation; and such acts would permit exercise of the right of termination of distributorship under clause 27. However, the arbitrator having held that clause 27 was not available to the appellant-Corporation, the question of grant of relief on that finding has to proceed on that basis. In such a situation, the Agreement being revokable by either party in accordance with clause 28 by giving thirty days' notice, the only relief which could be granted was the award of compensation for the period of notice, that is, 30 days. The plaintiff-respondent No. 1 is, therefore, entitled to com …
+
+> ¶ h-1: HELD: 1. The fmding in the award being that the Distributorship Agreement was revokable and the same being admittedly one for rendering personal service, the relevant provisions of the Specific Relief Act were automatically attracted. Sub-section (1) of Section 14 of the Specific Relief Act specifies the contracts which cannot be specifically enforced, one of which is 'a contract which is in its nature deterB minable'. [209C-E] 2. Agreement being revokable by either party in accordance with clause 28 by giving thirty days' notice, the only relief which could be granted was the award of compensation for the period of notice, that is 30 days. [2108-D] 3. Granting the relief of restoration of the distributorship even on the f"mding that the breach was committed by the appellant-Corporation is contrary to the mandate Is Section 14(1) of the Specific Relief Act and there is an error of law ap …
+
+**Notes.** The case concerned setting aside an award for an error of law on its face (Arbitration Act, 1940). The 2018 amendment to the Specific Relief Act rewrote s. 14 but kept determinable contracts outside specific performance; the corpus holds the Act as curated in D-014.
+
+**Reviewed by:** —
+
+---
+
+## JE-036 (dev, medium): order of reciprocal promises (ss. 51-52)
+
+**Question.** Can a seller rescind an agreement for sale because the buyer did not pay the balance on the due date, when the seller had not first done what he undertook to clear his title?
+
+**Facts.** A seller agreed in writing to sell a ginning factory and its land for a fixed price. The buyer paid part of the price and was let into possession, promising to pay the balance by a fixed date. The seller undertook to have his brother's name removed from the revenue records and needed the Collector's sanction for the transfer; neither was done by the due date. The buyer had arranged a bank loan to pay the balance but did not pay. The seller rescinded the contract and sued for possession.
+
+**Issues.**
+- Was the buyer bound to pay the balance before the seller performed his undertakings?
+- Was the buyer ready and willing to perform, so as to protect his possession?
+
+**Sections.** contract_act:51, contract_act:52
+
+**Key points.**
+- When reciprocal promises are to be performed in an order fixed by the contract, the party whose promise comes first must perform it before demanding performance (s. 52, and s. 51 for simultaneous promises).
+- Willingness to perform is judged in the light of that sequence.
+- A buyer who made arrangements to pay was ready and willing; the seller could not rescind for non-payment while in default himself.
+- The buyer in possession under the agreement can defend his possession (part performance, s. 53A TPA).
+
+**Supporting: Nathulal v. Phoolchand**, [1970] 2 SCR 854 (`SC-1970_2_854_860`)
+
+Proposition: Where obligations are to be performed in a sequence, a party cannot require the other to perform without first performing his own earlier obligation; a buyer who had arranged the money was willing to perform, and could not be called on to pay while the seller had not cleared the revenue records and obtained sanction.
+
+> ¶ p-16: In considering whether a person is willing to perform his part of the contract the sequence in which the obligations under a contract are to be ptrformed must be taken into account. The argument raised by Mr. Shroff that Nathulal was bound to perform the two conditions only after the amount of Rs. 21,000 - :F was paid is plainly contrary to the terms of the agreement. By virtue of s. 4 of the Transfer· of Property Act the chapters and sections of the Transfer of Prdperty Act which relate to contracts are to be taken as part of the Indian Contract Act, 1872. If, therefore, under the terms, of the contract the obligations of the parties have to be performed in a certain sequence, one of the .C parties to the contract cannot require compliance with the obligations by the other party without in the first instance performing his own part of the contract which in the sequence of obligations is …
+
+> ¶ p-17: In view of the arrangement made by Phoolch~1•d it was clear that he had at all relevant times made necessary arrangements for lH paying the amount du~. but so Jong as l'\athulal did not carry out his part of the contq1ct, Phoolchand could not be called upon to pay the balance of !!he price. It must, therefore, be held, that Phoolchand was at all relevant times willing to carry out his part A. of the. contract.
+
+> ¶ p-4: … leiion of his brothelr's name from the revenue records, and it was further an implied condition of the contract that the appellant would secure the sanction of the Collector to the transferor under s. 70( 4) of the Madhya Bharat Land Revenue and Tenancy Act, 66 of 1950. The first condition was not fulfilled in due time and the second condition was never fulfilled. The repeal of Act 66 of 1950 by the Madhya Pradesh Land Revenue Code, J 959 did not have retrospective operation. · (iii) In view of the arrangement made by the respondent it was clear that he had at all relevant times made necessary arrangements for paying the amount due, but so Jong as the appellant did not carry out h'.s part of the contract the respondent could not be called upon to pay the · b'alance of the price. It must therefore be held that the respondent was ·at all times ready and willing to carry out his part of th' …
+
+**Notes.** Section 53A of the Transfer of Property Act (part performance) is not in the corpus. The trial court had found the buyer at fault; the High Court and the Supreme Court held otherwise.
+
+**Reviewed by:** —
+
+---
+
+## JE-037 (test, hard): pledge and seizure by the State
+
+**Question.** When the government lawfully seizes goods pledged with a bank, must it pay the bank what the pledge secured, or can it apply the price to the pledgor's other dues?
+
+**Facts.** A sugar company borrowed from a bank on a cash-credit account, pledging stocks of sugar kept in the bank's godown. Acting under lawful orders, the government seized part of the pledged sugar, and the sale proceeds deposited in the treasury were then attached for arrears of sugar cess owed to the State. The bank sued the State for the amount the sugar secured.
+
+**Issues.**
+- What interest does a pawnee have in the pledged goods?
+- Does a lawful seizure by the State defeat the pawnee's claim to be paid first?
+
+**Sections.** contract_act:172, contract_act:176, contract_act:180
+
+**Key points.**
+- A pledge gives the pawnee a special property or interest in the goods, while the general property stays with the pawnor; it is more than a right of detention.
+- The pawnee's right to sell on default gives it priority over the pawnor's unsecured creditors.
+- A lawful seizure cannot deprive the pawnee of the amount the pledge secured; the seizing authority must pay it and may keep only the surplus.
+- The bailee's remedies against third parties (s. 180) support the pawnee's claim.
+
+**Supporting: Bank of Bihar v. State of Bihar**, [1971] Supp 1 SCR 299 (`SC-S_1971_1_299_304`)
+
+Proposition: A pawnee has a special property in the pledged goods, not a mere lien, and no other creditor of the pawnor can take the goods or their price until the pawnee is paid; a State that lawfully seizes pledged goods must reimburse the pawnee what it would have realised, and is entitled only to the surplus.
+
+> ¶ p-6: … reditors of the pawnor without the claim of the pawnee being fully satisfied. The pawnee bas special property and a lien which is not of ordinary nature on the goods and so long as his claim is not satisfied no other creditor of the pawnor has any right to take away the goods or its price'. After the goods had been seized by the Government it was bound to pay !he amount due to the plaintiff and the balance could have been made available to satisfy the claim of other creditors of the pawner. But by a mere act of lawful seizure the Government could not deprive the plaintiff- of the amount which was secured by the pledge of the goods to it. As the act of the Government resulted in deprivation of the amount to which the plaintiff was entitled it was bound to reimburse the plaintiff for such amount which the plaintiff in ordinary course would have realized by sale of the goods pledged with it …
+
+> ¶ p-8: (4) Halsbury's L.:ws of England Jrd Ed. Vol. 29 p. 222. goods was not meant to replace the liability under the cash credit agreement. It was intended to give the plaintiff a primary right to sell the goods in satisfaction of the liability of the pawnor. The Cane Commissioner who was an unsecured creditor could not have any higher rights than the pawnor and was entitled only to the surplus money after satisfaction of the plaintiff's dues. Defendants 3 to S did not file any appeal against the judgment of the High Court. The decree passed by the High Court against them would, therefore, stand. In the view that we have taken the appeal is allowed, the Judgment and decree of the High Court dismissing the suit against the State of Bihar is hereby set aside and a decree is granted against the State of Bihar in the same terms as was granted by the trial court. The appellant will be entitled to c …
+
+> ¶ h-1: HELD: The pawnee had special property and a lien which was not of ordinary nature on the goods and so long as his claim was not satisfied no other creditor of the pa\\·nor had any right to take away the goods or its price. After the goods had been seized by the Government it was bound to pay the amount due to the plaintiff and the balance could have been made available to satisfy the claim of other creditor of the pawnor. But by a mere act of lawful seizure the Government could not deprive the plaintiff of the amount which was secured by the pledge of the good< to it. As the act of the Government resulted in deprivation of the amount to which the plaintiff was entitled it was bound to reimburse the plaintiff for such atnount which the plaintiff in ordinary course would have realized by sale of the goods pledged with it on the pawnor making a default in the payment of debt. [303E-G] The t …
+
+**Notes.** The High Court had held that the pawnee had only possession with a power of sale (p-4); the Supreme Court reversed.
+
+**Reviewed by:** —
+
+---
+
+## JE-038 (test, medium): accord and satisfaction (s. 63)
+
+**Question.** Can creditors who accepted a lesser sum from a third party and endorsed the promissory notes "in full satisfaction" later sue the debtor for the balance?
+
+**Facts.** Jewellers sold jewellery to a prince on credit and held his promissory notes. Years later a State committee, settling the prince's debts out of a special fund, offered them a reduced sum in full satisfaction of their claim. The paying authorities made it clear they would pay only against a full discharge. The jewellers protested at first, then took both instalments and endorsed the notes as paid in full. They later sued the prince for the balance, saying the endorsements were obtained by pressure.
+
+**Issues.**
+- Did accepting the lesser sum in full satisfaction discharge the whole debt under s. 63?
+- Does it matter that the payment came from a third party and not from the debtor?
+
+**Sections.** contract_act:63, contract_act:41
+
+**Key points.**
+- Under s. 63 a promisee may remit performance wholly or in part, or accept any satisfaction instead; no fresh consideration is needed.
+- Under illustration (c), a smaller payment by a third party accepted in satisfaction discharges the whole claim.
+- Under s. 41, once the promisee accepts performance from a third person, he cannot enforce the promise against the promisor.
+- Whether money was accepted in full satisfaction is a question of fact on the terms on which it was offered and kept; a plea of coercion must be pleaded and proved.
+
+**Supporting: Kapur Chand Godha v. Mir Nawab Himayatalikhan Azamjah**, [1963] 2 SCR 168 (`SC-1963_2_168_182`)
+
+Proposition: A promisee may accept any satisfaction he thinks fit instead of performance (s. 63, illustration (c)); creditors who took a lesser sum offered only in full satisfaction and endorsed the notes accordingly cannot sue for the balance, and under s. 41 performance accepted from a third person cannot afterwards be enforced against the promisor.
+
+> ¶ p-17: It seems to us that this case is completely covered by 1. 63 and illustration ( c) thereof. The appellants having accepted payment in full eatisfactJon of their claim, are not now Antitled to sue the respondent for the balance. A reference may also be made in tbiq conn'-'ction to s. 41 of the Contract Act under which when a promisee accepts performanGe of the promise from a third person. he cannot afterwards enforce it against the promisor. There is some English authority 'to the t>ft'eot that discharge of a contract by a third person is effectual only if authorised or ratified by the debtor. In India, however, the words of s. 41 of the Contract Act leave no room for doubt. and when the appellants have accepted performance of th'3 promise from a third .person, they cannot afterwards enforce it against the promiser, namely, the respondent. 'When a statute clearly covers a case, it is hard …
+
+> ¶ p-21: Kotur CA.nd Godlao v. Mi, Nowt.I> Himoyatnli.t.\an ...tumjo,\ maintain the action. The 0&86 was considered ond"'r the English law and it was observed that assuming that there was no aooord and satisfaction in the strict sense of the law in England, it could still be held that the creditor had ceased really to be holder of the negotiable instrument on which he sued. With the nicetirs of English law in the matter of accord and satisfaction we are not concerned. The position in the present case is the.t the appellants must have known that they could receive the second instalment and retain the first instalment by accep· ting the condition OD which the sum or Rs. 20 lacs was offered to them, namely that they must record a full satisfaction or their claim. They accepted the money on the condition OD which it was offered and it is not now open to them to say, either in fact or in law, that the …
+
+> ¶ p-12: … ereon full payment and satisfaction. The question of coercion was introduced as and by way of after-thought. Two facts seem to be clearly established by the evidence ofMadhava Rao. One is that the authorities r13fused to pay the second instalment unless full satisfaction of the claim was endorsed in accordance with the recommendation of the Committee; the second is that the appellants did record full payment in satisfaction of the promissory notes before they received· the money. In our opinion, these two facts clearly establi~hed the case of the respondent that the appellants had given a full discharge when they received the second instalment. Indeed, the evidence of Madhava Rao is supported by the evidence of Kapurchand Godha. Kapurchand Godha said that when he presented the receipt, Ex. C, to Madhava Rao the latter said that he would not accept the receipt in that form .. Madhava Rao  …
+
+**Notes.** Compare JE-021 (acceptance of a cheque sent in full and final settlement, s. 8). The Court treated the plea of coercion as an afterthought, since it was never pleaded (p-12, p-14).
+
+**Reviewed by:** —
+
+---
+
+## JE-039 (test, easy): agreement for sale signed by one party
+
+**Question.** Is an agreement for the sale of land enforceable when it was signed only by the seller and not by the buyer, though its wording contemplated signature by both?
+
+**Facts.** A landowner signed an agreement to sell a plot and received earnest money from the buyer, who kept the signed agreement but never signed it herself. The agreement began "Agreement for sale between" the two parties and ended with a clause that "the parties hereto" had signed it. The buyer later gave notice that she was ready and willing to pay the balance and sued for specific performance. The seller's side argued that the agreement was incomplete because the buyer had not signed it.
+
+**Issues.**
+- Must an agreement for sale be signed by both parties to be a concluded contract?
+- Is the buyer entitled to specific performance on such an agreement?
+
+**Sections.** contract_act:10, specific_relief_act:16
+
+**Key points.**
+- An agreement of sale is bilateral, not unilateral; it is made when the vendor agrees to sell and the purchaser agrees to buy on agreed terms.
+- No law requires an agreement of sale to be signed by the purchaser; acceptance can be shown by conduct, such as taking the signed document and paying earnest money.
+- Section 10 makes an agreement a contract if the conditions of free consent, competence, lawful consideration and object are met, unless a law requires writing or signature.
+- The buyer must still prove readiness and willingness (s. 16(c) SRA).
+
+**Supporting: Aloka Bose v. Parmatma Devi**, [2008] 17 SCR 822 (`SC-2008_17_822_832`)
+
+Proposition: An agreement of sale is a bilateral contract that may be made orally, by exchanged communications, or by the vendor signing a document and delivering it to a purchaser who accepts it; an agreement signed only by the vendor and accepted by the purchaser is valid and can be specifically enforced.
+
+> ¶ 7: … r agreeing to sell and the purchaser .,._~ agreeing to purchase. On the other hand, the obseNation in .... S.M. Gopa/ Chetty (supra) that unless agreement is signed both by the vendor and purchaser, it is not a valid contract is also not sound. An agreement of sale comes into existence when the vendor agrees to sell and the purchaser agrees to y- purchase, for an agreed consideration on agreed terms. It can be oral. It can be by exchange of communications which may , or may not be signed. It may be by a single document signed ~ by both parties. It can also be by a document in two parts, each ' party signing one copy and then exchanging the signed copy as a consequence of which the purchaser has the copy signed by the vendor and a vendor has a copy signed by the )' L purchaser. Or it can be by the vendor executing the document y and delivering it to the purchaser who accepts it. Section 1 …
+
+> ¶ 10: 0 10. The trial Court and the Division Bench also concluded that the plaintiff had fulfilled the conditions as stated in Section 16(c) of the Specific Relief Act and in that event the plaintiff is entitled to decree for specific performance which was rightly granted by the trial Court. Though learned counsel for the appellants pointed out that the claim of the plaintiff that she was put in possession of a portion of the suit property in part performance was not accepted by the trial Court, in the light of the categorical findings about the validity of Ext. 2 and satisfactory proof of other conditions for granting the decree for specific performance, we are unable to accept the said contention. On the other hand, we agree with the conclusion arrived at by the Division Bench and hold that the agreement of sale was enforceable and the trial Court has rightly granted decree which was affirme …
+
+> ¶ h-1: … 28-D] 2. All agreements of sale are bilateral contracts as c promises are made by both - the vendor agreeing to sell and the purchaser agreeing to purchase. An agreement of sale comes into existence when the vendor agrees to sell and the purchaser agrees to purchase, for an agreed consideration on agreed terms. It can be oral. It can be by exchange of communications which may or may not be signed. It may be by a single document signed by both parties. It can also be by a document in two parts, each party signing one copy and then exchanging the signed copy as a consequence of which the purchaser has the i; copy signed by th~ vendor and a vendor has a copy 'signed by the purchaser. Or it can be by the vendor executing the document and delivering it to the purchaser who accepts it. 5.10 of the Contract Act, 1872 provides all agreements are contracts·-if they are made by F · tfle free conse …
+
+**Notes.** The Court resolved a conflict between S.M. Gopal Chetty (Madras) and Md. Mohar Ali (Gauhati), rejecting both lines of reasoning (paras 6 and 7).
+
+**Reviewed by:** —
+
+---
+
+## JE-040 (test, hard): damages for lost profits and wasted expenditure (s. 73)
+
+**Question.** Can a franchisee recover both its expected profits and the cost of its plant when the brand owner broke its promise of marketing support and the business failed?
+
+**Facts.** A company set up a bottling plant to bottle a brand owner's soft drinks, relying on its promises of marketing and advertising support. The business made losses from the start; the franchisee sought long credit, spent little on advertising itself, and acknowledged it would lose money for years. After the brand owner changed its supply arrangements, the franchisee stopped lifting concentrate, closed the plant and sold it seven years later. It sued for lost profits based on its projections and for the cost of the plant.
+
+**Issues.**
+- Was the breach the cause of the lost profits, and were they proved?
+- Did the franchisee mitigate its loss (Explanation to s. 73)?
+- Can reliance loss (wasted expenditure) and expectation loss (lost profits) both be recovered?
+
+**Sections.** contract_act:73
+
+**Key points.**
+- Section 73 compensates loss that arose naturally from the breach or was known to be likely, and the breach must be the cause of the loss.
+- Expectation loss puts the claimant where performance would have put it; reliance loss puts it where it would have been had there been no contract.
+- The claimant must take reasonable steps to mitigate (Explanation to s. 73).
+- Reliance loss is not recoverable where the claimant would have lost money even with performance; the law compensates for the breach, not for a bad bargain.
+
+**Supporting: Kanchan Udyog Ltd. v. United Spirits Ltd.**, [2017] 7 SCR 175 (`SC-2017_7_175_193`)
+
+Proposition: Lost profits are recoverable only if the breach was the dominant cause of the loss and the profits are proved; a claimant who failed to take reasonable steps to mitigate cannot recover what it could have avoided; and reliance loss cannot be awarded where the venture would have been unprofitable anyway, as that would compensate a bad bargain rather than the breach.
+
+> ¶ 25: …  present case, it cannot be held that the breach by the respondent was the cause, much less the dominant cause for loss of anticipated profits by the appellant. In Galoo Ltd. (supra) the emphasis was on the common sense approach, holding that the breach may have given the opportunity to incur the loss but did not cause the loss, in the sense in which the word "cause" is used in the law. The following passage extracted therein from Chitty on Contracts, 26'h ed. ( 1989) Vol. 2, pp. 1128-1129, para 1785 may be usefully set out: "The important issue in remoteness of damage in the law of contract is whether a particular loss was within the reasonable contemplation of the parties, but causation must also be proved: there must be a causal connection between the defendant's breach of contract and the plaintiff's loss. The courts have avoided laying down any formal tests for causation: they have  …
+
+> ¶ 27: 27. The appellate court with reference .to evidence has adequately discussed that the appellant failed to take steps to mitigate it losses under the Explanation to Section 73 of the Act. We find no reason to come to any different conclusion from the materials on record. If concentrates were available from Mis. VEC, the appellant had to offer an explanation why it stopped lifting the same after having done so for nearly a year, and could have continued with the business otherwise and earned profits as observed in Payzu Ltd. (supra). lt could also have taken steps to sell the unit after its closure in May, 1989 rather than to do so belatedly in 1996. No reasonable steps had been displayed as taken by the appellant forutilisation of its bottling plant by negotiations with others in the business. Nothing had been demonstrated of the injury that would have been caused to it thereby.
+
+> ¶ 28: … ormed. The general aim of the law being to protect the innocent party's defeated financial expectation and compensate him for his loss of bargain, subject to the rules of causation and remoteness. The purpose of protection of reliance interest is to put the plaintiff in the position in which he would have been if the contract had never been made. The loss may include expenses incurred in preparation by the innocent party's own performance, expenses incurred after the breach or even pre-contract expenditure but subject to remoteness. The following passage from the same is considered appropriate for extraction: loss." "No Recovery for Both, the Expectation Loss and the Reliance Although the rules as to damages seek to protect both the expectation and the reliance interests, the innocent party cannot ordinarily recover both expectation loss, viz., loss of profit, and reliance loss, viz., ex …
+
+> ¶ 30: 30. In view.of the conclusion, that the appellant was not entitled to any expectation loss towards anticipated profits, for reasons discussed, 193 any grant of reliance loss would tantamount to giving a benefit to it for what was essentially its own lapses. There are no allegations of any deficiency in the plant. Contrary to its claim ofRs.2.52 crores towards cost of the plant, the learned Single Judge awarded Rs.1.60 crores without any discussion for the basis of the same_. Though the appellant had preferred a cross appeal, it did not press the same.
+
+**Notes.** The Court drew on English authority (C & P Haulage v. Middleton; Cullinane v. British Rema), not in the corpus (paras 28 and 29).
+
+**Reviewed by:** —
+
+---
+
+## JE-041 (dev, hard): time as the essence in supply contracts and liquidated damages (s. 55)
+
+**Question.** Can a purchaser deduct liquidated damages for late delivery when its contract says time is of the essence but it repeatedly extended the delivery dates, sometimes waiving damages?
+
+**Facts.** A public sector company placed purchase orders for supplies stating that time and date of delivery were the essence of the contract and providing liquidated damages of half a per cent of the price per week of delay. It also provided for extensions of time without prejudice to damages. The supplier was late. The purchaser granted several extensions, waiving liquidated damages for the first two, and then deducted liquidated damages for the later delay. An arbitral tribunal held that time was not of the essence and allowed only damages for loss actually proved.
+
+**Issues.**
+- Was time of the essence despite the express clause, given the extension provisions and the parties' conduct?
+- If time was not of the essence, can the purchaser recover liquidated damages, or only compensation for loss under s. 55?
+
+**Sections.** contract_act:55, contract_act:74
+
+**Key points.**
+- An express "time is of the essence" clause is not conclusive; the whole contract, including extension and liquidated-damages clauses, and the parties' conduct decide.
+- Provisions for extension of time and damages for delay tend to show that time is not of the essence.
+- Where time is not of the essence, the contract is not voidable for delay but the promisee may claim compensation for loss (s. 55, second paragraph).
+- Waiver of liquidated damages on earlier extensions prevents reimposing them without clear agreement.
+- Saw Pipes allowed liquidated damages without proof of loss in a similar contract; a good answer should distinguish it.
+
+**Supporting: Welspun Specialty Solutions Ltd. v. Oil and Natural Gas Corporation Ltd.**, [2021] 11 SCR 120 (`SC-2021_11_120_141`)
+
+Proposition: Whether time is of the essence is gathered from the whole contract and the circumstances, not an express clause alone; extension clauses and extensions granted can show it was not; where time is not of the essence the promisee gets compensation for loss under s. 55, and liquidated damages once waived cannot be reimposed without clear terms.
+
+> ¶ 30: 30. It is now settled that 'whether time is of the essence in a contract', has to be culled out from the reading of the entire contract as well as the surrounding circumstances. Merely having an explicit clause may not be sufficient to make time the essence of the contract. As the contract was spread over a long tenure, the intention of the parties to provide for extensions surely reinforces the fact that timely performance was necessary. The fact that such extensions were granted indicates ONGC's effort to uphold the integrity of the contract instead of repudiating the same.
+
+> ¶ 31: 31. Clause 9(i) of the Purchase Order reproduced above makes it clear that time is the essence of the contract, subject to extension granted without prejudicing the right of ONGC to recover damages. These damages, by one reasonable interpretation, could be read as damages based on actual loss. Such conclusion was based on the Arbitral Tribunal's interpretation of 2nd para of Section 55 of the Contract Act, which reads as under: Effect of such failure when time is not essential.- If it was not the intention of the parties that time should be of the essence of the contract, the contract does not become voidable by the failure to do such thing at or before the specified time; but the promisee is entitled to compensation from the promisor for any loss occasioned to him by such failure. (emphasis supplied) The Arbitral Tribunal construed the aforesaid provision to interpret the term 'loss' to …
+
+> ¶ 33: 33. This brings us to the waiver.It may be noted that ONGC waived liquidated damages twice before giving extension with pre-estimated damages. The approach of the Arbitral Tribunal was to hold that once liquidated damages were waived in the first extension, subsequent extension could not be coupled with liquidated damages unless a clear intention flowed from the contract;while this Court recognizes the autonomy of the party to engage in contractual obligation. Such obligation must be contracted in clear terms. From the aforesaid discussion, it is clear that the promisee (ONGC) waived the liquidated damages initially and the same cannot be imposed, unless such imposition was clearly accepted by parties. In this case, the interpretation of the Arbitral Tribunal could not be faulted as being perverse, for the reasons stated above.
+
+> ¶ 35: 35. This Court cannot interfere with this award, as the award is a plausible view for the following reasons: a. The Arbitral Tribunal's interpretation of contractual clauses having extension procedure and imposition of liquidated damages, are good indicators that 'time was not the essence of the contract'. b. The Arbitral Tribunal's view to impose damages accrued on actual loss basis could be sustained in view of the waiver of liquidated damages and absence of precise language which allows for reimposition of liquidated damages. Such imposition is in line with the 2nd para of Section 55 of the Indian Contract Act. c. The Arbitral Tribunal was correct in distinguishing the dictum of this Court in Saw Pipes(supra), which validated imposition of liquidated damages in a similar contract. d. The High Court and District Court strayed beyond the limitation under Section 34 and 37 of the Arbitra …
+
+**Contrary: Oil & Natural Gas Corporation Ltd. v. Saw Pipes Ltd.**, [2003] 3 SCR 691 (`SC-2003_3_691_741`)
+
+Proposition: Where the sum named is a genuine pre-estimate of loss, the party need not prove actual loss, particularly where loss is difficult to prove.
+
+> ¶ h-10: … ratio laid down in *Fateh Chandv. Balkishan Das wherein.it is specifically held that jurisdiction of the Court to award compensation in case of breach of contract is unqualified except as to the maximum stipulated; and compensation has to be reasonable. The emphasis is on reasonable compensation. If the compensation named in the contract I ;A OIL & NATURAL GAS CORPORATION LTD. v. SAW PIPES LTD. 699 is by way of penalty, consideration would be different and the party is only entitled to reasonable compensation for the loss suffered. But if the compensation named in the contract for such breach is genuine pre-estimate of loss which the parties knew when they made the contract to be likely to result from the breach of it, there is no question of proving such loss or such party is not required to lead evidence to prove actual loss suffered by him. Burden is on the other party to lead evidenc …
+
+> ¶ p-81: … l damage is proved to have been suffered in consequence of the breach of contract. But the expression "whether or not actual damage or loss is proved to have been caused thereby" is intended to cover different classes of contracts which come before the Courts. In case of breach of some contracts it may be impossible for the Court to assess compensation arising from breach, while in other cases compensation can be calculated in accordance with established rules. Where the Court is unable to assess the compensation, the sum named by the parties if it be regarded as a genuine pre-estimate may be taken into consideration as the measure of reasonable compensation, but not if the sum named is in the nature of a penalty. Where loss in terms of money can be determined, the party claiming compensation must prove the loss suffered by him." In Rampur Distille1y and Chemical Co. Ltd. 's (supra) also …
+
+**Notes.** The appeal arose from a challenge to an arbitral award, so the Court asked whether the tribunal's view was plausible (para 35); the Court treated distinguishing Saw Pipes as correct.
+
+**Reviewed by:** —
+
+---
+
+## JE-042 (test, easy): construing insurance contracts (contra proferentem)
+
+**Question.** Does a fire policy covering damage by "impact by any rail/road vehicle" cover damage to a building caused by the vibration of a bulldozer working on the road next to it?
+
+**Facts.** A printer insured its building and machinery under a policy covering, among other perils, "impact by any rail/road vehicle or animal". A bulldozer used for road construction close to the building caused vibrations that damaged the building and machinery, without touching them. The insurer repudiated the claim, saying "impact" means forcible contact. The policy did not exclude damage caused by vibration.
+
+**Issues.**
+- Does "impact" in the policy cover damage from vibration without physical contact?
+- How are ambiguous terms in an insurance policy construed?
+
+**Sections.** contract_act:124
+
+**Key points.**
+- The words of the policy are read in context to find the parties' intention.
+- The word "impact" has several meanings, including the effect of one thing on another; a narrow reading would make "impact by rail" meaningless.
+- An insurer that wanted to exclude such damage should have excluded it expressly.
+- Ambiguity is resolved against the insurer (contra proferentem), consistent with the purpose of insurance and the duty of good faith.
+
+**Supporting: United India Insurance Co. Ltd. v. Pushpalaya Printers**, [2004] 2 SCR 631 (`SC-2004_2_631_636`)
+
+Proposition: Where a term of an insurance policy is ambiguous or capable of two meanings, the one beneficial to the insured is adopted, and under the contra proferentem rule the policy is construed against the insurer that drafted it; "impact" covered damage caused by a bulldozer driven close to the building.
+
+> ¶ p-9: … meanings "to drive close", "effective action of one thing upon another" and "the effect of such action", it is reasonable and fair to hold in the context that the word "impact" contained in clause 5 of the insurance policy covers the case of the respondent to say that damage caused to the building and machinery on account of the bulldozer moving closely on the road was on account of its "impact". It is also settled position in law that if there is any ambiguity or a ,term is capable of two possible interpretations one beneficial to the insured should be accepted consistent with the purpose for which the policy is taken, namely, to cover the risk on the happening of certain event. Although there is no ambiguity in the expression "impact", even otherwise applying the rule of contra proferentem, the use of the word "impact" in clause 5 in the instant policy must be construed against the app …
+
+> ¶ h-1: … forcible contact alone when it includes the meanings "to drive close", "effective action of one thing upon another" and "the effect of such action", it is reasonable and fair to hold in the context that the word "impact" contained in clause 5 of the insurance policy covers the case of the respondent. f 635-F-H; 636-A-C] 1.2. It is settled position in law that if there is any ambiguity or a term is capable of two possible interpretations, the one beneficial to the insured. should be accepted consistent with the purpose for which the policy is taken, namely, to cover the risk on the happening of certain event. Although there is no ambiguity in the expression "impact", even otherwise applying the rule of contra preferentem the use of the word "impact" in clause 5 in the instant policy must be construed against the insurer. Where the words of a document are ambiguous, they shall be construed …
+
+**Notes.** Section 124 (contracts of indemnity) is the nearest Contract Act section; insurance is otherwise governed by the Insurance Act, which is not in the corpus. The Court cited General Assurance Society v. Chandumull Jain (1966), which is not in the corpus.
+
+**Reviewed by:** —
+
+---
+
+## JE-043 (test, medium): proving readiness and willingness (s. 16(c) SRA)
+
+**Question.** Can a buyer abroad obtain specific performance when he never gave evidence himself and his power-of-attorney holder, who filed the suit, knew nothing of the transaction?
+
+**Facts.** A buyer living abroad agreed, through one attorney, to buy a house in Chandigarh; the seller was to obtain clearances for the sale. The sale was not completed. About a year and a half later the buyer sued for specific performance through a second attorney, appointed after the events. At trial the buyer did not appear; the second attorney admitted he knew nothing of what happened before his appointment, and a property dealer engaged by the buyer testified that the buyer was ready and willing. The buyer argued that the seller had not obtained the clearances, so his own readiness did not need proof.
+
+**Issues.**
+- What must a plaintiff aver and prove about readiness and willingness under s. 16(c) SRA?
+- Can a power-of-attorney holder or an agent without personal knowledge prove the plaintiff's readiness and willingness?
+- Does the defendant's own default relieve the plaintiff of proving readiness?
+
+**Sections.** specific_relief_act:16
+
+**Key points.**
+- To succeed the plaintiff must prove a valid agreement and its terms, the defendant's breach, and that he was always ready and willing to perform his part.
+- Readiness and willingness is a matter within the plaintiff's personal knowledge, so he should step into the witness box.
+- An attorney holder can prove only acts he did or knows of; a supporting agent cannot substitute for the plaintiff's evidence of finances and intention.
+- The defendant's breach gives the cause of action, but s. 16(c) is a separate personal bar the plaintiff must still overcome; P. D'Souza's reasoning is confined to its facts.
+
+**Supporting: Man Kaur v. Hartar Singh Sangha**, [2010] 12 SCR 515 (`SC-2010_12_515_550`)
+
+Proposition: A plaintiff seeking specific performance must plead and prove that he was always ready and willing to perform, and should himself give evidence of it; an attorney holder without personal knowledge can give only formal evidence, and the defendant's breach does not remove the personal bar in s. 16(c).
+
+> ¶ 9: 9. Section 16(c) of the Specific Relief Act 1963 ('Act' for short) bars the specific performance of a contract in favour of a plaintiff who fails to aver and prove that he has performed or has always been ready and willing to perform the essential terms of the contract which are to be performed by him (other than terms of the performance of which has been prevented or waived by the defendant). Explanation (ii) to section 16 provides that for purposes of clause ( c) of section 16, the plaintiff must aver performance of, or readiness and willingness to perform, the contract according to its true construction. Thus in a suit for specific performance, the plaintiff should not only plead and prove the terms of the agreement, but should also plead and prove his readiness and willingness to perform his obligations under the contract in terms of the contract. (See : N.P. Thirugnanam to R. Jagan  …
+
+> ¶ 11: 11. To succeed in a suit for specific performance, the plaintiff has to prove: (a) that a valid agreement of sale was entered by the defendant in his favour and the terms thereof; (b) that the defendant committed breach of the contract; and (c) that he was always ready and willing to perform his part of the obligations in terms of the contract. If a plaintiff has to prove that he was always ready and willing to perform his part of the contract, that is, to perform his obligations in terms of the contract, necessarily he should step into the witness box and give evidence that he has all along been ready and willing to perform his part of the contract and subject himself to cross examination on that issue. A plaintiff cannot obviously examine in his place, his attorney holder who did not have personal knowledge either of the transaction or of his readiness and willingness. Readiness and wi …
+
+> ¶ 12: 12. We may now summarise for convenience, the position 8 as to who should give evidence in regard to matters involving personal knowledge: (a) An attorney holder who has signed the plaint and instituted the suit, but has no personal knowledge of the transaction can only give formal evidence about the validity of the power of attorney and the filing of the suit. (b) If the attorney holder has done any act or handled any transactions, in pursuance of the power of attorney granted by the principal, he may be examined as a witness to prove those acts or transactions. If the attorney holder alone has personal knowledge of such acts and transactions .and not the principal, the attorney holder shall be examined, if those acts and transactions have to be proved. · (c) The attorney holder cannot depose er give evidence in place of his principal for the acts done by the principal or transactions o …
+
+> ¶ 23: 23. The learned counsel for the respondent contended that in terms of the agreement, the defendant had to furnish an NOC from Chandigarh Administration, as also ULC clearance and income tax clearance required for the sale and there was nothing to show that she had obtained them, and therefore the question of plaintiff proving his readiness and willingness to perform his obligations did not arise. This contention has no merit. There are two distinct issues. The first issue is the breach by the defendant - vendor which gives a cause of action to the plaintiff to file a suit for specific performance. The second issue relates to the personal bar to enforcement of a specific performance by persons enumerated in section 16 of the Act. A person who fails to aver and prove that he has performed or has always been ready and willing to perform the essential terms of the contract which are to be pe …
+
+**Contrary: P. D'Souza v. Shondrilo Naidu**, [2004] Supp 3 SCR 186 (`SC-S_2004_3_186_201`)
+
+Proposition: Readiness and willingness also depends on whether the defendant did what the agreement required of him; where the vendor had not produced the title documents or redeemed the mortgage, the question of the purchaser's readiness did not arise.
+
+> ¶ p-20: It is not a case where the plaintiff had not made the reqms1te averments in the plaint. The readiness and willingness on the part of the plaintiff to perform his part of contract would also depend upon the E question as to whether the defendant did everything which was required of him to be done in terms of the agreement for sale. The plaintiff was a tenant of the defendant.
+
+> ¶ p-21: It is not disputed that the defendant by a letter dated 29th November, 1980 requested the plaintiff to enhance the rent from Rs. 440 to Rs. 500. Therein she further assumed that the sale deed would be executed and registered by 31st December, 1981 which could not be done for unavoidable reasons. The fact that the plaintiff had paid different amounts to the defendant from time to time which were accepted by him stands admitted. It appears from the records that the defendant herself did not produce the original documents nor redeemed the mortgage. If the mortgage was not redeemed and the original documents were not produced, the sale deed ..... could not have been executed and in that view of the matter, the question .. of plaintiff's readiness and willingness to perform his part of contract would not arise.
+
+**Notes.** Man Kaur also held that the buyer, having himself broken the contract, forfeited the earnest money (para 25). The 2018 amendment removed the requirement to "aver" readiness from s. 16(c); check the corpus version (D-014).
+
+**Reviewed by:** —
+
+---
+
+## JE-044 (test, hard): discretion to refuse specific performance (s. 20 SRA)
+
+**Question.** Should a court order specific performance of a development agreement for housing under a statutory scheme when the master plan now reserves the land as open space?
+
+**Facts.** A landowner agreed that a builder would prepare and carry out a scheme under the Urban Land (Ceiling and Regulation) Act to build houses for the weaker sections on her land. Before possession was delivered, the draft development plan reserved the land for open space, making the housing scheme impossible to implement, and the ceiling Act was later repealed. The owner terminated the agreement; the builder sued for specific performance, relying on clauses it said barred termination.
+
+**Issues.**
+- Is the agreement capable of specific performance when its object can no longer be achieved?
+- Should the court in its discretion refuse specific performance?
+
+**Sections.** specific_relief_act:20, specific_relief_act:14
+
+**Key points.**
+- Specific performance was a discretionary remedy (s. 20, before 2018); the court need not grant it merely because it is lawful, but must exercise the discretion on settled principles.
+- It may be refused where enforcement would be inequitable, e.g. where the object of the agreement can no longer be achieved.
+- A contract whose performance involves continuous supervision the court cannot give is not specifically enforced (s. 14).
+- The builder's other remedies (e.g. compensation) are separate from specific performance.
+
+**Supporting: Her Highness Maharani Shantidevi P. Gaikwad v. Savjibhai Haribhai Patel**, [2001] 2 SCR 590 (`SC-2001_2_590_625`)
+
+Proposition: Specific performance under s. 20 is discretionary and may be refused where it would be inequitable; an agreement made only to build houses for the weaker sections under a statutory scheme could not be enforced once the master plan reserved the land as open space, and its performance would also need continuous supervision.
+
+> ¶ p-38: … f the suit, the land in question is reserved for open space etc. It cannot be doubted that the agreement had been entered into between the parties mainly and rather only with the object of construction of residential houses under the scheme under Section 21 of the ULC Act for accommodation of weaker sections of the society. In May 1979, it became evident that it will not be possible to construct residential houses in view of what was provided in the master plan. There is no substance in the contention that assuming the prescribed land use is 'open space', still there will be no impediment in the implementation of scheme in as much as there is no absolute bar for construction of residential h?uses. This is not the basis on which the competent authority had considered, the matter. The agreement is clearly incapable of being specifically enforced. Under these circumstances, there is no ques …
+
+> ¶ p-61: The grant of decree for specific performance is a matter of discretion under Section 20 of the Specific Relief Act, 1963. The court is not bound to grant such relief merely because it is lawful to do so but the discretion is not required to be exercised arbitrarily. It is to be exercised on sound and settled judicial princples. One of the grounds on which the Court may decline to decree specific performance is where it would be inequitable to enforce specific performance. The present is clearly such a case. It would be wholly inequitable to enforce specific performance for (i) residential houses for weaker sections of the society cannot be constructed in view of the existing master plan and, thus, no benefit can be given to the said section of the society; (ii) In any case, it is extremely difficult, if not impossible, to continuously supervise and monitor the construction and thereafter …
+
+> ¶ p-62: … annot be secured with precision and that the discretionary jurisdiction to decree the specific perfonnance ought not to be exercised. Dealing with the question of reputation of the purchaser as a builder being at stake, this Court held that 'this is hardly a consideration which can weight against the several circumstances .... If a multi- storeyed complex cannot come up on the suit property, the respondent's plans are going to fail in any case'. The position in the present case is quite similar. Under the scheme as postulated by the ULC Act, it is not pennissible to construct dwelling units for the residence of the weaker sections of the society. It also deserves to be noticed that, strictly speaking, it is not a contract for transfer of the property but is a contract to carry out the scheme which is incapable of being carried out at this stage on account of reservation in the Master pla …
+
+> ¶ h-1: … cy of the suit, the land in question is reserved for open space etc. It cannot be doubted that the agreementhad been entered into between the parties mainly and rather only with the object of construction of residential houses under the scheme under Sec· tion 21 of the Urban Land (Ceiling and Regulation) Act, 1976 for accom· G modation of the weaker sections of the society. Later on it became evident that it will not be possible to construct residential houses in view of what was provided in the master plan. There is no substance in the contention -~ that assuming the prescribed land use is 'open space', still there will be no impediment in the implementation of the schemes inasmuch as there is no absolute bar for construction of residential houses. This is not the basis on which the competent authority bad considered the matter. The agreement is clearly incapable of being specifically e …
+
+**Notes.** The 2018 amendment made specific performance the rule rather than discretionary; the decision applies the pre-amendment s. 20. The item also turns on construing the agreement's termination clauses (p-62).
+
+**Reviewed by:** —
+
+---
+
+## JE-045 (test, hard): void and voidable deeds, cancellation (s. 31 SRA)
+
+**Question.** Can a man sue decades later to set aside a sale deed made when he was a minor, claiming it was void and obtained by fraud, without being barred by limitation?
+
+**Facts.** A registered sale deed of family land was executed while the plaintiff was a minor. Many years after coming of age, the plaintiff sued for a declaration that he was a co-owner and for partition, claiming the deed was void and obtained by misrepresenting its contents. He argued that no limitation applies to a void transaction.
+
+**Issues.**
+- Does a suit to set aside a void or voidable instrument need a decree of cancellation under s. 31 SRA, and which limitation applies?
+- Was the deed void, or at most voidable, on the misrepresentation alleged?
+
+**Sections.** specific_relief_act:31, contract_act:11
+
+**Key points.**
+- Cancellation under s. 31 is discretionary and applies to void and voidable instruments.
+- A void document is a nullity and need not be set aside, but a plaintiff who sues for cancellation is bound by limitation; limitation applies even to void transactions.
+- Fraudulent misrepresentation as to the character of a document makes it void; as to its contents, only voidable.
+- A registered document is presumed validly executed; the party attacking it must prove otherwise.
+- A deed executed during minority must be challenged within the time allowed after attaining majority.
+
+**Supporting: Prem Singh v. Birbal**, [2006] Supp 1 SCR 692 (`SC-S_2006_1_692_701`)
+
+Proposition: Section 31 covers void and voidable instruments; a void document need not be set aside, but once a suit for cancellation is filed limitation applies (Article 59, or the residuary article); misrepresentation as to the contents of a document makes it voidable, not void, and a registered deed is presumed validly executed.
+
+> ¶ p-12: Section 31 of the Specific Relief Act, 1963 thus, refers to both void and voidable document. It provides for a discretionary relief. When a document is valid, no question arises of its cancellation. When a document is void ab initio, a decree for setting aside the same would not be necessary as the same is non-est in the eye of law, as it would be a nullity. Once, however, a suit is filed by a plaintiff for cancellation of a transaction, it would be governed by Article 59. gven if Article 59 is not attracted, the residuary Article would be.
+
+> ¶ p-15: If the plaintiff is in possession of a property, he may file a suit for declaration that the deed is not binding upon him but if he is not in possession thereof, even under a void transaction, the right by way of adverse possession may be claimed. Thus, it is not correct to contend that the provisions of the Limitation Act would have no application at all in the event the transaction is held to be void.
+
+> ¶ p-17: '"The legal position will be different if there is a fraudulent misrepresentation not merely as to the contents of the document but as to its character. The authorities make a clear distinction between fraudulent misrepresentation as to the character of the document and fraudulent misrepresentation as to the contents thereof. With reference to the former, it has been held that the transaction is void, while in the case of the latter, it is merely voidable .... " In that case, a fraud was found to have been played and it was held that as the suit was instituted within a few days after the Appellant therein came to know of the fraud practiced on her, the same was void. It was, PREM SINGH v. BIRBAL [S.B. SINHA, J.) 699 however, held:
+
+> ¶ p-23: If a deed was executed by the plaintiff when he was a minor and it was void, he had two options to file a suit to get the property purportedly conveyed thereunder. He could either file the suit within 12 years of the deed or within 3 years of attaining majority. Here, the plaintiff did not either sue within 12 years of the deed or within 3 years of attaining majority. Therefore, the suit was rightly held to be barred by limitation by the trial court. Since the lower Appellate Court and the High Court were not right in law in holding that the suit was not barred by limitation, the judgments and decrees of the lower Appellate Court and that of the High Court are liable to be set aside and dismissal of the suit by the trial court on the ground that it is barred by limitation is liable to be restored. Hence, we allow this appeal, setting aside the judgments and decrees of the High Court and  …
+
+**Notes.** Limitation turns on the Limitation Act (Articles 59, 60 and the residuary article), which is not in the corpus. Section 11 is the gold section on a minor's incapacity.
+
+**Reviewed by:** —
+
+---
+
+## JE-046 (dev, easy): non-disclosure in insurance proposals (utmost good faith)
+
+**Question.** Can an insurer repudiate a mediclaim policy because the insured, who answered "sound health" in the proposal form, had long-standing kidney disease?
+
+**Facts.** An advocate took a mediclaim policy. In the proposal form he answered "sound health" to a question about illnesses that might need treatment and "nil" to a question about recent treatment. He was in fact diabetic for sixteen years, had chronic renal failure and was on dialysis. He fell ill four months later and died. The insurer repudiated his widow's claim for suppression of material facts.
+
+**Issues.**
+- What duty of disclosure does a proposer for insurance owe, and what is a material fact?
+- Was the insurer entitled to repudiate for the untrue answers?
+
+**Sections.** contract_act:17, contract_act:19
+
+**Key points.**
+- Insurance contracts are uberrimae fidei; the proposer must disclose fully and truly what is asked, within his knowledge.
+- A material fact is one that would influence a prudent insurer in deciding whether to accept the risk or on what premium.
+- Questions in the proposal form are presumed to seek material information; it is not for the proposer to decide what is material.
+- The duty extends only to facts known to the proposer.
+- Section 45 of the Insurance Act (life policies) does not apply to a mediclaim policy.
+
+**Supporting: Satwant Kaur Sandhu v. New India Assurance Company Ltd.**, [2009] 10 SCR 560 (`SC-2009_10_560_573`)
+
+Proposition: Insurance is a contract of utmost good faith; any fact that would influence a prudent insurer in accepting the risk or fixing the premium is material, information asked for in the proposal form is presumed material, and an untrue answer about a known condition entitles the insurer to repudiate.
+
+> ¶ 17: 17. The term "material fact" is not defined in the Act and, therefore, it has been understood and explained by the Courts in general terms to mean as any fact which would influence the judgment of a prudent insurer in fixing the premium or determining whether he would like to accept the risk. Any fact which goes to the root of the Contract of Insurance and has a bearing on the risk involved would be "material".
+
+> ¶ 20: 20. The upshot of the entire discussion is that in a Contract of Insurance, any fact which would influence the mind of a prudent insurer in deciding whether to accept or not to accept the risk is a "malarial fact". If the proposer has knowledge of ~ such fact, he is obliged to disclose it particularly while answering questions in the proposal form. Needless to emphasise that any inaccurate answer will entitle the insurer to repudiate his liability because there is clear presumption that any information sought for in the proposal form is material for the purpose of entering into a Contract of Insurance.
+
+> ¶ 22: … d from any angle, we have no hesitation in coming to the conclusion that the statement made by the insured in the proposal form ASSURANCE COMPANY LTD. [D.K. JAIN, J.] ~ as to the state of his health was palpably untrue to his knowledge. There was clear suppression of material facts in regard to the health of the insured and, therefore, the respondent - insurer was fully justified in repudiating the insurance contract. We do not find any substance in the contention of learned counsel for the appellant that reliance could not be placed on the certificate obtained by the respondent from the hospital, where the insured was treated. ,. Apart from the fact that at no stage the appellant had pleaded that the insured was not treated at Vijaya Health Centre at Chennai, where he ultimately died. It is more than clear from c the said certificate that information about the medical history of the dec …
+
+> ¶ h-2: proposal form as to the state of his health was palpably untrue to his knowledge. There was clear suppression of material facts in regard to the health of the insured and, therefore, the respondent-insurer was fully justified in repudiating the insurance contract. [Para 22] [572-H; 573- A-B] 2. A mediclaim policy is a non-life insurance policy meant to assure the policy-holder in respect of certain expenses pertaining to m1ury, accidents or hospitalizations. Nonetheless, it is a contract of insurance falling in the category of contract uberrimae fidei, meaning a contract of utmost good faith on the part of the assured. Thus, when an information on a specific aspect is asked for in the proposal form, an assured is under a solemn obligation to make a true and full disclosure 'of the information on the subject which is within his knowledge. It is not for the proposer to determine whether th …
+
+**Notes.** The Contract Act sections (s. 17 fraud, including active concealment; s. 19 voidability) are the nearest gold sections; the Insurance Act is not in the corpus. Silence alone is not fraud under s. 17 unless there is a duty to speak, which insurance creates.
+
+**Reviewed by:** —
+
+---
+
+## JE-047 (test, medium): quantum meruit for extra work (s. 70)
+
+**Question.** Can a builder recover payment for additional structures built at the owner's request that were outside the written contract, when neither side proves the rates it alleges?
+
+**Facts.** A builder constructed a house under a written contract. At the owner's request he also built an out-house, a garage, a puja room, a first-floor room, a staircase and a compound wall, which the written contract did not cover. The builder pleaded an oral agreement to pay market rates; the owner pleaded a different oral agreement. The court accepted neither, and the owner argued that the claim for the extra work must therefore fail, since quantum meruit was never pleaded.
+
+**Issues.**
+- Is the builder entitled to compensation for work done outside the written contract although he failed to prove the oral agreement he pleaded?
+- Can s. 70 be used where the parties' relationship is governed by a contract?
+
+**Sections.** contract_act:70
+
+**Key points.**
+- Section 70 requires that the thing be done lawfully, not intended gratuitously, and that the other party enjoy the benefit.
+- Work outside the written contract, requested and accepted by the owner, can be paid for quantum meruit at reasonable (market) rates.
+- Failure to prove the pleaded oral agreement does not defeat the claim where both sides accept that the work was done for payment.
+- Where the contract fixes the price for the work, s. 70 and quantum meruit do not apply (MTNL; Alopi Parshad).
+
+**Supporting: V.R. Subramanyam v. B. Thayappa**, [1961] 3 SCR 663 (`SC-1961_3_663_668`)
+
+Proposition: A party who renders services to another not intending to do so gratuitously, where the other obtains the benefit, is entitled to compensation for their value under s. 70; the builder recovered for additional work outside the written contract, assessed at current market rates, though neither side's oral agreement was proved.
+
+> ¶ p-8: … t succeed or fail on the case pleaded by him, and not on a cause of action not pleaded. In our view, there is no substance in this contention. As we have already observed, in respect of the additional work done by the respondent, both the parties set up conflicting oral agreements. These were not accepted by the High Court. If a party to a contract has rendered service to the other not intending to do so gratuitously and the other person has obtained some benefit, the former is entitled to compensation for the value of the services rendered by him. Evidently, the respondent made additional constrtwtions to the building and they were not done gratuitously. He was therefore entitled to receive compensation for the work done which was not covered . by the agreement. The respondent claimed under an oral agreement compensatiort at prevailing market rates for work done by him : even if he fail …
+
+> ¶ p-13: It was then urged that the High Court was in error in directing assessment of compensation for the additional work "in accordance with the rates mentioned in Ex. II." The plaintiff's witness T. S. Narayana Rao had admitted that the rates in Ex. II were the current market rates for building construction work similar to the appellant's building. In the view of the High Court, the rates set out in that bill were not excessive. If with a view to restrict the scope of the enquiry, the learned judges of the High Court gave a direction to the Commissioner for assessing compensation on the basis of rates which were approved by the plaintiff's witness, it cannot be said ·that any serious error was committed in incorporating that direction which would justify our interference. Finally it was urged that the app!Jllant was entitled to claim the loss suffered by him on account of defective work by wa …
+
+> ¶ h-1: Held, that if a party to a contract rendered service to the other not intending to do so gratuitously and, the other party had obtained some benefit, the former was entitled to compensation for the value of the services rendered by him. The respondent not intending to do gratuitous work was entitled to compensation for additional work not covered by the written agreement. Even if the respondent failed to prove his claim for compensation at the prevailing market rate under an oral agreement the court had jurisdiction to award compensation for work done under s. 70 of the Contract Act.
+
+**Supporting: Food Corporation of India v. Vikas Majdoor Kamdar Sahkari Mandli Ltd.**, [2007] 11 SCR 1038 (`SC-2007_11_1038_1052`)
+
+Proposition: A contractor who does additional work not covered by the contract, not intending to do it gratuitously, and whose benefit the other party avails of, is entitled to compensation under s. 70 even if the oral agreement pleaded is not proved; whether work is "extra" depends on the terms of the contract.
+
+> ¶ 13: 13. If a party to a contract has done additional construction for another not intending to do it gratuitously and such other has obtained benefit, the former is entitled to compensation for the additional work not covered by the contract. If an oral agreement is pleaded, which is not proved, he will be entitled to compensation under Section 70. Payment. under this section can also be claimed for work done beyond the te1ms KAMDAR SAHKARI MAND LI [PASA YAT, J.] of the contract, when the benefit of the work has been availed of by the defendant.
+
+> ¶ h-1: HELD: 1.1. If a party to a contract has done additional construction for another not intending to do it gratuitously and such other has obtained benefit, the former is entitled to compensation for the additional work not covered by the contract. If an oral agreement is pleaded, which is not proved, he will be entitled to compensation under Section 70 of the Contract Act, 1872. Payment under this Section can also be claimed for work done beyond the terms of the contract, when the benefitoftheworkhas been availed of by the defendant. [Para 13] ll048-G; 1049-A] 1.2. The term 'extra' 's generally used in relation to the works, which are not expressly or impliedly included in the original contract price, provided the work is within the framework of the original contract. The question whether a particular work is extra will depend upon the terms and conditions of the contract, and other docume …
+
+**Contrary: Mahanagar Telephone Nigam Ltd. v. Tata Communications Ltd.**, [2019] 4 SCR 885 (`SC-2019_4_885_898`)
+
+Proposition: Section 70 rests on the absence of a contract between the parties; where their relationship is governed by a contract, a claim in quantum meruit under s. 70 is not permissible, and compensation for work under the contract is at the contract price.
+
+> ¶ 2: … h is, whether, when parties are governed by contract, a claim in quantum meruit under Section 70 of the Indian Contract Act, 1872["Contract Act"] would be permissible. Section 70 of the Contract Act reads as under: "70. Obligation of person enjoying benefit of non-gratuitous act.—Where a person lawfully does anything for another person, or delivers anything to him, not intending to do so gratuitously, and such other person enjoys the benefit thereof, the latter is bound to make compensation to the former in respect of, or to restore, the thing so done or delivered." This Section occurs in Chapter V of the Contract Act, which chapter is headed, "of certain relations resembling those created by contract". There are five sections that are contained in this Chapter. Each of them is posited on the fact that there is, in fact, no contractual relationship between the parties claiming under this …
+
+> ¶ 5: … having been supplied by the Agents under the terms of the contract, the right of the Agents was to receive remuneration under the terms of that contract. It is difficult to appreciate the argument advanced by Mr. Chatterjee that the Agents were entitled to claim remuneration at rates substantially different from the terms stipulated, on the basis of quantum meruit. Compensation quantum meruit is awarded for work done or services rendered, when the price thereof is not fixed by a contract. For work done or services rendered pursuant to the terms of a contract, compensation quantum meruit cannot be awarded where the contract provides for the consideration payable in that behalf. Quantum meruit is but reasonable compensation awarded on implication of a contract to remunerate, and an express stipulation governing the relations between the parties under a contract, cannot be displaced by assu …
+
+> ¶ h-1: HELD: 1.1 Section 70 occurs in Chapter V of the Contract Act, which chapter is headed, "of certain relations resembling those created by contract". There are five sections that are contained in this Chapter. Each of them is posited on the fact that there is, in fact, no contractual relationship between the parties claiming under this Chapter. For example, under Section 68, if a person incapable of entering into a contract is supplied necessaries by another person, then the person who has furnished such supplies becomes entitled to be reimbursed from the property of the person so incapable of entering into the contract. Section 69 also deals with a case where a person has no contractual relationship with the other person mentioned therein, but who is interested in the payment of money which the other person is bound by law to pay, and who, therefore, pays it on behalf of such person. Such …
+
+**Notes.** Compare JE-015 (s. 70 against the government where the contract is void for want of Article 299 form). MTNL (para 5) quotes Alopi Parshad on quantum meruit.
+
+**Reviewed by:** —
+
+---
+
+## JE-048 (test, hard): implied terms and business efficacy
+
+**Question.** Must a power buyer pay the generator's cost of washing coal when the power purchase agreement's energy-charge formula speaks only of the actual cost of purchasing, transporting and unloading "the coal"?
+
+**Facts.** A generator won a bid to supply power, quoting an all-inclusive tariff. The energy charge was calculated by a formula based on the actual cost of purchasing, transporting and unloading the coal supplied at the project. The coal allotted had high ash content, and an environmental notification required it to be washed before use at that distance; the buyer had clarified before the bid that the generator must arrange the washing. The buyer refused to pay washing costs, the loss of coal in washing and the road transport to the plant, saying they were not in the formula.
+
+**Issues.**
+- When will a court imply a term into a commercial contract?
+- Does the energy-charge formula, read in a business sense, include the cost of washing and transporting the coal?
+
+**Sections.** contract_act:9
+
+**Key points.**
+- The five-condition test for implied terms (business efficacy, officious bystander).
+- Implied terms are a matter of strict necessity; commercial contracts drafted by experts should normally be read as they are written.
+- Construing the express terms in their commercial sense differs from implying a term.
+- Since only washed coal could be used, "coal" in the formula meant washed coal at the project site, so the washing and transport costs formed part of the energy charge.
+- Other costs not within the formula (transit losses, testing, liaison) were rejected.
+
+**Supporting: Nabha Power Ltd. v. Punjab State Power Corporation Ltd.**, [2017] 14 SCR 301 (`SC-2017_14_301_346`)
+
+Proposition: A term is implied only if it is reasonable and equitable, necessary for business efficacy, so obvious that it goes without saying, capable of clear expression and consistent with the express terms; courts should read commercial contracts as they are written, and here the formula, read in a business sense, meant washed coal delivered at the project, so washing and transport costs were payable.
+
+> ¶ 49: … n Foundries (supra)]. This test has been set out in B.P. Refinery (Westemport) Proprietary Limited vs. The President Councillors and Ratepayers of the. Shire of Hastings (supra) requiring the requisite conditions to be satisfied: (1) reasonable and equitable; (2) necessary to give business efficacy to the contract; (3) it goes without saying, i.e., The Officious Bystander Test; ( 4) capable of clear expression; and ( 5) must not contradict any express term of the contract. The same penta-principles find reference also in Investors Compensation Scheme Ltd. vs. West Bromwich Building Society (supra) and Attorney General of Belize and Ors. vs. Belize Telecom Ltd. and Anr. (supra). Needless to say that the application of these principles would not be to substitute this Court's own view of the presumed understanding of commercial terms by the parties if the terms are explicit in their express …
+
+> ¶ 62: 62. The plea of the first respondent that the fuel supply agreement and the fuel transportation agreement are part of the 'project documents' which does not include the component of 'washing', does not hold much water for the reason that 'washed' coal is a necessity for the project as a quality requirement for the formula envisaging the requisite quality of coal to be obtained at the project site and, thus, including all the relevant costs up to that quality. The mere term 'coal', therefore, would have to mean 'washed' coal, as no other type of coal could be used in the matter at hand. ·
+
+> ¶ 72: … f commercial courts to look to implied terms of contract. In the current day and age, making of contracts is a matter of high technical expertise with legal brains from all sides involved in the process of drafting a contract. It is even preceded by opportunities of seeking clarifications and doubts so that the parties know what they arc getting into. Thus, normally a contract should be read as it reads, as per its express terms. The implied terms is a concept, which is necessitated only when the Penta-test referred to aforesaid comes into play. There has to be a strict necessity for it. In the present case, we have really only read the contract in the manner it reads. We have not really read into it any 'implied term' but from the collection of clauses, come to a· conclusion as to what the contract says. The formula for energy charges, to our mind, was quite clear. We have only expounde …
+
+> ¶ 73: 73. We, thus, partly allow the appeal to the extent that the appellant is held entitled to the washing cost of coal, the transportation from the mine site via washing of coal to the project site inclusive of cost of road transportation for the period where it was necessary. The Calorific Value of the coal would have to be taken at the project site. All other claims in appeal stand rejected. The amount payable to the appellant as the consequences thereof be remitted within a period of three (3) months from the date of this order, failing which it would carry interest@ 12 per cent per annum (simple interest). No costs. Kalpana K. Tripathy Appeal partly allowed.
+
+**Notes.** Section 9 (promises express and implied) is the nearest Contract Act section. The Court cited Dhanrajamal (JE-024) among the authorities on implied terms.
+
+**Reviewed by:** —
+
+---
+
+## JE-049 (test, hard): government contracts (Article 299)
+
+**Question.** Is an agreement to refer a contractor's claims against a State Government to arbitration binding on the State, when it was signed by an Executive Engineer not listed in the Governor's notification of officers authorised to execute such instruments?
+
+**Facts.** A contractor's bills for works done for a Province were disputed. The Government's Secretary arranged for arbitration and directed the Executive Engineer to sign a formal agreement of reference expressed to be made by the Governor. The Governor's notification authorising officers to execute contracts listed Executive Engineers only for instruments relating to the execution of works, not for arbitration agreements. After an award in the contractor's favour, the State said the agreement was void under s. 175(3) of the Government of India Act (now Article 299).
+
+**Issues.**
+- What conditions must a government contract satisfy under s. 175(3) / Article 299?
+- Must the authority to execute be conferred by a formal notification, or can it be given ad hoc?
+- What follows if the formalities are not complied with?
+
+**Sections.** contract_act:70, contract_act:230
+
+**Key points.**
+- The three conditions (expressed in the name of the Governor or President; executed; executed by an authorised person in the authorised manner) are mandatory.
+- Authorisation need not be by gazette notification; ad hoc authorisation proved by the record suffices.
+- The later view (Mulamchand) is that the formalities are mandatory and cannot be waived, so a non-complying contract is void, though s. 70 may give restitution.
+- Chatturbhuj's earlier view that such contracts are only unenforceable against the government should be reconciled with the later cases.
+
+**Supporting: State of Bihar v. Karam Chand Thapar and Brothers Ltd.**, [1962] 1 SCR 827 (`SC-1962_1_827_835`)
+
+Proposition: A government contract must be expressed to be made by the Governor (or President), be executed, and be executed by a person authorised by him; the provision prescribes no mode of authorisation, so authority conferred ad hoc, shown by the correspondence, satisfies it even if the officer is not covered by the notification.
+
+> ¶ p-9: Under this section, a contract entered into by the Governor of a Province must satisfy three conditions. It must be expressed to be made by the Go-Vernor; it must be executed; and the execution should be by such persons and in such manner as the Governor might direct or authorise. We have now to e:i;;amine whether the agreement to refer to arbitration dated February 6, 1948, satisfies the ab~ve conditions. It is expressed to be made between the Governor of Bihar and the respondents. It is also a formal document executed by one Y. K. Lall, Executive Engineer, Ranchi Division, and by the respondents .. So the only point that remains for consideration is whether the Executive Engineer was.a person who was directed or authorised by the Governor to execute the agreement in question. The appellant contends that he was not, and relies in support of his contention on a notification dated April 1 …
+
+> ¶ p-20: Having carefully gone through the correspondence, we agree with the learned Judges of the High Court that the Executive Engineer had been ·authorised by the Governor acting through his Secretary to execute the agreement for reference to arbitration. It will be seen that it was the Secretary who from the very inception took the leading part in arranging for arbitration. He was throughout speaking in the name of and on behalf of the Government and he did so "as directed". The subject-matter of the arbitration was a claim which concerned the Government. The proposal at the earlier stages to amend cl. 23 of the original contract so as to include an arbitration shows that the intention of the parties was to treat the agreement for arbitration as part and parcel of that contract. Even after the agreement was executed, the Secretary made corrections and modifications in the agreement on the bas …
+
+> ¶ p-26: …  s. l 75(3) does not prescribe any particular mode in which authority must be conferred. Normally, no doubt, such conferment will be by notification in the Official Gazette, but there is nothing in the section itself to preclude authorisation being conferred ad hoc on any person, and when that is .established, the requirements of the section must be held to be satisfied. In the result, we hold that the agreement dated February 6, 1948, was executed by a person who was authorised to do so by the Governor, and in consequence there was a valid reference to arbitration. It is next contended that as the copy of the award in court was unstamped, no decree could have been passed thereon. The facts are that the arbitrator sent to each of the parties a copy of the award signed by him and a third copy also signed by him was sent to the court. The copy of the award which was sent to the Government  …
+
+**Supporting: Mulamchand v. State of Madhya Pradesh**, [1968] 3 SCR 214 (`SC-1968_3_214_223`)
+
+Proposition: A contract not complying with Article 299 is void, but s. 70 can found a claim for restitution, provided the claimant accounts for what he himself received under the transaction.
+
+> ¶ p-14: … er person the liability to make compensation to the former in resp~t of, or to restore, the thing so done or delivered. The important point to notice is that in a case falling under s. 70 the person doing something for another or delivering something to another cannot SUe for the specific performance of the contract, nor ask for damages for the brl'l!ch of the contract, for the simple reason that there is no contract between him and the other person for whom he does something or to whom he delive~s something. So where a claim for compensation is made by one person against another under s. 70, it is not on the basis of any subsisting contract between. the parties but on a different kind of obligation. The juristic basis of the obligation · in such a case is not founded upon any contract or tort but upon a third category of law, namely, quasi contract or restitution. In Fibrosa v. Fairbair …
+
+> ¶ h-3: (iii) However the refund of Rs. 10,000 claimed by the appellant could not be allowed as he did not satisfy the conditions of s. 70 of the Indian Contract Act. 1be person who seeks restitution has a duty to account to the def<mdant for what he has received in the transaction from which his right to restitution arises.· The appellant had not produced sufficient evidence to show to what extent he worked the contract and wnat was the profit made by him in the year 1951 and the succeeding y<.arS. In the absence of reliable evidence on this point the appellant was not entitled to restitution or refund of the deposit he bad made. [223 A-CJ Fibrosa v. Fairbairn, [1943) A.C. 32 and Nelson v. N'7ho/t [1948] 1 K.B. 330 applied.
+
+**Contrary: Chatturbhuj Vithaldas Jasani v. Moreshwar Parashram**, [1954] 1 SCR 817 (`SC-1954_1_817_842`)
+
+Proposition: Contracts not in the form required by Article 299(1) are not void; the government cannot be sued on them, the officer may be liable under s. 230(3), and nothing prevents the government from ratifying them.
+
+> ¶ p-87: In the present case, there can be no doubt that the Chairman of the Board of Administration acted on behalf of the Union Government and his authority to contract in that capacity was not questioned. There can equally be no doubt that both sides acted in the belief and on the assumption, which was also the fact, that the goods were intended for Government purposes, namely, amenities for the troops. The only flaw is that the contracts were not in proper form and so, because of this purely technical defect, the principal could not have been sued. But that is just the kind of case that section 230(3) of the Indian Contract Act is designed to meet. It would, in our opinion, be disastrous to hold that the hundreds of Government officers who have daily to enter into a variety of contracts, often of a petty nature, and sometimes in an emerg~ncy, cannot contract orally or through correspondence a …
+
+> ¶ p-91: J foreshwar Para1-hram and Ot '1ers, Bose] be nothing to prevent ratification, especially if that was for the benefit of Government. There is authority for the view that when a Government officer acts in excess of au,hority Government is bound if it ratifies the excess: see The Collector of Masulipatam v. Cavaly Venkata Narrainapah(' ). We accordingly hold that the contracts in question here are not voici simply because the Union Government could not have been sued on them by reason of article 299 ( 1). Now section 7 ( d) of the Representation of the People Act does not require that the contracts at which it strikes should be enforceable against the Government; all it requires is that the contracts should be foe the supply of goods to the Government. The contracts in question are just that and so are hit by the section.
+
+**Notes.** Chatturbhuj arose under election law (disqualification for an interest in a government contract); its Article 299 discussion is at p-76 to p-91. Article 299 itself is not in the corpus, so the gold sections are ss. 70 and 230 of the Contract Act.
+
+**Reviewed by:** —
+
+---
+
+## JE-050 (test, medium): bailment and exclusion clauses (valet parking, ss. 151-152)
+
+**Question.** Is a hotel liable when a guest's car handed to its valet is stolen, despite a parking tag saying cars are parked "at the owner's risk"?
+
+**Facts.** A guest arrived at a hotel at night and handed his car and keys to the hotel's valet. The parking tag said the car was parked at the guest's own risk and that the hotel would not be responsible for loss, theft or damage. Later, a young man who had parked at the hotel picked up the guest's keys from the valet desk, went to the parking area and drove the car away, escaping a guard. The car insurer, subrogated to the guest, sued the hotel. The hotel relied only on the exclusion clause.
+
+**Issues.**
+- Does handing a car to a hotel valet create a bailment, and what care must the hotel take (ss. 151-152)?
+- Can the hotel rely on the "owner's risk" clause to escape liability for the theft?
+
+**Sections.** contract_act:148, contract_act:151, contract_act:152
+
+**Key points.**
+- Whether there is a bailment depends on the control handed over; valet parking is a bailment, parking in a hotel's lot without handing over the keys is a licence.
+- The bailee must take the care a person of ordinary prudence would take of his own goods (s. 151) and is not liable if it has done so (s. 152).
+- Innkeepers are not strict insurers of guests' vehicles; the prima facie liability rule places the burden on the hotel to explain the loss.
+- A hotel cannot contract out of liability for negligence in respect of valet-parked vehicles; an exemption clause operates only after the hotel discharges its burden.
+- Theft by stealth, without force, does not by itself excuse the bailee.
+
+**Supporting: Taj Mahal Hotel v. United India Insurance Co. Ltd.**, [2019] 13 SCR 850 (`SC-2019_13_850_892`)
+
+Proposition: Handing a vehicle to a hotel valet is a bailment (merely letting a guest park is a licence); the hotel must take the care of s. 151 and bears a prima facie burden to show the loss was not due to its negligence, and it cannot contract out of liability for its own or its servants' negligence by an "owner's risk" clause.
+
+> ¶ 18: 18. The existence of a contract of bailment often turns on the degree of control exercised by the prospective bailee over the property or good in question. In other words, the crucial point to be considered is whether the custody or possession of the vehicle is purposefully handed over to the hotel (as is the case with valet parking) or whether the complainant is merely allowed to park his car in a parking space or facility. While the laws of bailment apply in the former case, the latter is only a licensor-licensee relationship where laws of bailment or the prima facie liability rule cannot be applied. 18.1. In a number of decisions, the National Commission has held that the manager of a parking facility cannot be held liable as a 'bailee' for loss of vehicles parked therein. In Commissioner, Corporation of Madras v. S. Alagraj, 23 a 3-member Bench held that a person who provides parking …
+
+> ¶ 20: … l injury caused to the guests on account of negligence by the hotel. As mentioned supra, such standard cannot be applied in the context of liability for vehicles of guests. However, we do agree with the observations of Lahoti J. in Klaus Mittelbachert that the high prices charged by such hotels imply a relatively higher degree of care as a reasonable person would normally expect higher quality and safety of the services made available by such hotels. This is also in consonance with the observations of the National Commission in Hotel Hyatt Regency (supra) that five star hotels have a high duty of care for cars parked in their premises. 20.2. This would mean that it is not sufficient for the hotel to merely appoint an attendant or security guard who takes the responsibility of parking the vehicle and keeping the car keys in his custody until the vehicle owner is inside the hotel premises. …
+
+> ¶ 29: 29.In light of the above discussion, in a case of theft of a vehicle given for valet parking, the hotel cannot claim exemption from liability by arguing it was due to acts of third parties beyond their control, or that they are protected by an 'owner's risk' clause, prior to fulfilling its burden as required under Section 151 and 152. It is by now well established, that while a case of a robbery by force is visibly beyond a bailee's control, in cases of private stealth, or simple theft where no force or violence is involved, the bailee still has the prima facie burden of explaining that the loss or disappearance of the goods in his custody is not attributable to his neglect or want of care. This is because no one apart from the bailee is in a position to explain the fate of the goods. In the instant case, given our finding that the theft of the car of Respondent No. 2 was a result of the …
+
+> ¶ 30: 30. In conclusion, we would summarize our observations on this point as follows: (i) the hotel-owner cannot contract out of liability for its negligence or that of its servants in respect of a vehicle of its guest in any circumstance. Once possession of the vehicle is handed to the hotel 34 See Pollock and Mulla (n 32) 1505. staff or valet, there is an implied contractual obligation to return the vehicle in a safe condition upon the direction of the owner. (ii) Even where there is a general or specific exemption clause, there remains a prima facie burden of proof on the hotel to explain that any loss or damage caused to the vehicles parked was not on account of its negligence or want of care per Sections 151 and 152 of the Contract Act. It is only after this burden of proof is discharged that the exemption clause can come into force. The burden of proving that such loss or damage was cov …
+
+**Notes.** The Court preferred Sankaran Nair J.'s view in Sheik Mahamad Ravuther (Madras, not in the corpus) for hotels, distinguishing common carriers (paras 24-28). The complaint was also maintainable by the insurer as subrogee (paras 8-9).
+
+**Reviewed by:** —
+
+---
+
+## JE-051 (dev, medium): promise to pay a time-barred debt (s. 25(3))
+
+**Question.** Can a lender enforce a written settlement in which the borrower agreed to pay a debt that was already time-barred?
+
+**Facts.** A bank's loan to a company became time-barred. Negotiating a one-time settlement, the company offered successively larger sums, and terms of settlement were finally signed under which it agreed to pay a fixed amount by a stated date. It did not pay. When the bank moved against it, the company argued that the debt was barred and that no acknowledgment had been made within the limitation period.
+
+**Issues.**
+- Is a written promise to pay a time-barred debt enforceable without fresh consideration?
+- How does such a promise differ from an acknowledgment of liability?
+
+**Sections.** contract_act:25
+
+**Key points.**
+- An agreement without consideration is void, except under s. 25's exceptions.
+- Section 25(3) needs a debt enforceable but for limitation, a distinct promise to pay it wholly or in part, and writing signed by the debtor or his agent.
+- Limitation bars the remedy, not the debt; the promise founds a fresh cause of action independent of the original debt.
+- An acknowledgment (Limitation Act s. 18) must be made within the period and need not promise to pay; a s. 25(3) promise can be made after the period has run.
+- Section 25(3) does not apply where the debt is unenforceable for other reasons.
+
+**Supporting: Kotak Mahindra Bank Ltd. v. Kew Precision Parts Pvt. Ltd.**, [2022] 19 SCR 212 (`SC-2022_19_212_241`)
+
+Proposition: Under s. 25(3) a written, signed, distinct promise to pay a debt that the creditor could have enforced but for limitation is a valid contract enforceable within three years of the agreed due date; the debt is not extinguished by limitation, and unlike an acknowledgment within time, the promise must expressly undertake to pay.
+
+> ¶ 29: 29. From the above, it is clear that any agreement to pay a time barred debt, would be enforceable in law, within three years from the due date of payment, in terms of such agreement. It appears that Section 25(3) of the Indian Contract Act was not brought to the notice of the NCLAT. The NCLAT also did not consider the aforesaid Section.
+
+> ¶ 30: 30. In this appeal, it is contended that the last offer of 20th December, 2018 was followed by an agreement. Whether there was such agreement or not would have to be considered by the Adjudicating Authority. To invoke Section 25(3), the following conditions must be satisfied:- (i) It must refer to a debt, which the creditor, but for the period of limitation, might have enforced; (ii) There must be a distinct promise to pay such debt, fully or in part; (iii) The promise must be in writing, and signed by the debtor or his duly appointed agent.
+
+> ¶ 31: 31. Under Section 25(3), a debtor can enter into an agreement in writing, to pay the whole or part of a debt, which the creditor might have enforced, but for the limitation of a suit in law. A written promise to pay the barred debt is a valid contract. Such a promise constitutes novation and can form the basis of a suit independent of the original debt, for it is well settled that the debt is not extinguished, the remedy gets barred by passage of time as held by this Court in Bombay Dyeing and Manufacturing Company Limited vs. State of Bombay1
+
+> ¶ 33: 33. There is a distinction between acknowledgment under Section 18 of the Limitation Act, 1963 and a promise within the meaning of Section 25 of the Contract Act. Both promise and acknowledgment in writing, signed by a party or its agent authorised in that behalf, have the 1 AIR 1958 SC 328 effect of creating a fresh starting of limitation. The difference is that an acknowledgment under Section 18 of the Limitation Act has to be made within the period of limitation and need not be accompanied by any promise to pay. If an acknowledgment shows existence of jural relationship, it may extend limitation even though there may be a denial to pay. On the other hand, Section 25(3) is only attracted when there is an express promise to pay a debt that is time barred or any part thereof. Promise to pay can be inferred on scrutinising the document. Only the promise should be clear and unconditional.
+
+**Notes.** The case arose under the Insolvency and Bankruptcy Code; the Court remitted the question whether the settlement was concluded (paras 67-69). The Limitation Act is not in the corpus.
+
+**Reviewed by:** —
+
+---
+
+## JE-052 (test, medium): discharge of surety by variance or time (ss. 133, 135)
+
+**Question.** Is a guarantor of a cash-credit account discharged because the bank's ledgers showed a reduced credit limit and the bank let the borrowers make up a shortfall in pledged goods?
+
+**Facts.** A bank gave a firm a cash-credit facility against pledged goods up to a stated limit, guaranteed by the appellant. The bank's account books at one time recorded the limit as half the agreed figure and later restored it, without consulting the guarantor. On weighment the pledged stock was found short, and the bank allowed the borrowers time to make up the quantity. When the firm defaulted, the guarantor claimed he was discharged by variance and by the giving of time.
+
+**Issues.**
+- Was there a variance in the terms of the contract between the creditor and the principal debtor under s. 133?
+- Did allowing time to make up the pledged goods amount to a promise to give time to the principal debtor under s. 135?
+
+**Sections.** contract_act:133, contract_act:135
+
+**Key points.**
+- A variance in the terms between creditor and principal debtor, made without the surety's consent, discharges the surety as to later transactions (s. 133).
+- The variance must be in the contract itself; internal instructions or book entries that do not bind the parties are not a variance.
+- Section 135 discharges the surety only where the creditor makes a binding promise to give the principal debtor time for payment.
+- Indulgence on a collateral obligation (making up pledged stock) is not time for payment of the debt.
+
+**Supporting: Amrit Lal Goverdhan Lalan v. State Bank of Travancore**, [1968] 3 SCR 724 (`SC-1968_3_724_733`)
+
+Proposition: Internal entries in a bank's books are not a variance of the contract with the principal debtor under s. 133 where no written agreement altered the recorded terms; and time given to make up pledged goods is not a promise to give time for payment of the debt under s. 135, which requires extending the time for payment by a new binding contract.
+
+> ¶ p-10: … it of money with the Bank and the circumstance that. he made an initial deposit of Rs. 10,000 to reinforce his guarantee or that he withdrew Rs. 5,000 out of the deposit appears to be quite immaterial. In our opinion, the High Court was right in reaching the conclusion that there was no variation of the contract between the creditor and the principal debtor without the consent of the appellant and the provisions of s. 133 of the Indian Contract Act are not attracted. We accordingly hold that the Counsel for the appellant has been unable to make good his argument on this aspect of the case. It was contended, in the second place, on behalf of the appellant that respQndent no. 1 Bank had given time to respondents 2 to 6 to make up the shortage of the goods pledged to the value of Rs. 35,690. It appears that under the agreement, Ex. P-1 respondents 2 to 6 had pledged goods which were verifie …
+
+> ¶ p-11: … f giving time to the borrowers to make up the quantity of the goods found to be short on weighment by the Bank cannot be considered to be a "promise to give time" to the borrowers as contemplated by s. 135 of the Indian Contract Act. In this connection reference should be made to cl. 9 of Ex. P-1 which provides that the borrowers shall be responsible for the quantity and quality of goods pledged and also for the correctness of the statements and returns furnished to the Bank from time to time. It is stated in Ex. P-1 that the borrowers have declared and agreed that the goods pledged with the Bank have not been actually weighed or valued in order to verify the quantity and qualify of the goods pledged. It is in the light of these clauses of the agreement that the act of giving time to the principal debtor has to be considered. The act of the Bank in giving time to the principal debtor to  …
+
+> ¶ h-1: HELD : (I) The entries in the books of account were mere internal instructions not legally binding on the respondents, and in view of the formal record in the original agreement and letter of guarantee. there could not have been a varia•ion in the terms without a proper written agreement. Therefore. the're wac; no variance in the terms of the contract between the creditor and· the mincioal debtor and the provisions of s. 133 of the Act were not attracted. [729 B-C. El AMRIT LAL v. STATE BANK (Ramaswami, J.)" 725 (2) What really ronstitutes a promise to give time within the meaning of s. 135 of the Act is the extension of the period at which, the principal debtor was uy the original contract obliged to pay the creditor, by substituting a new and valid contract between them, or, whenewr the taldng of a new secunty from the principal debtor operates as giving time. There'fore, the act of th …
+
+**Notes.** Compare JE-017 (the surety's liability is co-extensive with the principal debtor's) and JE-053 (discharge where the creditor loses a security).
+
+**Reviewed by:** —
+
+---
+
+## JE-053 (test, hard): surety's right to securities (s. 141) and sale of goods (s. 20)
+
+**Question.** Is a surety for a forest contractor discharged when the State let the contractor remove the timber it bought without paying the instalments due?
+
+**Facts.** At a forest auction a contractor bought felled trees in a coupe, the price payable in four instalments. Under the contract and the forest rules the State kept control of the timber: it could stop removal if the value removed exceeded the instalments paid, and had a first charge on the goods. A surety guaranteed the contractor's performance. The contractor removed all the timber without paying the later instalments, and the forest officers did nothing. The State sued the surety.
+
+**Issues.**
+- When did the property in the felled trees pass to the contractor?
+- Did the State hold a security for the price, and did it lose or part with it so as to discharge the surety under s. 141?
+
+**Sections.** contract_act:141, contract_act:140, sale_of_goods_act:20
+
+**Key points.**
+- Under s. 20 of the Sale of Goods Act, property in specific goods in a deliverable state passes when the contract is made, even if payment or delivery is postponed.
+- The word "security" in s. 141 is not technical; it includes all the creditor's rights against the property, such as a charge and a right to stop removal.
+- The surety is entitled to the benefit of those securities (ss. 140-141) and is discharged to the extent of their value if the creditor loses or parts with them.
+- Losing the security through inaction also discharges the surety; positive action is not required.
+
+**Supporting: State of Madhya Pradesh v. Kaluram**, [1967] 1 SCR 266 (`SC-1967_1_266_274`)
+
+Proposition: Property in specific goods in a deliverable state passes when the contract is made (s. 20 SoGA), but the State's rights to stop removal and its first charge were a security for the price; a surety is entitled to every security the creditor had, and is discharged to the extent the creditor loses or parts with it, even by inaction.
+
+> ¶ p-15: … s of r. 33(2) which authorize the for~st contractor to assign any forest produce also support that inference. The right to assign .the forest produce not removed from the contract area predicates title tci the forest produce. The argument of the State that the property in the· goods had not passed to the forest contractor till they were removed, and on that account the statutory charge under s. 83 of the Forest Act did not attach to the goods sold, has therefore no force. As soon as the contract was entered into and the coupe boundary certificate was produced and we assume in this case that it was. ·so produced, the property in the goods passed to Jagatram. But for the contract price there was. a first charge on such produce in favour of the State of Madhya Pradesh un!'.ler s.' 83(1). The Divisional Forest Offieer had authority to stop removal of those goods until I the amount of instalm …
+
+> ¶ p-18: … siqn "security" in s. 141 is not used in any technical sense: it jncludes all rights which the creditor 'had against the property at the date of the contract. The surety is entitled on payment of the debt or performance of all that 'he is liable for, to the benefit of the rights of • the creditor against the principal debtor which arise out of the transaction which gives.rise to the right or liability: he is ·therefore on.payment.of the amount due by the principal debtor entitled to be put in the same position in which the creditor stood in relation to the principal debtor. If the creditor has lost or has parted with the' security without the consent of the surety, the latter is, by the express ·provision contained in s. 141, discharged to the extent of the value of the security Jost or parted -with. The State had a charge over the goods sol_d as wen as the right to remain in possession  …
+
+> ¶ p-20: It was urged however on behalf of the State that mere inaction on the part of the forest authorities does not amount to parting with the security. But the terms of the statute do not apply only to cases in which by positive action on the part of the creditor the security is parted with. Even if the security is lost by the creditor, the surety is discharged. In any event the fact$ in the present case make it abundantly clear that it wa' on account of the conduct of the forest authorities that the security was lost. The goods sold were under the control of the Forest Officers, when they were in the coupe and even when they were in the depot of the contractor. The goods could be removed on the production of a pass from the coupe, and even after the goods were removed, unless they were examined and checked they were not at the disposal of the contractor. It is not pleaded by the State that t …
+
+> ¶ p-21: We therefore agree with the High Court that the surety Kaluram stood discharged from liability to pay the amount undertaken by him under the terms of the surety bond because the forest authorities of the State had parted with the security which they possessed for recovery of the amount due from Jhe contractor. The appeal fails and is dismissed with costs. (;.C. Appeal dismissed.
+
+**Reviewed by:** —
+
+---
+
+## JE-054 (test, medium): rectification of instruments (s. 26 SRA)
+
+**Question.** Can a son have his father's settlement deed "rectified" to give him his sister's house, relying on a later unregistered document the father signed?
+
+**Facts.** An elderly father executed two registered settlement deeds, giving one house to his daughter and a smaller one to his son. Two years later he signed an unregistered document saying the daughter's house should go to the son. The son sued his sister for rectification of the settlement deeds on the basis of that document. The sister had not signed it, and the father was neither made a party nor examined.
+
+**Issues.**
+- When does s. 26 of the Specific Relief Act allow rectification of an instrument, and who may seek it?
+- Could a later unilateral document of the settlor change the settlement in the son's favour?
+
+**Sections.** specific_relief_act:26
+
+**Key points.**
+- Section 26 applies only to fraud or mutual mistake of the parties that leaves the instrument not expressing their real intention.
+- Rectification must be specifically claimed and can be sought by the parties to the instrument (or those claiming under them), not by strangers.
+- A later document by one party does not bind someone who is not a party to it.
+- The contents of the document relied on must be proved, e.g. by examining attesting witnesses.
+
+**Supporting: Joseph John Peter Sandy v. Veronica Thomas Rajkumar**, [2013] 2 SCR 368 (`SC-2013_2_368_388`)
+
+Proposition: Rectification under s. 26 applies only where, through fraud or mutual mistake of the parties, an instrument does not express their real intention, and must be specifically claimed; it may be sought only by the parties to the instrument, so the donee could not rectify the settlor's deed, and a later document to which the sister was not a party did not bind her.
+
+> ¶ 5: 5. We have considered the rival submissions made by the learned counsel for the parties and perused the records. Before entering into merits of the case, it is desirable to examine the legal issues. LEGAL ISSUES : I. Section 26 of Specific Relief Act. 1963: Section 26 of the Special Relief Act 1963 (hereinafter referred to as 'Act') provides for rectification of instruments, where through fraud or a mutual mistake of the parties, an instrument in writing does not express the real intention, then the parties may apply for rectification. However, clause 4 thereof, provides that such a relief cannot be granted by the court, unless it is specifically claimed.
+
+> ¶ 7: 7. Thus, in view of the above, it can be held that Section 26 of the Act has a limited application, and is applicable only where it is pleaded and proved that through fraud or mutual mistake of the parties, the real intention of the parties is not expressed in relation to an instrument. Such rectification is permissible only by the parties to the instrument and by none else. II. Undue influence • Section 16 of Contract Act. 1872: Section 16 of the Contract Act provides that a contract is said to be induced by "undue influence· where the relations subsisting between the parties are such that one of the parties is in a position to dominate the will of the other, and uses that position to obtain an unfair advantage over the other.
+
+> ¶ 26: 26. In view of the law referred to hereinabove, it is crystal clear that even though the document may be admissible, still its contents have to be proved and in the instant case, as the appellant did not examine either the attesting witnesses of the document, nor proved its contents, no fault can be found with the judgment impugned before us. Section 26 of the Act, provides for rectification of a document if the parties feel that they have committed any mistake. Also, ii was only, the father THOMAS RAJKUMAR [DR. B.S. CHAUHAN, J.) of the parties who could have sought rectification of the deed. Mere rectification by parties herein does not take the case within the ambit of Section 26 of the Act. Taking note of the statutory provisions of Section 16 of the Contract Act and the parameters laid down by this Court for application of doctrine on undue influence, the High Court has reached a cor …
+
+**Notes.** The case also involved allegations of undue influence over a later deed by the daughter (s. 16 of the Contract Act), discussed at para 7 onwards.
+
+**Reviewed by:** —
+
+---
+
+## JE-055 (test, medium): supervening illegality (s. 56)
+
+**Question.** Can a buyer sue for non-delivery of imported chicory when, after the contract was made, an import control order barred the importer from selling it to anyone?
+
+**Facts.** A coffee-powder maker imported chicory under an actual user's licence. Before the goods arrived it agreed to sell the consignment to a buyer and took an advance. Days before the goods were cleared, a new Imports (Control) Order came into force requiring licensees to comply with licence conditions, and the licence allowed the chicory to be used only in the importer's own factory. The importer did not deliver, and the buyer sued for damages.
+
+**Issues.**
+- Did the later control order make performance unlawful so that the contract became void under s. 56?
+- Was the frustration self-induced?
+
+**Sections.** contract_act:56
+
+**Key points.**
+- Section 56 makes a contract void when performance becomes unlawful after it is made, by an event the promisor could not prevent.
+- In India s. 56 is a positive rule of law, not a matter of the parties' implied intention.
+- Frustration cannot be self-induced; if the party had a choice, s. 56 does not help it.
+- Distinguish a party that undertook the risk of a licence (Naihati Jute Mills).
+
+**Supporting: Boothalinga Agencies v. V.T.C. Poriaswami Nadar**, [1969] 1 SCR 65 (`SC-1969_1_65_79`)
+
+Proposition: Where, after the contract, a statutory order makes performance unlawful, the contract becomes void under s. 56, which is a positive rule of law; frustration cannot rest on an event the party itself chose (self-induced frustration), but here the licence left no choice, so the buyer's suit failed.
+
+> ¶ p-41: … est that •the disposal of the imported chicory which arrived at Madrns port on December 13, 1955 was governed by the provisions of the Imports (Control) Order, 1955 which came into force on December 7, 1955. Clause 5 ( 4) of the 1955 Order expressly provides that the licensee shall comply with all 1he conditions imposed or deemed to be imposed under that clause. Therefore the sale of the imported goods would be a direct contravention of cl. 5 ( 4) and under s. 5 of the Imports and Exports (Control) Act, 194 7 any contravention of the Act or any order made or deemed to have been made under the Act is punishable with imprisomnent up to one year or fine or both. In consequence, even though the contract was enforceable on November 26, 1955 when it was entered into, the performance of the contract bec.ame impossible or unlawful after December 7, 1955 and so ihe contract became void under s. 5 …
+
+> ¶ p-43: The doctrine of frustration of contract is really an aspect or part of the law of discharge of contract by reason of supervenincr impossibility or illegality of the -act agreed to be done and .henc~ comes within 'the purview of s. 56 of the Indian Contract Act. lt should be noticed that s. 56 lays down a rule of positive Jaw and does not leave 1he matter to be determined according to the inten'tion of the parties.
+
+> ¶ p-49: … s held by the Judicial Committee that the failure of the contract was the result of the appellants' own election, and that there was therefore no frustration of the contract. We think the principle of this case applies to the Indian law and the provisions of s. 56 of the Indian Contract Act cannot apply to a case of "self-induced frustration". In other words, the doctrine of frustration of contract cannot apply where the evenrwhich is alleged to have frustrated the contract arises from the act or election of a party. But for the reasons already given, we hold that this principle cannot be applied to the present case for there was no choice or election left to the appellant to supply chicory other than under the tenns of the contract. On the other hand, fuere was a positive prohibition imposed by the licence upon the appellant not to sell the imported chicory to any other party but he was …
+
+**Contrary: The Naihati Jute Mills Ltd. v. Khyaliram Jagannath**, [1968] 1 SCR 821 (`SC-1968_1_821_832`)
+
+Proposition: A refusal of a licence due to the party's own position, where it had absolutely undertaken to obtain the licence, does not frustrate the contract.
+
+> ¶ p-12: … on whether the contract which the appellants entered into was that they would make their best endeavours to get the licence or whether the conD tract was that they ·would obtain it or else be liable for breach of ·that stipulation. In a case falling under the former category, Lord Reading C.J. in Anglo-Russian Merchants-Traders v. John Batt & Co.(') observed' that there was no reason why the law should imply an absolute obligation to do that which the law forbids. It was so said because the Court construed the contract to mean only that the sellers there were to make their best efforts to obtain the requisite permits. As a contrast to such a case there are the cases of Pattahmull Rajeshwar v. K. C. Sethia(') and Peter Cassidy Seed Co. v. Osuustickaanppa(') where the courts have observed that there is nothing improper or illegal for a party to take upon himself an absolute obligation to o …
+
+> ¶ p-19: In our view, the provision in the contract that whereas the delay to provide a licence in November 1958 was to be excused but that the contract was to be settled at the market rate prevail- ing on January 2, 1959 if the appellants failed to deliver the licence in December 1958 clearly meant that the appellants had taken upon themselves absolutely the burden of furnishing the licence latest by the end of December 1958 and had stipulated that in default they would pay damages on the basis of price prevailing on January 2. 1959. That being the position the defence c of impossibility of performance or of the contract being void for that reason or that the court should spell out an implied term in the contract would not be available to them. In the view that we take that the said contract cannot be said to be or t0 have been void and that in altly event the stipulation as to obtaining the imp …
+
+**Notes.** The Court also held that a mere breach of a licence condition was not then an offence under s. 5 of the Imports and Exports (Control) Act (headnote); the decisive point was the new control order.
+
+**Reviewed by:** —
+
+---
+
+## JE-056 (dev, medium): specific performance of uncertain terms
+
+**Question.** Can a buyer get specific performance of an agreement to sell a property jointly owned by the seller and her co-owner, when the co-owner refused to sell and the agreement said the seller would then sell "one of the two shares"?
+
+**Facts.** A buyer paid an advance under a writing by which a woman agreed that she and her co-owner would sell a property with its machinery. The writing added that if the co-owner refused, the woman would sell "my one of the two shares", or otherwise pay back the advance with an equal amount as compensation. The co-owner refused, the seller treated the agreement as ended, and the buyer sued for specific performance of the sale of the seller's share.
+
+**Issues.**
+- Were the terms certain enough, and the parties ad idem, for specific performance?
+- Was the payment of the advance with compensation an alternative to performance?
+
+**Sections.** specific_relief_act:9, contract_act:29
+
+**Key points.**
+- Specific performance directs the defaulting party to do exactly what it promised, so the terms must be certain and agreed.
+- The plaintiff bears the burden of proving the terms and consensus ad idem.
+- Uncertainty about the subject-matter (which share) and the price defeats the claim (s. 29).
+- A stipulation allowing payment of a sum instead of performance may show the promise was alternative.
+- Section 9 SRA lets the defendant raise any defence available under the law of contracts.
+
+**Supporting: Mayawanti v. Kaushalya Devi**, [1990] 2 SCR 350 (`SC-1990_2_350_365`)
+
+Proposition: Specific performance requires certain terms on which the parties were ad idem, which the plaintiff must prove; where the share to be sold and its price were undefined, and the promise allowed repayment with compensation as an alternative, there was no enforceable contract to specifically perform, and the defendant may plead any contract-law defence (s. 9 SRA).
+
+> ¶ p-14: … half share to the appellant for one half of the total consideration. It seems difficult to say that the answer should necessarily be in the affirmative. There are too many i's to be dotted and t's to be crossed before a clear and unambiguous contract, on the terms sought to be enforced, could be spelt out of the language of Ext. PW-11/A. The specific performance of a contract is the actual execution of the contract according to its stipulations and terms, and the courts direct the party in default to do the very thing which he contracted to do. The stipulations and terms of the contract have, therefore, to be certain and the parties must have been consensus ad idem. The burden of showing the stipulations and terms of rhe contract and that the j minds were ad iden is, of course, on the plaintiff. If the stipulations and terms are uncertain, and the parties are not ad idem, there can be no …
+
+> ¶ p-18: Section 9 of the Specific Relief Act says that except as otherwise provided in that Act where any relief is claimed under Chapter II of the Act in respect of a contract, the person against whom the relief is claimed may plead by way of defence any ground which is available to T him under any law relating to contracts. In the instant case the defence of there having not been a contract for lack of consensus ad idem was available to the defendant.
+
+> ¶ h-1: … on· tracted to do. The stipulations and terms of the contract have, therefore, to be certain and the parties must have been consensus ad idem. The burden of showing the stipulations and terms of the contract and that the minds were ad idem is, of Course, on the plaintiff. If the stipulations and terms are uncertain and the parties are not ad idem there can be no specific performance, for there was no contract at all. [362D-E] Where there are negotiations, the Court has to determine at what point, if at all, the parties have reached agreement. Negotiations there- after would also be material if the agreement is rescinded. In the instant case the defence of there having not been a contract for lack of consensus ad idem was available to the defendant. [363F; 364B] The jurisdiction of the Court in specific performance is discre-tionary. When a promise is made in an alternative form and one a …
+
+**Notes.** The original writing was in another language, and the translation was disputed before the Court (p-20).
+
+**Reviewed by:** —
+
+---
+
+## JE-057 (test, hard): covenants binding successors (ss. 37, 40)
+
+**Question.** Does a right of pre-emption agreed between co-owners in a partition award bind their successors, and is it void under the rule against perpetuities?
+
+**Facts.** A partition award, made with the parties' consent, provided that if any party disposed of any portion of his share he would first offer it to the other party, who would have a right of pre-emption. Years later a successor-in-interest of one party sold his portion to an outsider without offering it to the successors of the other party, who sued to enforce the pre-emption clause. The buyer argued the clause was personal to the original parties and void for perpetuity.
+
+**Issues.**
+- Is the pre-emption clause binding on assignees and successors-in-interest of the original parties?
+- Is an unlimited pre-emption covenant void under the rule against perpetuities?
+
+**Sections.** contract_act:37, contract_act:40
+
+**Key points.**
+- Promises bind the promisor's representatives unless a contrary intention appears (s. 37).
+- Whether a covenant is personal depends on the contract read as a whole (s. 40); a pre-emption clause resting on vicinage is not personal.
+- In India an agreement for sale creates no interest in land (s. 54 TPA), so the rule against perpetuities (s. 14 TPA) does not strike down the covenant, unlike English law.
+- The obligation can be enforced against a transferee with notice or a gratuitous transferee.
+
+**Supporting: Rambaran Prosad v. Ram Mohit Hazra**, [1967] 1 SCR 293 (`SC-1967_1_293_302`)
+
+Proposition: In the absence of a contrary intention, a contract is enforceable by and against the parties' representatives and assignees (ss. 37 and 40); a pre-emption clause based on vicinage binds successors-in-interest, and since a contract for sale creates no interest in land in India, such a covenant does not offend the rule against perpetuities.
+
+> ¶ p-3: On behalf of the appellant learned Counsel put forward the argument that the covenant for pre-emption was_ merely a personal covenant between the contracting parties and was not binding against successors-in-interest or the assignees of the original parties to the contract. We are unable to accept this submission as correct. It is true that the pre-emption clause does rtot expressly state that it is binding upon the assignees or successors-in-interest, but, having regard to the context and the circumstances in which the a ward was made, it is manifest that the pre-emption clause must be construed as binding upon the assignees or successors-in-interest of the original cm1tracting parties.
+
+> ¶ p-7: … omisors before performance, unless a contrary intention appears from the contract." "40. If it appears from the nature of the case that it was the intention of the parties to any contract that any promise contained in it should be· performed by the promisor himself, such promise must be performed by the promisor. In other <;ases, the promisor or his representatives may employ a competent person ·to perform it." In substance these statutory provisions lay down that, subject to certain exceptions which are not material in this case, a contract in the absence of a contrary intention express or implied will be enforceable by and against the parties and their legal heirs and legal representatives including assignees and transferees. In the present case, there is nothing in the language of the pre-emption clause or the other clauses of the award to suggest that the parties had any contrary int …
+
+> ¶ p-10: … es. There is hence no reason why the same expression should be given a restricted ,meaning in the pre-emption clause which is the subject-matter of .interpretation in the present appeal. On behalf of the respondents Mr. N. C. Chatterjee rightly argued that the pre-emp- lion clause was based upon the ground of vicinagc and this circum- A stance would also suggest that the intention of the parties was that the pre-emption clause should be binding upon the heirs and successors-in-interest and the assignees of the original parties to the contract. We accordingly hold that Mr. Bishen Narain on behalf of the appellant is unable to make good his submission on this aspect of the case. B We pass on to consider the next question which arises in this .appeal, namely, whether the covenant of pre-emption offends the rule against perpetuities and is therefore void and not enforceable even against the  …
+
+> ¶ p-18: We are accordingly of the opinion that the covenant for pre-emption in this case does not offend the rule against perpetuities and cannot be considered to be void in law. The view that we have expressed is borne out by the decisions of the Calcutta High Court in Ali Hossain Miya v. Raj Kumar Haldar('), of the Allahabad High Court in Au/ad Ali v. Ali Athar(i) and of the Madras High Court in Chinna Munuswami Nayudu v. Saga/aguna Nayudu.() Mr. Bishen Narain relied on the decision of the Calcutta High Court in Nobin Chandra Soot v. Nabab Ali Sarkar(•) and the judgment of the Allahabad High Court in Gopi Ram v. Jeot Ram(5). For the reasons we have already stated we hold that the later decisions in Ali Hossain Miya v. Raj Kumar Ha/dar(') in Chinna Munuswomi Nayudu v. Saga/aguna Nayudu,(') and in Au/ad Ali v. Ali Athar ,(2) correctly state the law on the point. For the reasons expressed we hold …
+
+**Notes.** The Court declined to follow the English rule in London and South Western Railway v. Gomm (p-11) and relied on the Transfer of Property Act, which is not in the corpus.
+
+**Reviewed by:** —
+
+---
+
+## JE-058 (test, easy): lien (s. 171)
+
+**Question.** Can an advocate refuse to return a client's case files until his fees are paid, on the footing of a general lien under s. 171?
+
+**Facts.** A bank engaged an advocate in several cases and then ended the engagement. It asked for its case files so that its new counsel could proceed. The advocate refused, claiming unpaid fees and a right to retain the files as a lien. The bank complained of professional misconduct, and the Bar Council suspended him without deciding whether he had a lien.
+
+**Issues.**
+- Does s. 171 give an advocate a general lien over the client's litigation files?
+- Is refusing to return the files misconduct, and what remedies does the advocate have for his fees?
+
+**Sections.** contract_act:171, contract_act:148
+
+**Key points.**
+- Section 171 gives bankers, factors, wharfingers, attorneys of a High Court and policy-brokers a general lien over goods bailed to them; others need an express contract.
+- A bailment (s. 148) needs delivery of goods on a contract for their return; case files are not delivered on such a contract.
+- The word "goods" in s. 171 bears the Sale of Goods Act meaning and covers marketable things; case files are not.
+- The advocate's remedy is to sue for fees; the client is entitled to its files.
+
+**Supporting: R.D. Saxena v. Balram Prasad Sharma**, [2000] Supp 2 SCR 598 (`SC-S_2000_2_598_617`)
+
+Proposition: Litigation files are not "goods bailed" within s. 171: there is no delivery of marketable goods on a contract to return them, so an advocate has no lien on them for fees; he must return the files when discharged and may sue for his fees, and refusing to return them is professional misconduct.
+
+> ¶ p-15: We would first examine whether an advocate has lien on the files entrusted to him by the client. Learned· counsel for the appellant endeavoured to base his contention on Section 171 of the Indian Contract Act which reads thus: "Bankers, factors, wharfingers, attorneys of a High Court and policybrokers ma)', in the absence of a contract to the contrary, retain, as a security for a general balance of account, any goods bailed to them; but no other persons have a right to retain, as a security for such balance, goods bailed to them, unless there is an express contract to that effect."
+
+> ¶ p-16: Files containing copies of the records (perhaps some original documents also) cannot be equated with the "goods" referred to in the section. The advocate keeping the files cannot amount to "goods bailed" .. The word "bailment" is defined in Section 148 of the Contract Act as the delivery of goods by one person to another for some purpose, npon a contract that they shall be returned or otherwise disposed of according to the directions of the person delivering them, when the puipose is accomplished. In the case of litigation p:tpers in the hands of the advocate there is neither delivery of goods nor any contract that they shall be returned or otherwise disposed of. That apart, the word "goods" mentioned in Section 171 is to be understood in the sense in which that word is defined in the Sale of Goods Act. It must be remembered that Chapter-VII of the Contract Act, comprising sections 76 to …
+
+> ¶ p-22: Thus, even after providing a right for an advocate to deduct the fees out of any money of the client remaining in his hand at the termination of the proceeding for which the advocate was engaged, it is important to notice that no lien is provided on the litigation files kept with him. In the conditions prevailing in India with lots of illiterate people among the litigant public it may not be advisable also to permit the counsel to retain the case bundle for the fees claimed by him. Any such lien if permitted would become susceptible to great abuses and exploitation.
+
+> ¶ p-26: Even if there is no lien on the litigation papers of his client an advocate is not without remedies to realise the fee which he is legitimately entitled to. But if he has a duty to return the files to his client on being discharged the litigant too has a right to have the files returned to him, more so when the remaining part of the !is has to be fought in the court. This right of the litigant is to be read as the corresponding counterpart of the professional duty of the advocate.
+
+**Notes.** The punishment was reduced to a reprimand because the point was new (p-33). Sethi J. wrote a concurring opinion (p-55).
+
+**Reviewed by:** —
+
+---
+
+## JE-059 (test, hard): irrevocable agency (ss. 201, 202)
+
+**Question.** Does a power of attorney described as "irrevocable", given together with an agreement to sell, survive the owner's death so that the attorney can later sell the land?
+
+**Facts.** A landowner executed a general power of attorney, described as irrevocable, and an unregistered agreement to sell a plot in favour of the same person, who paid the price and took possession. The power of attorney authorised her to manage the land and sell it to anyone. After the owner died, the attorney sold the plot to a relative by a registered deed. Meanwhile the owner's heirs sold the same plot to others, and the two sets of buyers disputed title.
+
+**Issues.**
+- Was the power of attorney coupled with interest and so irrevocable under s. 202?
+- Did the agency end on the principal's death under s. 201?
+
+**Sections.** contract_act:201, contract_act:202
+
+**Key points.**
+- An agency ends on the death of the principal (s. 201), unless s. 202 applies.
+- Section 202 needs a principal-agent relationship and an interest of the agent in the subject-matter that the authority was given to secure (illustrations (a) and (b)).
+- The word "irrevocable" is not decisive; the document read as a whole decides.
+- A power of attorney that is only to manage and sell for the principal is not coupled with interest, even if the agent paid money.
+- An interest in immovable property can pass only by a registered instrument (s. 17 Registration Act).
+
+**Supporting: M.S. Ananthamurthy v. J. Manjula**, [2025] 2 SCR 2035 (`SC-2025_2_2035_2079`)
+
+Proposition: An agency is irrevocable under s. 202 only where the agent has an interest in the subject-matter and the authority was given to secure that interest; calling a power of attorney "irrevocable" does not make it so, and an ordinary agency ends on the principal's death (s. 201), so a sale by the attorney afterwards passes no title.
+
+> ¶ 34: … h is due to him from A. Illustration (b) states that A (principal) has consigned 1,000 bales of cotton to B (agent), who has given an advance on the bales of cotton. Now, A wishes B to sell the cotton and recover his advance from the sale proceeds. In both the cases, A can neither revoke the authority nor agency will be terminated by his insanity or death. It is important to take a note that in both the cases, the agent has an interest vested in the subject-matter of the agency. The factum of interest or security of the agent, in both cases, does not imply that the agent's right to remuneration constitutes an interest in the subject matter of the agency; rather, it extends beyond the mere advancement of remuneration or commission. Where POA is coupled with an interest, it metamorphosizes to an irrevocable agency unless expressly stated otherwise. There an agent's right to remuneration is …
+
+> ¶ 35: 35. Therefore, the essentials of Section 202 of the Contract Act are, first, there shall be a relationship in the capacity of 'principal and agent' between the parties and secondly, there shall be agent's interest in the subject-matter of the agency. If both the conditions are fulfilled the agency becomes irrevocable and cannot be terminated unilaterally at the behest of the principal. As the first condition is satisfied in the present case, we shall now proceed to examine whether from the reading of the GPA, the holder of POA had an interest in the subject matter of the agency, namely, the Suit Property.
+
+> ¶ 45: … d to the existing fact. It is very difficult task to know the intention of the parties on the basis of the recital of the document. But, the Court can rely safely on the language of the document, the language, which has been used by the parties to manifest the intention of the parties. If the Court goes on extraneous evidence, that may lead to more difficulty and confusion. But, there are certain principles to be borne in mind. The first principle is, the mere saying that the power of attorney is an irrevocable power of attorney coupled with interest is not the end of the matter. The Court, can clearly say that the document, though, is styled as an irrevocable power of attorney is not in substance a power coupled with interest so as to make it an irrevocable power of attorney. At the same time, even if there is no title to show that the power is an irrevocable power, but, the substance o …
+
+> ¶ 46: 46. Applying the above exposition of law in the facts of the present case, it is evident from the tenor of POA that is not irrevocable as it was not executed to effectuate security or to secure interest of the agent. The holder of POA could not be said to have an interest in the subject-matter of the agency and mere use of the word 'irrevocable' in a POA would not make the POA irrevocable. The High Court was right in holding that the holder did not have any interest in the POA. When the High Court observes that the power of attorney does not explicitly state the reason for its execution, it implies that its nature is general rather than special.
+
+**Notes.** The Court read the power of attorney with the agreement to sell (paras 53-55) and held that any interest in land they created needed registration; the Registration Act and the Transfer of Property Act are not in the corpus.
+
+**Reviewed by:** —
+
+---
+
+## JE-060 (test, medium): an agent's authority (ss. 186-188, 237)
+
+**Question.** Is a life insurer bound by a premium paid to its agent when the agent was forbidden to collect premiums and remitted it only after the insured died?
+
+**Facts.** A man insured his life through an agent of the insurer. He missed a half-yearly premium, and the policy lapsed after the grace period. The agent then collected a bearer cheque for the premium from him, encashed it, and paid the amount to the insurer only after the insured died. The agent's letter of appointment and the insurer's regulations expressly prohibited agents from collecting premiums. The widow claimed on the policy, arguing that payment to the agent was payment to the insurer.
+
+**Issues.**
+- Did the agent have express, implied or apparent authority to receive the premium?
+- Was the insurer bound by the payment under s. 237?
+
+**Sections.** contract_act:186, contract_act:188, contract_act:237
+
+**Key points.**
+- Authority is express (words) or implied (from the circumstances and course of dealing), and extends to what is necessary to do the authorised act (ss. 186-188).
+- Apparent (ostensible) authority rests on the principal's representation to the third party, not the agent's.
+- An express prohibition in the appointment and regulations negatives implied authority to collect premiums.
+- Without conduct by the insurer inducing the belief, s. 237 does not bind it.
+
+**Supporting: Harshad J. Shah v. L.I.C. of India**, [1997] 3 SCR 617 (`SC-1997_3_617_632`)
+
+Proposition: An agent's authority may be express or implied (ss. 186-188), and a principal is bound by acts within an agent's apparent authority only where its own words or conduct led third parties to believe the agent had authority (s. 237); an agent expressly forbidden by the principal's regulations to collect premiums had none, so payment to him did not bind the insurer.
+
+> ¶ p-26: HARSHAD J. SHAH v. L.I.C. OF INDIA [S.C. AGRAWAL, J.] 629 The authority of the agent is apparent where it results from a manifestation made by the principal to third parties. The doctrine of apparent authority involves the assumption that there is in fact no authority at all. It is the authority of an agent as it appears to others. Under this doctrine where _a principal represents, or is regarded by law as representing, that another has authority, he may be bound as against a third party by the acts of that other person within the authority which that person appears to have though he had not in fact given that person such authority or had limited the authority by instructions not made known to the third party. The notion of apparent authority is essentially confined to the relationship between principal and third party. (See : Bowstead on Agency, 15th Edn., Article 22, pages 92 to 94).
+
+> ¶ p-27: The position is not very different in the law in India. Section 186 of the Indian Contract Act, 1872 lays down that the authority of an agent may be express on implied. An authority is said to be express when it is given by_ words spoken or written and an authority is said to be implied when it is to be inferred from the circumstances of the case and things spoken or written, of the ordinary course of dealing, may be accounted circumstances of the case (Section 187). Section 188 prescribes that an agent having as authority to do an act has authority to do every lawful thing which is necessary in order to do such act. In Section 237 it is provided that when an agent has, without authority, done acts or incurred obligations to third persons on behalf of his principal, the principal is bound by such acts or obligations if he has by his words or conduct induced such third persons to believe  …
+
+> ¶ p-29: … y an agent. In view of this express prohibition in the Regulations/Rules which were published in the Gazette it is not possible to infer an implied authority by the LIC authorising its agents to collect premium on behalf of the LIC. c The only question is whether the LIC can be held liable on the basis of the doctrine of apparent authority. Shri Mathur has invoked the said doctrine and has relied upon Section 237 of the Indian Contract Act. He has urged that, by its conduct in receiving the premium through it agents, the LIC had induced the policyholders to believe that acts of the agents in receiving the premium form the policyholders were within the scope of the agents' authority. Shri Mathur has laid stress on the fact that respondent No. 3 was permitted to deposit the amount of Rs. 2,730 towards premiums with the LIC on August 10, 1987 on behalf of the insured. We, however, find that …
+
+**Notes.** The Court nevertheless directed the insurer to refund the premiums with interest and pay costs (p-11).
+
+**Reviewed by:** —
+
+---
