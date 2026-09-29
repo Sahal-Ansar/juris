@@ -135,6 +135,8 @@ def test_il_pcr_reads_the_hf_parquet_layout(tmp_path: Path) -> None:
         [
             {"id": "101", "text": ["First sentence.", "Second."], "relevant_candidates": ["7"]},
             {"id": "102", "text": ["Another query."], "relevant_candidates": ["7", "8"]},
+            # as in the real data: a query whose only "relevant" ID is empty
+            {"id": "103", "text": ["Nothing to find."], "relevant_candidates": [""]},
         ],
     )
     write_parquet(
@@ -148,6 +150,7 @@ def test_il_pcr_reads_the_hf_parquet_layout(tmp_path: Path) -> None:
     assert ds.queries[0].text == "First sentence.\nSecond."
     assert ds.queries[1].relevant == {"7", "8"}
     assert set(ds.documents) == {"7", "8"} and ds.validate() == []
+    assert [q.id for q in ds.queries] == ["101", "102"] and "['103']" in ds.notes
     assert "NC" in ds.licence
     with pytest.raises(BenchmarkMissing, match="request access"):
         load_il_pcr("dev", tmp_path)
@@ -247,3 +250,17 @@ def test_real_coliee_task4_loads_and_validates() -> None:
     ds = load_task4(find_task4())
     assert len(ds.examples) == 1206 and sum(e.label for e in ds.examples) == 614
     assert ds.validate() == []
+
+
+@pytest.mark.skipif(
+    not (il_pcr_module.il_pcr_dir() / "test_queries-00000-of-00001.parquet").exists(),
+    reason="IL-PCR not fetched",
+)
+def test_real_il_pcr_loads_and_validates() -> None:
+    sizes = {}
+    for split in ("train", "dev", "test"):
+        ds = load_il_pcr(split)  # type: ignore[arg-type]
+        assert ds.validate() == []
+        sizes[split] = (len(ds.queries), len(ds.documents))
+    # 827/118/237 queries at the pinned revision, less those with no relevant candidates
+    assert sizes == {"train": (817, 4320), "dev": (118, 1023), "test": (234, 1727)}

@@ -97,19 +97,24 @@ def load_il_pcr(split: Split = "test", root: Path | None = None) -> RetrievalDat
     documents = {
         str(r["id"]): Document(str(r["id"]), _text(r["text"])) for r in _rows(candidates_file)
     }
-    queries = [
-        RetrievalQuery(
-            str(r["id"]),
-            _text(r["text"]),
-            frozenset(str(c) for c in (r.get("relevant_candidates") or [])),  # type: ignore[attr-defined]
-        )
-        for r in _rows(queries_file)
-    ]
+    # A few queries list only an empty ID (10 train, 3 test at the pinned revision): they have
+    # nothing to find, so they can't be scored and are dropped, and recorded.
+    queries, dropped = [], []
+    for r in _rows(queries_file):
+        raw = r.get("relevant_candidates") or []
+        relevant = frozenset(str(c).strip() for c in raw if str(c).strip())  # type: ignore[attr-defined]
+        if relevant:
+            queries.append(RetrievalQuery(str(r["id"]), _text(r["text"]), relevant))
+        else:
+            dropped.append(str(r["id"]))
+    notes = "Queries are whole judgments; tune on dev, report on test (D-011)."
+    if dropped:
+        notes += f" Queries without relevant candidates, dropped: {sorted(dropped)}."
     return RetrievalDataset(
         name="il-pcr",
         split=split,
         queries=queries,
         documents=documents,
         licence=LICENCE,
-        notes="Queries are whole judgments; tune on dev, report on test (D-011).",
+        notes=notes,
     )
