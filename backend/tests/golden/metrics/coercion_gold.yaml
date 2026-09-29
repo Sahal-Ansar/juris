@@ -1,0 +1,58 @@
+# Mock gold for the 2.4 coercion fixture (fixtures/runs/coercion_full.*), used to test the
+# answer metrics (PLAN 5.4). FICTITIOUS like the fixture: every authority is a [MOCK]
+# document. Chosen so the scores are neither 0 nor 1: the analysis leaves out one gold
+# supporting authority (MOCK-SC-1978-02), one contrary authority (MOCK-SC-2016-06) and one
+# section (contract_act:14).
+id: JE-900
+split: dev
+topic: coercion
+question: Can a contract be enforced when consent was obtained through coercion?
+facts: >-
+  A contractor completed works for a developer, which admitted that Rs 48 lakh was due but
+  withheld payment for five months. The contractor signed a settlement accepting Rs 30 lakh
+  'in full and final settlement', was paid, and repudiated the settlement four months later.
+gold_issues:
+  - Was the contractor's consent to the settlement caused by coercion under s. 15?
+  - Can the settlement still be avoided after the payment was accepted and four months passed?
+gold_supporting_authorities:
+  - doc_id: MOCK-DHC-2020-08
+    citation: "[MOCK] 2020 DHC 9003"
+    title: "[MOCK] Northstar Logistics v. Gupta Warehousing"
+    pinpoints: ["18"]
+    proposition: Withholding admitted dues to force a lower settlement is unlawful detention of property.
+  - doc_id: MOCK-SC-2011-05
+    citation: "[MOCK] [2011] 8 S.C.R. 640"
+    title: "[MOCK] Sunrise Housing v. Kavita Sharma"
+    pinpoints: ["31"]
+    proposition: A 'full and final' receipt signed under pressure does not by itself bar a later claim.
+  - doc_id: MOCK-SC-2003-04
+    citation: "[MOCK] [2003] 5 S.C.R. 230"
+    title: "[MOCK] Anand Engineering v. Rao Constructions"
+    pinpoints: ["18"]
+    proposition: Accepting payment while the distress continues is not ordinarily affirmation.
+  - doc_id: MOCK-SC-1978-02
+    citation: "[MOCK] [1978] 3 S.C.R. 455"
+    title: "[MOCK] Union Transport Co. v. Meera Devi"
+    pinpoints: ["9"]
+    proposition: The coerced party may avoid the agreement once the pressure ends.
+gold_contrary_authorities:
+  - doc_id: MOCK-SC-2019-07
+    citation: "[MOCK] 2019 INSC 9002"
+    title: "[MOCK] Metro Rail Corp. v. Prakash Builders"
+    pinpoints: ["27"]
+    proposition: Withholding money in a genuine dispute about quantum is not unlawful detention.
+  - doc_id: MOCK-SC-2016-06
+    citation: "[MOCK] 2016 INSC 9001"
+    title: "[MOCK] Horizon Power Ltd. v. Western Coal Suppliers"
+    pinpoints: ["40"]
+    proposition: A party alleging coercion must plead its particulars.
+gold_sections: [contract_act:14, contract_act:15, contract_act:19]
+key_points:
+  - Unlawfully detaining property is coercion under s. 15, and withholding admitted dues to force a lower settlement can be such detention.
+  - Commercial pressure in a genuine dispute about quantum is not coercion.
+  - Consent caused by coercion makes the agreement voidable at the option of the coerced party (s. 19).
+  - Accepting payment and delay may amount to affirmation, but delay alone does not defeat rescission.
+  - Whether the Rs 48 lakh was admitted as due is the fact that decides the first issue.
+difficulty: medium
+notes: Mock item for tests only.
+reviewed_by: null

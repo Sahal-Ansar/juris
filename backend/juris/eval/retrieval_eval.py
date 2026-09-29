@@ -14,7 +14,6 @@ way.
 """
 
 import math
-import random
 import statistics
 import time
 from collections.abc import Callable, Mapping, Sequence
@@ -24,6 +23,7 @@ from typing import Protocol
 from sqlalchemy import text
 from sqlalchemy.engine import Engine
 
+from juris.eval.stats import bootstrap_ci
 from juris.retrieval.hybrid import HybridRetriever, rrf
 
 KS = (10, 25, 50)
@@ -184,16 +184,6 @@ def evaluate(system: System, dataset: str, queries: Sequence[EvalQuery]) -> Resu
         result.per_query[q.id] = metrics(system.run(q.texts), q.relevant)
     result.seconds = time.perf_counter() - started
     return result
-
-
-def bootstrap_ci(
-    values: Sequence[float], resamples: int = 2000, seed: int = 0
-) -> tuple[float, float]:
-    """95% percentile bootstrap interval of the mean (queries resampled with replacement)."""
-    rng = random.Random(seed)
-    n = len(values)
-    means = sorted(sum(rng.choices(values, k=n)) / n for _ in range(resamples))
-    return means[int(0.025 * resamples)], means[int(0.975 * resamples) - 1]
 
 
 def table(results: Sequence[Result], note: Mapping[str, str] | None = None) -> str:

@@ -16,7 +16,6 @@ from juris.eval.pool import index_pool
 from juris.eval.retrieval_eval import (
     EvalQuery,
     Result,
-    bootstrap_ci,
     doc_unit,
     evaluate,
     metrics,
@@ -25,6 +24,7 @@ from juris.eval.retrieval_eval import (
     to_units,
     windows,
 )
+from juris.eval.stats import bootstrap_ci
 from juris.retrieval.lexical import LexicalRetriever
 from tests.conftest import migrate
 
