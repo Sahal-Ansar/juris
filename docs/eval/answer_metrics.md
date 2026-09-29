@@ -8,8 +8,8 @@ The suite scores one config's answer to one Juris-Eval item. The answer is the f
 from juris.eval.metrics import Answer, Grader, score_answers
 
 result = await score_answers([Answer(item, view)], grader=Grader(gateway, grader_model))
-result.items[0].values   # per item: {"citation_validity": 0.933, ...}
-result.table()           # Markdown: mean, 95% bootstrap CI, n
+result.items[0].values  # per item: {"citation_validity": 0.933, ...}
+result.table()  # Markdown: mean, 95% bootstrap CI, n
 ```
 
 ## Metrics
