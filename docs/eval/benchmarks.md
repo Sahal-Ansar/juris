@@ -76,11 +76,11 @@ Code: `backend/juris/eval/datasets/` (D-036). Retrieval benchmarks load as a `Re
 and is never committed. `uv run scripts/benchmarks.py summary` loads and validates everything
 on disk.
 
-| Benchmark | Loader | Status (2026-09-28, updated when COLIEE arrived) |
+| Benchmark | Loader | Status (updated 2026-09-29: all loaded) |
 |---|---|---|
 | AILA 2019 Task 1 (precedents) | `load_aila2019("precedents")` | **Loaded and valid**: 50 queries (median 529 words), 2,914 case documents, 195 relevant pairs (1-22 per query, median 3) |
 | AILA 2019 Task 2 (statutes) | `load_aila2019("statutes")` | **Loaded and valid**: 50 queries, 197 statutes, 221 relevant pairs (2-5 per query) |
-| IL-PCR (IL-TUR `pcr`) | `load_il_pcr(split)`, `fetch_il_pcr()` | **Waiting for access** (author action 1). Reads the dataset's parquet files at revision `d16219ad`; tested on a sample in the same layout |
+| IL-PCR (IL-TUR `pcr`) | `load_il_pcr(split)`, `fetch_il_pcr()` | **Loaded and valid** (revision `d16219ad`, fetched 2026-09-29): test 234 queries / 1,727 candidates, dev 118 / 1,023, train 817 / 4,320; queries are whole judgments (median about 4,700 words), 1-92 relevant each (median 5) |
 | COLIEE Task 2 (case entailment) | `load_task2(*find_task2())` | **Loaded and valid** (2026 training release): 925 cases, 32,717 paragraph examples, 1,182 entailing; all named gold paragraphs exist |
 | COLIEE Task 4 (statute entailment, English 2025) | `load_task4(find_task4())` | **Loaded and valid** (2025 English archive): 18 XML files, 1,206 pairs, 614 entailed |
 | AILA 2020 | — | Optional, not pursued (no key) |
@@ -97,7 +97,9 @@ on disk.
 
 ### Adding IL-PCR and COLIEE when access arrives
 
-- **IL-PCR:** request access at huggingface.co/datasets/Exploration-Lab/IL-TUR. Then `huggingface-cli login` (or set `HF_TOKEN`) and run `uv run scripts/benchmarks.py fetch il-pcr`. It downloads the six `pcr/*.parquet` files at the pinned revision.
+- **IL-PCR (received 2026-09-29):** access was granted on Hugging Face. The author logged in with `uvx --from huggingface_hub hf auth login`, and `uv run scripts/benchmarks.py fetch il-pcr` downloaded the six `pcr/*.parquet` files (152 MB) at the pinned revision. The schema matches the public metadata.
+  - 13 queries (10 train, 3 test) list only an empty ID as relevant. They have nothing to find, so the loader drops them and records them in `notes`.
+  - The queries are much longer than the 512 tokens bge-m3 and the reranker read, so 5.3 must decide how to shorten or split them.
 - **COLIEE (received 2026-09-28):** the memoranda were signed online as an independent researcher, and the organisers emailed Google Drive links.
   - Downloaded: `task2_train_files_2026.zip` (28 MB, MD5 `d9cae095…`), `task2_test_labels_2026.json` (not used: the test files weren't fetched) and `COLIEE2025statute_data-English.zip` (324 KB, MD5 `3231d2f0…`). They sit in `<data_dir>/raw/benchmarks/coliee/downloads/`, unpacked into `coliee/task2/` and `coliee/task34_en/`, where `find_task2()` / `find_task4()` locate them. Task 1 (Canadian case retrieval) was not fetched (D-011).
   - Format notes:
