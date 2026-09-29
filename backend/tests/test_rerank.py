@@ -15,6 +15,7 @@ import pytest
 from sqlalchemy.engine import Engine
 
 from juris.retrieval import rerank as rr
+from juris.retrieval import weights
 from juris.retrieval.hybrid import HybridRetriever
 from juris.retrieval.rerank import Reranker, reranker_dir
 from tests.test_hybrid import StubDense, StubLexical, ranked
@@ -68,7 +69,7 @@ def test_fetch_checks_hashes_and_skips_good_files(
         calls.append(name)
         Path(path).write_bytes(payload[name])
 
-    monkeypatch.setattr(rr.urllib.request, "urlretrieve", fake_retrieve)
+    monkeypatch.setattr(weights.urllib.request, "urlretrieve", fake_retrieve)
     target = rr.fetch_reranker(tmp_path)
     assert target == reranker_dir(tmp_path)
     assert (target / "w.bin").read_bytes() == b"weights" and calls == ["a.json", "w.bin"]
@@ -158,3 +159,10 @@ def test_bge_reranker_prefers_the_relevant_passage() -> None:
         ],
     )
     assert scores[1] > scores[0] and all(0 < s < 1 for s in scores)
+
+
+@pytest.mark.skipif(not HAVE_MODEL, reason="needs the embed group and the reranker weights")
+def test_bge_reranker_accepts_a_query_longer_than_its_window() -> None:
+    long_query = "The appellant sued for breach of contract. " * 150  # ~1,000 tokens
+    scores = rr.BgeReranker(reranker_dir()).score(long_query, ["A short passage."])
+    assert len(scores) == 1 and 0 < scores[0] < 1

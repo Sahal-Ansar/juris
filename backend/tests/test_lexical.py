@@ -55,6 +55,13 @@ def test_parse_query_splits_terms_phrases_and_exclusions() -> None:
     assert parsed.text.startswith('"Section 74" penalty or forfeiture')
 
 
+def test_punctuation_tokens_are_not_terms_or_exclusions() -> None:
+    # judgments quoted as queries carry rulers of dashes; "--" read as negations broke Postgres
+    parsed = parse_query("penalty ------------- clause -- ... - x-ray -forfeiture")
+    assert parsed.terms == ["penalty", "clause", "x-ray"]
+    assert parsed.excluded == ["forfeiture"]
+
+
 def test_idf_prefers_rare_terms() -> None:
     assert idf(1, 1000) > idf(100, 1000) > idf(1000, 1000) > 0
 
@@ -294,3 +301,12 @@ def test_k_and_the_candidate_cap(corpus: Engine) -> None:
     capped = LexicalRetriever(corpus, max_candidates=1)
     assert len(capped.search("contract")) == 1
     assert len(capped.search("contract", mode="all")) == 1
+
+
+@pytest.mark.db
+def test_max_terms_keeps_the_rarest_terms_of_a_long_query(corpus: Engine) -> None:
+    query = "contract contract penalty frustration seller impossible performance pleaded"
+    capped = LexicalRetriever(corpus, max_terms=1).search(query)
+    # the rarest term here is in one chunk; the other terms no longer count
+    assert {h.chunk_id for h in capped} == {f"{SC_NEW}#c0002"}
+    assert len(LexicalRetriever(corpus).search(query)) > len(capped)

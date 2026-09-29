@@ -16,6 +16,7 @@ Grow to 60–100 items later (PLAN 5.6 / 10.4).
 | `test.jsonl` | Generated. 10 items for **reporting only**: never tune prompts, retrieval or thresholds on them. |
 | `schema.json` | Generated. JSON Schema of one line of `dev.jsonl` / `test.jsonl`. |
 | `REVIEW.md` | Generated. Review sheet: every item with the corpus text of each pinpoint. |
+| `search_queries.yaml` | Hand-written Issue-Framer-style search queries for the dev items, used by the retrieval evaluation (PLAN 5.3, D-037). They don't name the gold cases. Test items get theirs only when results are reported on them. |
 
 ## An item
 

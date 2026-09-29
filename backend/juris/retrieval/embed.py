@@ -42,13 +42,19 @@ def embedding_input(context_header: str | None, body: str) -> str:
 
 
 @dataclass
-class BgeM3Encoder:
-    """BAAI/bge-m3 dense vectors from local weights (``<data_dir>/models/BAAI__bge-m3``)."""
+class TransformerEncoder:
+    """Dense vectors from a local Hugging Face encoder: [CLS] or mean pooling, L2-normalised.
+
+    ``passage_prefix`` is what the model expects before a passage ("passage: " for e5); the
+    query side's prefix is ``query_prefix`` in ``configs/embeddings.yaml`` (``retrieval.dense``).
+    """
 
     path: Path
     revision: str
     model: str = "BAAI/bge-m3"
     dim: int = 1024
+    pooling: str = "cls"  # "cls" | "mean"
+    passage_prefix: str = ""
     max_length: int = 512
     batch_size: int = 32
     device: str | None = None
@@ -82,11 +88,42 @@ class BgeM3Encoder:
                 )
                 self.truncated += int((batch.pop("length") >= self.max_length).sum())
                 batch = {k: v.to(self.device) for k, v in batch.items()}
-                cls = self._net(**batch).last_hidden_state[:, 0]
-                vecs = torch.nn.functional.normalize(cls.float(), dim=-1).cpu().tolist()
+                hidden = self._net(**batch).last_hidden_state
+                if self.pooling == "mean":
+                    mask = batch["attention_mask"].unsqueeze(-1).to(hidden.dtype)
+                    pooled = (hidden * mask).sum(1) / mask.sum(1).clamp(min=1)
+                else:
+                    pooled = hidden[:, 0]
+                vecs = torch.nn.functional.normalize(pooled.float(), dim=-1).cpu().tolist()
                 for i, vec in zip(idx, vecs, strict=True):
                     out[i] = vec
         return out
+
+
+@dataclass
+class BgeM3Encoder(TransformerEncoder):
+    """BAAI/bge-m3 ([CLS] pooling) from ``<data_dir>/models/BAAI__bge-m3`` (D-026)."""
+
+
+E5_MODEL = "intfloat/multilingual-e5-large"
+E5_REVISION = "3d7cfbdacd47fdda877c5cd8a79fbcc4f2a574f3"
+E5_FILES: dict[str, str | None] = {
+    "config.json": None,
+    "special_tokens_map.json": None,
+    "tokenizer_config.json": None,
+    "sentencepiece.bpe.model": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865",
+    "tokenizer.json": "62c24cdc13d4c9952d63718d6c9fa4c287974249e16b7ade6d5a85e7bbb75626",
+    "model.safetensors": "020afdebf2762b29fcaf286629a96c3b3b65af241f6a08226b1cfee60a21def6",
+}
+
+
+@dataclass
+class E5Encoder(TransformerEncoder):
+    """intfloat/multilingual-e5-large (MIT): mean pooling, "passage: " before each passage."""
+
+    model: str = E5_MODEL
+    pooling: str = "mean"
+    passage_prefix: str = "passage: "
 
 
 def _literal(vec: Sequence[float]) -> str:
@@ -142,7 +179,8 @@ def embed_missing(
             rows = missing_chunks(conn, encoder.model, fetch)
             if not rows:
                 break
-            vectors = encoder.encode([embedding_input(h, b) for _, h, b in rows])
+            prefix = getattr(encoder, "passage_prefix", "")
+            vectors = encoder.encode([prefix + embedding_input(h, b) for _, h, b in rows])
             conn.execute(
                 text(
                     "INSERT INTO chunk_embeddings (chunk_id, model, embedding) "

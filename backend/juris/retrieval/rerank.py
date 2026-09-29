@@ -13,9 +13,7 @@ PyTorch and transformers are in the ``embed`` dependency group and are imported 
 ``BgeReranker`` is created; tests use a fake cross-encoder.
 """
 
-import hashlib
 import math
-import urllib.request
 from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
@@ -24,8 +22,8 @@ from typing import Protocol
 from sqlalchemy import text
 from sqlalchemy.engine import Engine
 
-from juris.config import get_settings
 from juris.retrieval.embed import embedding_input
+from juris.retrieval.weights import fetch_pinned, model_dir
 
 MODEL = "BAAI/bge-reranker-v2-m3"
 REVISION = "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e"
@@ -41,33 +39,12 @@ FILES: dict[str, str | None] = {
 
 
 def reranker_dir(data_dir: Path | None = None) -> Path:
-    return (data_dir or get_settings().data_dir) / "models" / MODEL.replace("/", "__")
-
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as fh:
-        for block in iter(lambda: fh.read(1 << 20), b""):
-            digest.update(block)
-    return digest.hexdigest()
+    return model_dir(MODEL, data_dir)
 
 
 def fetch_reranker(data_dir: Path | None = None) -> Path:
     """Download the pinned model files that are missing, checking hashes; returns the dir."""
-    target = reranker_dir(data_dir)
-    target.mkdir(parents=True, exist_ok=True)
-    for name, digest in FILES.items():
-        path = target / name
-        if path.exists() and (digest is None or sha256(path) == digest):
-            continue
-        part = path.with_name(path.name + ".part")
-        url = f"https://huggingface.co/{MODEL}/resolve/{REVISION}/{name}"
-        urllib.request.urlretrieve(url, part)
-        if digest is not None and sha256(part) != digest:
-            part.unlink()
-            raise ValueError(f"{name}: SHA-256 mismatch")
-        part.replace(path)
-    return target
+    return fetch_pinned(MODEL, REVISION, FILES, reranker_dir(data_dir))
 
 
 class CrossEncoder(Protocol):
@@ -111,7 +88,9 @@ class BgeReranker:
                     [query] * len(idx),
                     [passages[i] for i in idx],
                     padding=True,
-                    truncation="only_second",  # keep the whole query, trim the passage
+                    # trim the longer of the two: the passage for a short query, and a long
+                    # query (a fact pattern, a whole judgment) too, which "only_second" can't
+                    truncation="longest_first",
                     max_length=self.max_length,
                     return_tensors="pt",
                 )

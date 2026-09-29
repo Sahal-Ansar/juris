@@ -2,8 +2,9 @@
 
 Agents never touch the database. They call:
 
-- ``search(queries, filters, k, rerank=True)``: hybrid search (lexical + dense, RRF), reranked
-  by default, returning ``Hit`` objects that carry the chunk's text and where it comes from;
+- ``search(queries, filters, k, rerank=True)``: hybrid search (lexical + bge-m3 + e5, RRF;
+  D-037), reranked only when the service was built with a reranker, returning ``Hit`` objects
+  that carry the chunk's text and where it comes from;
 - ``section(reference)``, ``case_by_citation``, ``case_by_title``, ``citing_cases``,
   ``cited_cases``, ``cases_citing_section``: the structured lookups (``retrieval.lookup``);
 - ``section_hits(reference)``: a named provision's chunks as ``Hit``s, so they can be
@@ -61,17 +62,22 @@ class RetrievalService:
         self.lookups = lookup or Lookup(engine)
 
     @classmethod
-    def local(cls, engine: Engine | None = None, rerank: bool = True) -> "RetrievalService":
-        """The service over the configured database with the local models (bge-m3, and
-        bge-reranker-v2-m3 if ``rerank``). Needs ``uv sync --group embed`` and the weights."""
+    def local(cls, engine: Engine | None = None, rerank: bool = False) -> "RetrievalService":
+        """The default configuration chosen in 5.3 (D-037): lexical + bge-m3 + multilingual-e5
+        fused with RRF, over the configured database. ``rerank=True`` adds bge-reranker-v2-m3
+        over the fused top 30 (off by default: no consistent gain on the dev sets, and up to
+        seconds per query). Needs ``uv sync --group embed`` and the weights."""
         from juris.ingest.tokens import REVISION, tokenizer_dir
-        from juris.retrieval.embed import BgeM3Encoder
+        from juris.retrieval.embed import E5_MODEL, E5_REVISION, BgeM3Encoder, E5Encoder
         from juris.retrieval.rerank import BgeReranker, reranker_dir
+        from juris.retrieval.weights import model_dir
 
         engine = engine or create_engine(get_settings().database_url())
-        dense = DenseRetriever(engine, BgeM3Encoder(path=tokenizer_dir(), revision=REVISION))
-        reranker = Reranker(engine, BgeReranker(reranker_dir())) if rerank else None
-        return cls(engine, HybridRetriever(LexicalRetriever(engine), dense, reranker=reranker))
+        bge = DenseRetriever(engine, BgeM3Encoder(path=tokenizer_dir(), revision=REVISION))
+        e5 = DenseRetriever(engine, E5Encoder(path=model_dir(E5_MODEL), revision=E5_REVISION))
+        reranker = Reranker(engine, BgeReranker(reranker_dir()), top_n=30) if rerank else None
+        hybrid = HybridRetriever(LexicalRetriever(engine), bge, reranker=reranker, extra_dense=[e5])
+        return cls(engine, hybrid)
 
     # ---- search --------------------------------------------------------------------------
 

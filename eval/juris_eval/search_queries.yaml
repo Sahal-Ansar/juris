@@ -1,0 +1,49 @@
+# Hand-written search queries for the Juris-Eval dev items (PLAN 5.3, D-037).
+#
+# The kind of queries the Issue Framer / Researcher would issue for each item: short, framed
+# as legal issues and provisions, and deliberately NOT naming the gold cases, so retrieval is
+# tested on finding the law rather than matching a case name. Written by Claude Code on
+# 2026-09-29, not yet reviewed. Test items get their queries only when results are reported
+# on them (never tune on test).
+
+queries:
+  JE-001:
+    - presumption of undue influence between near relatives donor and donee
+    - position to dominate the will of another Section 16 Contract Act
+    - burden of proof undue influence gift deed by aged donor
+  JE-003:
+    - particulars of fraud must be pleaded Order 6 Rule 4
+    - setting aside consent decree partition on allegation of fraud
+    - misrepresentation voidable agreement Section 19 Contract Act
+  JE-005:
+    - negative covenant after termination of employment restraint of trade
+    - Section 27 Contract Act agreement in restraint of trade void
+    - restrictive covenant not to join competitor after leaving service
+  JE-007:
+    - frustration of contract rise in price of fuel
+    - Section 56 impossibility of performance commercial hardship
+    - force majeure clause narrowly construed increase in cost
+  JE-009:
+    - liquidated damages genuine pre-estimate proof of actual loss
+    - Section 74 Contract Act reasonable compensation penalty
+    - delay in delivery liquidated damages deduction
+  JE-011:
+    - forfeiture of security deposit is a penalty
+    - Section 74 Contract Act forfeiture of amount paid reasonable compensation
+    - proof of loss required before forfeiture of deposit
+  JE-013:
+    - time essence of contract sale of immovable property
+    - time stipulated for payment of consideration essence
+    - Section 55 Contract Act failure to perform at fixed time voidable
+  JE-015:
+    - compensation for work done under void government contract
+    - Section 70 Contract Act non-gratuitous act benefit enjoyed
+    - contract not complying with Article 299 of the Constitution
+  JE-017:
+    - liability of surety co-extensive with principal debtor
+    - Section 128 Contract Act guarantor creditor proceed first
+    - execution of decree against guarantor before mortgaged property
+  JE-019:
+    - unconscionable term standard form contract unequal bargaining power
+    - Section 23 Contract Act opposed to public policy termination clause
+    - termination of permanent employee without reason by government company
