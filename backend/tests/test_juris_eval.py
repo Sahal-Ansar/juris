@@ -1,4 +1,4 @@
-"""Juris-Eval seed set (PLAN 5.1): format, fixed split, generated files, corpus checks.
+"""Juris-Eval (PLAN 5.1, 5.6): format, fixed split, generated files, corpus checks.
 
 The corpus check itself runs against the real database (``scripts/juris_eval.py check``);
 here it runs on a throwaway database to show it catches each kind of error.
@@ -25,14 +25,17 @@ from juris.eval.juris_eval import (
 )
 from tests.conftest import migrate
 
-# The split is fixed (PLAN 5.1): moving an item between dev and test needs a decision.
-DEV = {f"JE-{n:03d}" for n in (1, 3, 5, 7, 9, 11, 13, 15, 17, 19)}
-TEST = {f"JE-{n:03d}" for n in (2, 4, 6, 8, 10, 12, 14, 16, 18, 20)}
+# The split is fixed (PLAN 5.1, 5.6): moving an item between dev and test needs a decision.
+# The seed set alternates by ID (odd -> dev); from JE-021 on, IDs with n % 5 == 1 are dev
+# (30% dev overall, D-040).
+DEV = {f"JE-{n:03d}" for n in (*range(1, 21, 2), *range(21, 61, 5))}
+TEST = {f"JE-{n:03d}" for n in range(1, 61)} - DEV
 
 
-def test_the_seed_set_has_20_items_in_a_fixed_split() -> None:
+def test_juris_eval_has_60_items_in_a_fixed_split() -> None:
     items = load_source()
-    assert len(items) == 20
+    assert len(items) == 60
+    assert len(DEV) == 18 and len(TEST) == 42
     assert {i.id for i in items if i.split == "dev"} == DEV
     assert {i.id for i in items if i.split == "test"} == TEST
 
@@ -58,7 +61,7 @@ def test_every_line_validates_against_the_schema() -> None:
 def test_items_await_review_and_every_topic_differs() -> None:
     items = load_source()
     assert all(i.reviewed_by is None for i in items)  # until a human reviews them
-    assert len({i.topic for i in items}) == 20
+    assert len({i.topic for i in items}) == 60
 
 
 def valid() -> dict[str, Any]:

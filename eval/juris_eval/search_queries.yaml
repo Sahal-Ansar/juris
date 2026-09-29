@@ -3,7 +3,8 @@
 # The kind of queries the Issue Framer / Researcher would issue for each item: short, framed
 # as legal issues and provisions, and deliberately NOT naming the gold cases, so retrieval is
 # tested on finding the law rather than matching a case name. Written by Claude Code on
-# 2026-09-29, not yet reviewed. Test items get their queries only when results are reported
+# 2026-09-29 (JE-001 to JE-019) and 2026-09-30 (the dev items added in PLAN 5.6), not yet
+# reviewed. Test items get their queries only when results are reported
 # on them (never tune on test).
 
 queries:
@@ -47,3 +48,35 @@ queries:
     - unconscionable term standard form contract unequal bargaining power
     - Section 23 Contract Act opposed to public policy termination clause
     - termination of permanent employee without reason by government company
+  JE-021:
+    - acceptance by conduct encashment of cheque full and final settlement
+    - Section 8 Contract Act performance of conditions of proposal acceptance
+    - accepting payment under protest accord and satisfaction
+  JE-026:
+    - frustration refusal of import licence buyer responsible for licence
+    - Section 56 impossibility change in government policy commercial contract
+    - implied term licence risk damages on default market rate
+  JE-031:
+    - money paid under mistake of law recoverable Section 72 Contract Act
+    - refund of tax collected without authority of law voluntary payment
+    - mistake of law and mistake of fact recovery of money not due
+  JE-036:
+    - order of performance of reciprocal promises vendor to perform first
+    - readiness and willingness of purchaser when vendor has not cleared title
+    - rescission of agreement for sale for non-payment of balance price
+  JE-041:
+    - time is of the essence clause with extension of time provision
+    - liquidated damages for delay waived on extension of delivery period
+    - Section 55 Contract Act compensation for delay when time not essential
+  JE-046:
+    - non-disclosure of pre-existing disease in insurance proposal form
+    - utmost good faith material fact repudiation of mediclaim policy
+    - suppression of material facts contract of insurance
+  JE-051:
+    - written promise to pay time barred debt enforceable
+    - Section 25(3) Contract Act promise without consideration limitation
+    - acknowledgment of debt versus promise to pay barred debt
+  JE-056:
+    - specific performance uncertain terms no consensus ad idem
+    - agreement to sell share of co-owner who refuses to join sale
+    - alternative promise to repay advance with compensation instead of sale
