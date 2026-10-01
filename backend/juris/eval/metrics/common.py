@@ -14,6 +14,7 @@ from juris.events.fold import CaseView
 from juris.ingest.statutes import Act, load_acts, resolve_act
 from juris.models import CaseAnalysis, Citation, StatuteMeta, VerificationResult
 from juris.models.common import VerificationStatus
+from juris.verify.verifier import chunk_text as chunk_text  # re-exported for the metrics
 
 EVIDENCE_REF = re.compile(r"\bE-\d{3,}\b")
 
@@ -71,14 +72,6 @@ def evidence_support(view: CaseView) -> dict[str, VerificationStatus]:
         if current is None or _STATUS_ORDER.index(result.status) < _STATUS_ORDER.index(current):
             best[evidence_id] = result.status
     return best
-
-
-def chunk_text(view: CaseView, evidence_id: str) -> str | None:
-    evidence = view.evidence.get(evidence_id)
-    if evidence is None:
-        return None
-    chunk = view.chunks.get(evidence.chunk_id)
-    return chunk.text if chunk is not None else None
 
 
 def analysis_refs(analysis: CaseAnalysis) -> list[str]:

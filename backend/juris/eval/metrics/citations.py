@@ -6,34 +6,25 @@ where the quotes are.
 """
 
 from collections import Counter
-from collections.abc import Sequence
-from dataclasses import dataclass
-from typing import Protocol
 
 from juris.eval.metrics.common import (
     MetricResult,
     analysis_refs,
     argument_citations,
-    chunk_text,
     pair_results,
     ratio,
 )
 from juris.events.fold import CaseView
 from juris.models import Citation
 from juris.models.common import EntailmentLabel
-from juris.verify.quote import quote_in_text
+from juris.verify.entailment import ClaimEvidencePair, EntailmentJudge
+from juris.verify.verifier import ViewEvidence, check_citation, chunk_text
 
 
 def _invalid_reason(view: CaseView, citation: Citation) -> str | None:
     """The deterministic checks, cheapest first (IDEA_final §6.1 checks 1-2)."""
-    if citation.evidence_id not in view.evidence:
-        return "unknown evidence"
-    text = chunk_text(view, citation.evidence_id)
-    if text is None:
-        return "chunk not in the record"
-    if not quote_in_text(citation.quote, text):
-        return "quote not in the chunk"
-    return None
+    failure = check_citation(ViewEvidence(view), citation)
+    return failure[1] if failure is not None else None
 
 
 def citation_validity(view: CaseView) -> MetricResult:
@@ -60,23 +51,6 @@ def citation_validity(view: CaseView) -> MetricResult:
         },
         {"citations": len(citations), "invalid": invalid, "unknown_analysis_refs": unknown_refs},
     )
-
-
-@dataclass(frozen=True)
-class ClaimEvidencePair:
-    """What the entailment check reads: does ``passage`` (quoted) support ``claim``?"""
-
-    claim_id: str
-    claim: str
-    evidence_id: str
-    quote: str
-    passage: str
-
-
-class EntailmentJudge(Protocol):
-    """The verifier's entailment check (PLAN 6.1), for pairs the run did not verify."""
-
-    async def __call__(self, pairs: Sequence[ClaimEvidencePair]) -> list[EntailmentLabel]: ...
 
 
 async def citation_faithfulness(
