@@ -96,6 +96,14 @@ class EvidenceRegistry:
         """A registered evidence item; KeyError for an ID this run never issued."""
         return self._by_id[evidence_id]
 
+    def chunk(self, evidence_id: str) -> Chunk:
+        """The chunk a registered evidence item points at; KeyError for an unknown ID."""
+        return self._records[self._by_id[evidence_id].chunk_id][1]
+
+    def chunk_text(self, evidence_id: str) -> str | None:
+        """The chunk's text, or None for an ID this run never issued."""
+        return self.chunk(evidence_id).text if evidence_id in self._by_id else None
+
     def for_chunk(self, chunk_id: str) -> Evidence | None:
         evidence_id = self._by_chunk.get(chunk_id)
         return self._by_id[evidence_id] if evidence_id else None
