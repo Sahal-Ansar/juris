@@ -127,11 +127,18 @@ def section_id(statute: StatuteMeta) -> str:
     return f"{act}:{statute.section}"
 
 
+_SECTION_ID = re.compile(r"^[a-z_]+:\d+[A-Z]{0,2}$")
+
+
 def analysis_sections(view: CaseView) -> set[str]:
-    """Statute sections (``contract_act:15``) whose text the analysis cites as evidence."""
+    """Statute sections (``contract_act:15``) the analysis relies on: those whose text it cites
+    as evidence, and those a source lists as a pinpoint by section ID (a config without
+    evidence, such as B0, names the sections it relies on that way)."""
     if view.analysis is None:
         return set()
-    sections: set[str] = set()
+    sections: set[str] = {
+        p for s in view.analysis.sources for p in s.pinpoints_used if _SECTION_ID.match(p)
+    }
     for ref_id in analysis_refs(view.analysis):
         evidence = view.evidence.get(ref_id)
         chunk = view.chunks.get(evidence.chunk_id) if evidence is not None else None
