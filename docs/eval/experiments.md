@@ -8,7 +8,8 @@ PLAN 5.5, D-039. Code: `backend/juris/eval/{runner,compare}.py`, `scripts/{run_e
 uv run scripts/run_experiment.py --config b1 --split dev --limit 20 --seeds 1
 ```
 
-- `--config` is a profile in `configs/pipeline/`. Its `kind` picks the system: `dummy` works now; `b0`, `b1`, `b2` and `juris` arrive with PLAN 6.2, 6.3, 6.4 and 7.12.
+- `--config` is a profile in `configs/pipeline/`. Its `kind` picks the system: `dummy` and `b0` (PLAN 6.2, `docs/eval/baselines.md`) work now; `b1`, `b2` and `juris` arrive with PLAN 6.3, 6.4 and 7.12.
+- The model is the settings default (`.env`). Without a paid key it is the local Ollama model (D-041, `scripts/ollama_setup.ps1`).
 - Items are the split's first `--limit` items by ID. Seeds are the profile's seed plus 0..N-1.
 - `--grader PROVIDER:MODEL` turns on the LLM graders (key points, rubric, uncited sentences). Off by default. Pick a model other than the generator's, with the author's approval.
 - `--experiment-id` defaults to `<config>-<split>-n<limit|all>-s<seeds>`. Running the same ID again resumes: finished runs are skipped, and `--retry-failed` redoes failed ones. An existing ID with a different spec is refused.

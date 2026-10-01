@@ -1,0 +1,2 @@
+experiment_id,profile,kind,split,items,seeds,runs,failed_runs,grader,git_commit,git_dirty,updated_at,answered,citation_validity,citation_faithfulness,unsupported_claim_rate,authority_recall,key_point_coverage,quality_rubric,cost_latency.total_tokens,cost_latency.usd,cost_latency.wall_seconds
+b0-dev-nall-s1,b0,b0,dev,18,1,18,0,,6adaf4e2621b,True,2026-10-01T20:13:55+00:00,1,,,1,0,,,1559.39,0,488.073

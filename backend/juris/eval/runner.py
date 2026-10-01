@@ -25,11 +25,12 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from juris.baselines.b0 import B0System
 from juris.baselines.base import RunContext, System
 from juris.baselines.dummy import DummySystem, EchoProvider
 from juris.config import REPO_ROOT, ModelSpec, RunConfig, Settings, TokenPrice
 from juris.eval.juris_eval import JurisEvalItem
-from juris.eval.metrics import Answer, Grader
+from juris.eval.metrics import Answer, Grader, MetricResult
 from juris.eval.metrics.suite import score_answer
 from juris.eval.stats import aggregate
 from juris.events.catalog import CaseCreatedPayload, RunCompletedPayload, RunFailedPayload
@@ -69,7 +70,7 @@ def _not_yet(step: str) -> Callable[[], System]:
 
 SYSTEMS: dict[str, Callable[[], System]] = {
     "dummy": DummySystem,
-    "b0": _not_yet("6.2"),
+    "b0": B0System,
     "b1": _not_yet("6.3"),
     "b2": _not_yet("6.4"),
     "juris": _not_yet("7.12"),
@@ -192,6 +193,7 @@ async def run_one(
         seeds={"item": seed},
         run_id=run_id,
     )
+    ctx = RunContext(item, config, gateway, emitter, seed)
     try:
         with recorder:
             emitter.emit(
@@ -201,7 +203,7 @@ async def run_one(
                     corpus_snapshot_id=system.corpus_snapshot_id,
                 )
             )
-            await system.run(RunContext(item, config, gateway, emitter, seed))
+            await system.run(ctx)
     except Exception as exc:  # a failed run is recorded and scored, not raised
         emitter.emit(RunFailedPayload(reason=f"{type(exc).__name__}: {exc}"))
     else:
@@ -218,6 +220,8 @@ async def run_one(
     )
     answer = Answer(item, view, calls=gateway.ledger.records, prices=prices)
     scores = await score_answer(answer, grader=grader)
+    if ctx.values or ctx.details:  # values only the system can compute (base.RunContext)
+        scores.results["system"] = MetricResult("system", dict(ctx.values), dict(ctx.details))
     _write_json(directory / "scores.json", {"status": view.status, "seed": seed} | scores.to_json())
     return view.status
 

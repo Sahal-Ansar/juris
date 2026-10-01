@@ -1,5 +1,8 @@
-# B0: LLM only, no retrieval (IDEA_final §5). Filled in by PLAN 6.2.
+# B0: LLM only, no retrieval (IDEA_final §5, PLAN 6.2; juris.baselines.b0).
+# One structured call; the authorities it names are then looked up in the corpus to measure
+# the hallucinated-authority rate. The model is the settings default (the BASELINE role), so
+# B0, B1 and B2 use the same model; set it in .env (JURIS_MODELS__DEFAULT__*).
 name: b0
-description: Question -> LLM -> answer. No retrieval.
+description: Question -> LLM -> answer. No retrieval; cited authorities checked against the corpus.
 kind: b0
 seed: 0
