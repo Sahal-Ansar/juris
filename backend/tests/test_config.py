@@ -10,7 +10,9 @@ from juris.config import (
     Role,
     RunConfig,
     Settings,
+    env_files,
     load_profile,
+    main_checkout,
     resolve_run_config,
 )
 
@@ -50,6 +52,31 @@ def test_settings_load_from_env_file(tmp_path: Path) -> None:
         "postgresql+psycopg://juris:p%40ss%20word@127.0.0.1:6543/juris"
     )
     assert settings.database_url(driver=None).startswith("postgresql://")
+
+
+def fake_worktree(tmp_path: Path) -> tuple[Path, Path]:
+    """A main checkout and a git worktree of it, as git lays them out."""
+    main, worktree = tmp_path / "main", tmp_path / "main" / ".claude" / "worktrees" / "wt"
+    (main / ".git" / "worktrees" / "wt").mkdir(parents=True)
+    worktree.mkdir(parents=True)
+    (worktree / ".git").write_text(f"gitdir: {(main / '.git' / 'worktrees' / 'wt').as_posix()}\n")
+    return main, worktree
+
+
+def test_a_worktree_reads_the_main_checkouts_env_first(tmp_path: Path) -> None:
+    main, worktree = fake_worktree(tmp_path)
+    assert main_checkout(worktree) == main
+    assert main_checkout(main) == main  # the main checkout's .git is a directory
+    assert env_files(worktree) == (main / ".env", worktree / ".env")
+    assert env_files(main) == (main / ".env",)
+
+    (main / ".env").write_text("POSTGRES_PORT=6543\nJURIS_LLM_CACHE=off\n", encoding="utf-8")
+    shared = Settings(_env_file=env_files(worktree))  # the worktree has no .env of its own
+    assert shared.postgres_port == 6543 and shared.llm_cache == "off"
+
+    (worktree / ".env").write_text("POSTGRES_PORT=7000\n", encoding="utf-8")
+    overridden = Settings(_env_file=env_files(worktree))
+    assert overridden.postgres_port == 7000 and overridden.llm_cache == "off"
 
 
 def test_run_config_round_trips_to_json(tmp_path: Path) -> None:
