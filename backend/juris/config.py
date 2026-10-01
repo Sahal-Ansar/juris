@@ -26,6 +26,26 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 PIPELINE_CONFIGS_DIR = REPO_ROOT / "configs" / "pipeline"
 
 
+def main_checkout(repo_root: Path = REPO_ROOT) -> Path:
+    """The main checkout when ``repo_root`` is a git worktree (its ``.git`` is a file saying
+    ``gitdir: <main>/.git/worktrees/<name>``), else ``repo_root`` itself."""
+    git = repo_root / ".git"
+    if git.is_file():
+        text = git.read_text(encoding="utf-8").strip()
+        if text.startswith("gitdir:"):
+            gitdir = Path(text.removeprefix("gitdir:").strip())
+            if gitdir.parent.name == "worktrees" and gitdir.parent.parent.name == ".git":
+                return gitdir.parent.parent.parent
+    return repo_root
+
+
+def env_files(repo_root: Path = REPO_ROOT) -> tuple[Path, ...]:
+    """``.env`` files to read, lowest priority first: the main checkout's (shared by every
+    worktree), then the worktree's own, which overrides it. Missing files are skipped."""
+    main = main_checkout(repo_root)
+    return (main / ".env", repo_root / ".env") if main != repo_root else (repo_root / ".env",)
+
+
 class Role(StrEnum):
     """Every LLM-backed role; each can get its own model."""
 
@@ -143,7 +163,7 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(
         env_prefix="JURIS_",
-        env_file=REPO_ROOT / ".env",
+        env_file=env_files(),  # main checkout's .env, then this worktree's (D-042)
         env_file_encoding="utf-8",
         env_nested_delimiter="__",
         extra="ignore",
