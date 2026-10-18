@@ -1,5 +1,20 @@
-# B1: single-agent RAG (IDEA_final §5). Filled in by PLAN 6.3.
+# B1: single-agent RAG (IDEA_final §5, PLAN 6.3; juris.baselines.b1).
+# Question -> hybrid retrieval -> one LLM call -> cited answer, checked by the same Citation
+# Verifier as every config. The model is the settings default (the BASELINE role).
 name: b1
 description: Hybrid retrieval -> one LLM call -> cited answer.
 kind: b1
 seed: 0
+baseline:
+  # "llm": one call turns the question into 3-max_queries issue-style search queries (D-037:
+  # they retrieve better than the pasted fact pattern); "question": search the question alone.
+  queries: llm
+  max_queries: 5
+  # Chunks shown to the model, as E-001, E-002 ... in retrieval order.
+  evidence_k: 20
+  # D-037: reranking gave no consistent gain on the dev sets and costs seconds per query.
+  rerank: false
+  # One extra call asking for a corrected verbatim quote for each citation that fails the
+  # exact-quote check (IDEA_final §8: one repair attempt). A quote still wrong after it stays in
+  # and the verifier marks them invalid.
+  repair_quotes: true

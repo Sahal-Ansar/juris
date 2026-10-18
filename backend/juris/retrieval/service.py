@@ -62,20 +62,32 @@ class RetrievalService:
         self.lookups = lookup or Lookup(engine)
 
     @classmethod
-    def local(cls, engine: Engine | None = None, rerank: bool = False) -> "RetrievalService":
+    def local(
+        cls, engine: Engine | None = None, rerank: bool = False, device: str | None = None
+    ) -> "RetrievalService":
         """The default configuration chosen in 5.3 (D-037): lexical + bge-m3 + multilingual-e5
         fused with RRF, over the configured database. ``rerank=True`` adds bge-reranker-v2-m3
         over the fused top 30 (off by default: no consistent gain on the dev sets, and up to
-        seconds per query). Needs ``uv sync --group embed`` and the weights."""
+        seconds per query). ``device`` puts the models on "cpu" or "cuda" (default: CUDA when
+        available), e.g. to leave the GPU to a local LLM. Needs ``uv sync --group embed`` and
+        the weights."""
         from juris.ingest.tokens import REVISION, tokenizer_dir
         from juris.retrieval.embed import E5_MODEL, E5_REVISION, BgeM3Encoder, E5Encoder
         from juris.retrieval.rerank import BgeReranker, reranker_dir
         from juris.retrieval.weights import model_dir
 
         engine = engine or create_engine(get_settings().database_url())
-        bge = DenseRetriever(engine, BgeM3Encoder(path=tokenizer_dir(), revision=REVISION))
-        e5 = DenseRetriever(engine, E5Encoder(path=model_dir(E5_MODEL), revision=E5_REVISION))
-        reranker = Reranker(engine, BgeReranker(reranker_dir()), top_n=30) if rerank else None
+        bge = DenseRetriever(
+            engine, BgeM3Encoder(path=tokenizer_dir(), revision=REVISION, device=device)
+        )
+        e5 = DenseRetriever(
+            engine, E5Encoder(path=model_dir(E5_MODEL), revision=E5_REVISION, device=device)
+        )
+        reranker = (
+            Reranker(engine, BgeReranker(reranker_dir(), device=device), top_n=30)
+            if rerank
+            else None
+        )
         hybrid = HybridRetriever(LexicalRetriever(engine), bge, reranker=reranker, extra_dense=[e5])
         return cls(engine, hybrid)
 

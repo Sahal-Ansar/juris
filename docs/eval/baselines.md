@@ -68,3 +68,84 @@ runs completed and every output validated as a `CaseAnalysis`.
 - Wall-clock per case (mean 488 s, very uneven) reflects a shared laptop GPU, not B0.
 - Graders were off (no approved grader model), so key-point coverage and the rubric are empty.
 - Re-run with the intended model once an API key is set; nothing in B0 changes.
+
+## B1: single-agent RAG (PLAN 6.3)
+
+`backend/juris/baselines/b1.py`, prompts `backend/juris/prompts/baseline_b1_queries.md`,
+`baseline_b1.md` and `baseline_b1_repair.md`, profile `configs/pipeline/b1.yaml`, tests
+`backend/tests/test_b1.py`.
+
+Question -> hybrid retrieval -> one LLM call -> cited answer, with the same retriever, model,
+citation format and Citation Verifier as every config (IDEA_final §5).
+
+- **Queries (S0).** `queries: llm`: one structured call writes 3 to `max_queries` short
+  issue-style queries (the legal questions, doctrines and statute sections, no party names;
+  D-037 found these retrieve better than the pasted fact pattern). `queries: question`: the
+  question alone, no call. Recorded as `query_issued` events.
+- **Retrieval (S1).** `RetrievalService.search(queries, k=evidence_k, rerank=rerank)`. The
+  hits are shown to the model as `[E-001] <header>` + text, in hit order, and registered
+  through `EvidenceRegistry` in that order, so the model's IDs are the registry's. The
+  encoders run on the CPU (`RetrievalService.local(device="cpu")`), because the local LLM
+  holds the 8 GB GPU; a few queries per case do not need it.
+- **Answer (S9).** One structured call (`B1Answer`, `max_tokens` 6000): facts, assumptions,
+  1-4 issues with positions A and B, each position's claims (one legal proposition each) with
+  citations (an evidence ID and a verbatim quote of at most 40 words), a leaning and
+  confidence per issue, an overall summary citing `[E-###]` inline, and limitations. Every claim
+  must cite at least one evidence item (prompt v2); a point with no support goes to the issue's
+  unresolved questions or the limitations. The schema requires a citation per claim; if the
+  output is still invalid after the gateway's retry, claims with none are dropped
+  (`b1.uncited_claims_dropped`).
+- **Record.** `issue_framed`, `evidence_registered`, `claim_created` (`C-001` ...,
+  `author_agent` b1) and one `argument_created` per claim, whose citations carry a pinpoint
+  derived from the chunk (`s. 74`, `para 12`, `paras 3-5`, `p. 7`). A citation to an ID that
+  was not presented is recorded and fails the verifier's existence check; one whose ID or
+  quote cannot be a `Citation` at all (a malformed ID, an empty quote) is dropped and counted.
+- **Verification (S10).** `CitationVerifier` with `LLMEntailmentJudge` (the VERIFIER role,
+  one pair per call). The `CaseAnalysis` lists as key evidence only the verified and weak
+  citations of each position (§8 invariant 3); its limitations say, per issue, how many
+  citations failed verification. The overall summary is left as written.
+- **Repair** (`repair_quotes`, on in `b1.yaml`). One call lists each citation
+  whose quote is not in its chunk and asks for a corrected verbatim quote, or null to drop it
+  (IDEA_final §8: one repair attempt). A quote that is still wrong stays in and the verifier
+  marks it invalid.
+
+Config knobs (`baseline:` in the profile, `BaselineParams` in `config.py`): `queries`
+(`llm` or `question`), `max_queries` (5), `evidence_k` (20), `rerank` (false, D-037),
+`repair_quotes` (true in the profile; the schema default is false).
+
+Recorded with the scores (`system` metric): `b1.queries`, `b1.evidence`, `b1.claims`,
+`b1.citations`, `b1.invalid_citations`, `b1.share_verified`, `b1.share_weak`,
+`b1.share_unsupported`, `b1.share_invalid` (shares of all citations),
+`b1.malformed_citations_dropped`, `b1.uncited_claims_dropped`, `b1.ids_normalised` (IDs like `E-3` or `[E-003]` put in the `E-003` form), and with repair on `b1.citation_failures_before_repair`,
+`b1.citation_failures_after_repair`, `b1.citations_dropped_by_repair`. The per-citation
+outcomes and the queries are in the run's `scores.json` details.
+
+Run: `uv run scripts/run_experiment.py --config b1 --split dev`.
+
+### Dev runs (local model, Juris-Eval dev)
+
+18 dev items, seed 0, `juris-qwen2.5-7b`, no grader. Every run completed and validated.
+
+| Metric | v1 `b1-dev-nall-s1` | v2 `b1-v2-dev-nall-s1` | n (v2) |
+|---|---|---|---|
+| **citation validity** (bar: ≥ 0.95) | 0.120 (0.016-0.208) | **0.291** (0.152-0.433) | 10 |
+| citation faithfulness | 0.042 | 0.140 (0.067-0.213) | 10 |
+| unsupported-claim rate | 0.989 | 0.893 (0.820-0.960) | 18 |
+| authority recall | 0.361 | 0.278 (0.111-0.463) | 18 |
+| tokens per case | 12,568 | 20,454 | 18 |
+
+- **v1** (answer prompt v1, no repair): 14 of 18 answers cited nothing, because the prompt
+  allowed claims without citations. v2 makes every claim cite, as the spec requires (IDEA_final
+  §6.1, §10), and turns on the one quote-repair call (§8). Both changes were made on dev.
+- **v2, pooled:** 131 citations in 10 answers. Every evidence ID was one the model was shown.
+  Only 34 quotes are exact substrings of their chunk. The verifier rated those 34 as
+  15 verified, 6 weak and 13 unsupported.
+- **The 97 failing quotes:** 39 are invented (under 40% of the quote appears in the chunk) and 30
+  are partial. 16 are near-verbatim, 8 are real text from another evidence item, and 4 differ
+  only in case. Repair fixed 6 of 103.
+- **Empty answers:** 8 of 18 answers have no claims. In 6, every claim the model wrote lacked a
+  citation and was dropped (62 claims in all). In 2, the model wrote no claims at all.
+- **Reading:** the 7B model paraphrases instead of copying. That is a limit of the model,
+  not of the pipeline. The bar is not met, and 6.3 stays open until it is re-measured with the
+  intended model (D-044). The citation format is unchanged, so every config is measured the same
+  way.

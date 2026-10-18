@@ -145,6 +145,16 @@ class DeliberationParams(_Strict):
         return self
 
 
+class BaselineParams(_Strict):
+    """Knobs of the single-agent RAG baseline B1 (PLAN 6.3). Used by ``kind: b1`` profiles."""
+
+    queries: Literal["llm", "question"] = "llm"  # "llm": one call writes the search queries
+    max_queries: int = Field(default=5, ge=1)
+    evidence_k: int = Field(default=20, ge=1)  # chunks put in the prompt
+    rerank: bool = False  # D-037: no consistent gain, so off by default
+    repair_quotes: bool = False  # one call to fix quotes that are not in their chunk
+
+
 class PipelineProfile(_Strict):
     """One named system configuration, loaded from ``configs/pipeline/<name>.yaml``."""
 
@@ -156,6 +166,7 @@ class PipelineProfile(_Strict):
     budget: BudgetConfig | None = None
     stages: StagesConfig = StagesConfig()
     params: DeliberationParams = DeliberationParams()
+    baseline: BaselineParams = BaselineParams()
 
 
 class Settings(BaseSettings):
