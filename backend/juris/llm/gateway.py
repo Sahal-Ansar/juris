@@ -56,6 +56,11 @@ class LLMGateway:
         self._sleep = sleep
         self.ledger = ledger or CostLedger()
 
+    @property
+    def prices(self) -> Mapping[str, TokenPrice]:
+        """The list prices calls are costed at (the budget prices cached calls with them)."""
+        return self._prices
+
     @classmethod
     def from_settings(cls, settings: Settings) -> "LLMGateway":
         providers: dict[str, Provider] = {

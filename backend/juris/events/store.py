@@ -94,3 +94,7 @@ class EventEmitter:
         )
         self._store.append(event)
         return event
+
+    def events(self, after_seq: int = 0) -> list[Event]:
+        """This run's stored events after ``after_seq``, whoever emitted them."""
+        return self._store.read(self.run_id, after_seq)
