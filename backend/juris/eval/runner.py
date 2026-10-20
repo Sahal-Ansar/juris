@@ -27,6 +27,7 @@ from typing import Any
 
 from juris.baselines.b0 import B0System
 from juris.baselines.b1 import B1System
+from juris.baselines.b2 import B2System
 from juris.baselines.base import RunContext, System
 from juris.baselines.dummy import DummySystem, EchoProvider
 from juris.config import REPO_ROOT, ModelSpec, RunConfig, Settings, TokenPrice
@@ -73,7 +74,7 @@ SYSTEMS: dict[str, Callable[[], System]] = {
     "dummy": DummySystem,
     "b0": B0System,
     "b1": B1System,
-    "b2": _not_yet("6.4"),
+    "b2": B2System,
     "juris": _not_yet("7.12"),
 }
 

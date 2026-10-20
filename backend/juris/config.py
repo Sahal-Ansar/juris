@@ -146,13 +146,20 @@ class DeliberationParams(_Strict):
 
 
 class BaselineParams(_Strict):
-    """Knobs of the single-agent RAG baseline B1 (PLAN 6.3). Used by ``kind: b1`` profiles."""
+    """Knobs of the single-agent baselines B1 and B2 (PLAN 6.3, 6.4); ``kind: b1``/``b2``."""
 
     queries: Literal["llm", "question"] = "llm"  # "llm": one call writes the search queries
     max_queries: int = Field(default=5, ge=1)
     evidence_k: int = Field(default=20, ge=1)  # chunks put in the prompt
     rerank: bool = False  # D-037: no consistent gain, so off by default
     repair_quotes: bool = False  # one call to fix quotes that are not in their chunk
+    # B2 only (PLAN 6.4): draft -> (critique -> revise) rounds, the first critique also writing
+    # follow-up queries for a second search. Ignored by B1.
+    max_rounds: int = Field(default=2, ge=0)  # critique-revise rounds at most
+    target_tokens: int | None = Field(default=None, gt=0)  # no new round once spent (estimate)
+    follow_up_queries: int = Field(default=3, ge=0)  # second search; 0 turns it off
+    follow_up_k: int = Field(default=8, ge=0)  # new chunks the second search may add
+    revise_evidence_k: int = Field(default=14, ge=1)  # chunks shown to critique and revise
 
 
 class PipelineProfile(_Strict):

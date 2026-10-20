@@ -275,8 +275,8 @@ async def test_grader_values_are_stored(
 
 
 def test_unbuilt_systems_say_when_they_arrive() -> None:
-    with pytest.raises(NotImplementedError, match=r"PLAN 6\.4"):
-        SYSTEMS["b2"]()
+    with pytest.raises(NotImplementedError, match=r"PLAN 7\.12"):
+        SYSTEMS["juris"]()
 
 
 # ---- comparison ----------------------------------------------------------------------------

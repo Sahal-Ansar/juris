@@ -149,3 +149,89 @@ Run: `uv run scripts/run_experiment.py --config b1 --split dev`.
   not of the pipeline. The bar is not met, and 6.3 stays open until it is re-measured with the
   intended model (D-044). The citation format is unchanged, so every config is measured the same
   way.
+
+## B2: compute-matched single agent (PLAN 6.4)
+
+`backend/juris/baselines/b2.py` (`B2System`, a subclass of `B1System`), prompts
+`backend/juris/prompts/baseline_b2_critique.md` and `baseline_b2_revise.md`, profile
+`configs/pipeline/b2.yaml`, tests `backend/tests/test_b2.py`. Decision: D-045.
+
+B2 answers IDEA_final R1: it gets roughly Juris's token budget with one agent, so a Juris gain
+over B2 is not just "more tokens". It is B1 with a longer S9:
+
+- **Draft.** B1's answer, with the same queries, evidence and prompt.
+- **Critique.** One call lists the draft's problems: unsupported claims, missing arguments,
+  unframed issues, unjustified leanings. The quote errors are found in code with the verifier's
+  exact-quote rule and handed to it, as Juris's agents get them from the Case Record.
+- **Second search** (first round only). The first critique also writes up to
+  `follow_up_queries` searches. Their results add up to `follow_up_k` new chunks, numbered after
+  the first search's (`E-021` ...). The new queries are recorded as `query_issued` at S1.
+- **Revise.** One call rewrites the whole answer from the draft, the critique and the evidence.
+  If the output never validates, the last valid answer stands (`b2.revise_failures`).
+- **Rounds.** Critique and revise repeat up to `max_rounds`. A round starts only while the
+  estimated generation spend is under `target_tokens`. The spend counts prompt plus output
+  characters / 4 over every BASELINE call. It is an estimate, not the gateway's usage, because a
+  cache hit reports zero tokens and would make a cached re-run take more rounds. A critique with
+  no problems (and no new evidence) ends the rounds.
+- **Context.** Critique and revise see at most `revise_evidence_k` (12) chunks: the cited ones,
+  then the new ones, then the rest by rank. With the draft in the prompt, all 28 would not fit
+  the local model's 16k window.
+- After the rounds, B1's quote repair, record, verifier and analysis run unchanged. Values are
+  named `b2.*`: B1's set plus `b2.critiques`, `b2.revisions`, `b2.revise_failures`,
+  `b2.follow_up_queries`, `b2.follow_up_evidence` and `b2.tokens_estimate`. The critiques and
+  follow-up queries are in the run's details.
+
+The budget (`target_tokens` 170,000, `max_rounds` 8) is a first estimate of `juris_full`, at
+about 185k tokens per case:
+
+| Stage | Estimate |
+|---|---|
+| Framer and researcher | 5k |
+| Two counsel | 30k |
+| Precedent analyst | 20k |
+| Verifier gates | 30k |
+| Rebuttal | 30k |
+| Cross-examination and replies | 25k |
+| Three jurors | 30k |
+| Judge | 15k |
+
+PLAN 7.12 measures `juris_full` and resets the budget to within ±20% of it.
+
+Run: `uv run scripts/run_experiment.py --config b2 --split dev`.
+
+### Dev run (local model, Juris-Eval dev, 2026-10-19)
+
+Experiment `b2-dev-nall-s1`: 18 dev items, seed 0, `juris-qwen2.5-7b`, no grader. All 18 runs
+completed, and none needed a revise fallback. Token usage, with B1's next to it:
+
+| Metric | B1 (`b1-v2-dev-nall-s1`) | B2 (`b2-dev-nall-s1`) |
+|---|---|---|
+| **tokens per case** | **20,454** (17,661-23,067) | **158,971** (146,761-172,015) |
+| tokens per case, range | | 123,902-206,986 |
+| wall-clock per case | 193 s | 890 s |
+| citation validity (bar ≥ 0.95) | 0.291 (0.152-0.433), n 10 | 0.263 (0.141-0.386), n 18 |
+| citation faithfulness | 0.140 (0.067-0.213) | 0.148 (0.054-0.252) |
+| unsupported-claim rate | 0.893 (0.820-0.960) | 0.866 (0.744-0.956) |
+| authority recall | 0.278 (0.111-0.463) | 0.185 (0.056-0.343) |
+| answers with no claims | 8 of 18 | 0 of 18 |
+| claims / citations (pooled) | 126 / 131 | 84 / 90 |
+| exact quotes (pooled) | 34 (26%) | 25 (28%) |
+
+- **Budget.** B2 spends 7.8 times B1's tokens per case: 0.86 of the 185k estimate for
+  `juris_full`, so within ±20% of it. Every case ran all 8 rounds: the critique never returned an
+  empty problem list, and the estimate stayed under `target_tokens`. The estimate (149k per case
+  on average) undercounts the measured total: it leaves out the verifier calls and the gateway's
+  retries.
+- **Quality on the 7B.** The extra compute bought no clear gain. Validity, faithfulness and the
+  unsupported-claim rate are within each other's CIs. Revision removed the empty answers (B1's 8
+  became 0), but it also cut the claims. Authority recall fell: revised answers cite fewer gold
+  judgments.
+- **Failing quotes** (65 of 90): 28 invented, 21 partial, 9 near-verbatim, 5 with the wrong ID,
+  2 differing only in case. Repair fixed 8 of 73. Each critique was given the quote errors the answer still had,
+  but the revisions still did not copy the text verbatim.
+- **Near misses are often the corpus's noise.** In the smoke run, 4 of 7 quotes were the passage
+  "cleaned up": an OCR typo in the chunk (`influene`), an em dash, `"` written as `'`. The
+  exact-quote rule counts these as invalid. This is worth a look before the re-measure in 6.3
+  and 6.5, but it does not change the rule (D-038).
+- The 2-item smoke run (`b2-smoke-n2`) is not in `results.csv`: the machine slept during it,
+  so its wall-clock is meaningless.

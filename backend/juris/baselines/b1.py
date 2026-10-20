@@ -40,7 +40,7 @@ from juris.events.catalog import (
     QueryIssuedPayload,
 )
 from juris.llm.errors import StructuredOutputError
-from juris.llm.types import ChatMessage
+from juris.llm.types import ChatMessage, LLMResult
 from juris.models import (
     Argument,
     CaseAnalysis,
@@ -165,10 +165,12 @@ class _Presented:
         return self.texts.get(evidence_id)
 
 
-def evidence_block(hits: Sequence[Hit]) -> str:
-    """``[E-001] <header>`` and the chunk text, one block per hit, in hit order."""
+def evidence_block(hits: Sequence[Hit], ids: Sequence[str] | None = None) -> str:
+    """``[E-001] <header>`` and the chunk text, one block per hit, in hit order. ``ids``
+    labels the hits when they are not ``E-001``, ``E-002``... (B2 shows a subset)."""
+    labels = ids if ids is not None else [f"E-{n:03d}" for n in range(1, len(hits) + 1)]
     return "\n\n".join(
-        f"[E-{n:03d}] {h.context_header or h.title}\n{h.text}" for n, h in enumerate(hits, 1)
+        f"[{i}] {h.context_header or h.title}\n{h.text}" for i, h in zip(labels, hits, strict=True)
     )
 
 
@@ -211,6 +213,7 @@ class _Cited:
 class B1System:
     corpus_snapshot_id = "mvp_contract-1f53c208a8"  # the slice the search covers (D-019)
     embedding_model = "BAAI/bge-m3 + intfloat/multilingual-e5-large + lexical (RRF)"
+    agent = AGENT  # names the events, the call tags and the recorded values (B2 subclasses)
 
     def __init__(self, service: Callable[[bool], SearchService] = _local_service) -> None:
         self._make_service = service
@@ -225,7 +228,7 @@ class B1System:
         params = ctx.config.profile.baseline
         item, emit = ctx.item, ctx.emitter.emit
         model = ctx.config.model_for(Role.BASELINE)
-        emit(AgentStartedPayload(role=Role.BASELINE, model=model.name), agent=AGENT)
+        emit(AgentStartedPayload(role=Role.BASELINE, model=model.name), agent=self.agent)
 
         # S0: the search queries
         if params.queries == "llm":
@@ -233,29 +236,29 @@ class B1System:
         else:
             queries = [item.question]
         ctx.details["queries"] = queries
-        ctx.values["b1.queries"] = float(len(queries))
+        ctx.values[f"{self.agent}.queries"] = float(len(queries))
         for query in queries:
-            emit(QueryIssuedPayload(query=query), stage=Stage.S0, agent=AGENT)
+            emit(QueryIssuedPayload(query=query), stage=Stage.S0, agent=self.agent)
 
         # S1: retrieve (hits are numbered E-001... in this order, once per chunk)
         service = self._search_service(params.rerank)
         found = service.search(queries, k=params.evidence_k, rerank=params.rerank)
         hits = list({h.chunk_id: h for h in found}.values())
-        ctx.values["b1.evidence"] = float(len(hits))
-        presented = _Presented({f"E-{n:03d}": h.text for n, h in enumerate(hits, 1)})
 
-        # S9: the answer
-        answer, uncited = await self._answer(ctx, hits)
+        # S9: the answer (B2 may search again here and add hits)
+        answer, hits, uncited = await self._compose(ctx, service, hits)
+        ctx.values[f"{self.agent}.evidence"] = float(len(hits))
+        presented = _Presented({f"E-{n:03d}": h.text for n, h in enumerate(hits, 1)})
         malformed, normalised = self._normalise_ids(answer)
-        ctx.values["b1.malformed_citations_dropped"] = float(malformed)
-        ctx.values["b1.ids_normalised"] = float(normalised)
+        ctx.values[f"{self.agent}.malformed_citations_dropped"] = float(malformed)
+        ctx.values[f"{self.agent}.ids_normalised"] = float(normalised)
         if params.repair_quotes:
             await self._repair(ctx, answer, presented)
         # every claim cites (§10): drop those left without a citation
         uncited += self._drop_uncited(answer)
-        ctx.values["b1.uncited_claims_dropped"] = float(uncited)
+        ctx.values[f"{self.agent}.uncited_claims_dropped"] = float(uncited)
 
-        framed = CreatedBy(stage=Stage.S0, agent=AGENT)
+        framed = CreatedBy(stage=Stage.S0, agent=self.agent)
         issues = [
             Issue(
                 id=f"I-{n}",
@@ -272,15 +275,15 @@ class B1System:
             emit(
                 IssueFramedPayload(issue=issue, facts=answer.facts, assumptions=answer.assumptions),
                 stage=Stage.S0,
-                agent=AGENT,
+                agent=self.agent,
             )
 
         registry = self._register(ctx, service, hits, answer, issues)
         headers = {f"E-{n:03d}": h.context_header or h.title for n, h in enumerate(hits, 1)}
         claims, cited = self._record_claims(ctx, registry, answer, issues, headers)
         citations = [c.citation for c in cited]
-        ctx.values["b1.claims"] = float(len(claims))
-        ctx.values["b1.citations"] = float(len(citations))
+        ctx.values[f"{self.agent}.claims"] = float(len(claims))
+        ctx.values[f"{self.agent}.citations"] = float(len(citations))
 
         # S10: verify, then analyse from what held up
         verifier = CitationVerifier(
@@ -301,8 +304,16 @@ class B1System:
                 analysis=self._analysis(item.question, answer, issues, cited, results, registry)
             ),
             stage=Stage.S9,
-            agent=AGENT,
+            agent=self.agent,
         )
+
+    async def _compose(
+        self, ctx: RunContext, service: SearchService, hits: list[Hit]
+    ) -> tuple[B1Answer, list[Hit], int]:
+        """The answer, the hits it may cite (``E-001``... in this order) and how many claims
+        were dropped for having no citation. B1: one call on the first search's hits."""
+        answer, uncited = await self._answer(ctx, hits)
+        return answer, hits, uncited
 
     # ---- model calls -----------------------------------------------------------------------
 
@@ -314,16 +325,30 @@ class B1System:
         max_tokens: int,
         **fields: str,
     ) -> T:
+        _, result = await self._complete(ctx, prompt, response_model, max_tokens, **fields)
+        assert result.parsed is not None  # the gateway raises if the output never validates
+        return result.parsed
+
+    async def _complete[T: BaseModel](
+        self,
+        ctx: RunContext,
+        prompt: str,
+        response_model: type[T],
+        max_tokens: int,
+        **fields: str,
+    ) -> tuple[str, LLMResult[T]]:
+        """One structured call on the BASELINE model: the prompt as sent, and the result."""
         template = load_prompt(prompt)
         model = ctx.config.model_for(Role.BASELINE)
+        content = Template(template.body).substitute(**fields)
         result = await ctx.gateway.complete(
-            [ChatMessage(role="user", content=Template(template.body).substitute(**fields))],
+            [ChatMessage(role="user", content=content)],
             model=model,
             response_model=response_model,
             seed=ctx.seed,
             max_tokens=max_tokens,
             tags={
-                "agent": AGENT,
+                "agent": self.agent,
                 "prompt": f"{template.id}@v{template.version}",
                 "item": ctx.item.id,
             },
@@ -336,10 +361,9 @@ class B1System:
                 cost_usd=result.usage.cost_usd,
                 cached=result.cached,
             ),
-            agent=AGENT,
+            agent=self.agent,
         )
-        assert result.parsed is not None  # the gateway raises if the output never validates
-        return result.parsed
+        return content, result
 
     async def _queries(self, ctx: RunContext, max_queries: int) -> list[str]:
         out = await self._call(
@@ -355,19 +379,22 @@ class B1System:
         return queries or [ctx.item.question]  # an empty answer falls back to the question
 
     async def _answer(self, ctx: RunContext, hits: Sequence[Hit]) -> tuple[B1Answer, int]:
-        """The answer and how many claims were dropped for having no citation. The schema
+        return await self._written_answer(
+            ctx,
+            ANSWER_PROMPT,
+            question=ctx.item.question,
+            facts=ctx.item.facts,
+            evidence=evidence_block(hits) or "(the search found no evidence)",
+        )
+
+    async def _written_answer(
+        self, ctx: RunContext, prompt: str, **fields: str
+    ) -> tuple[B1Answer, int]:
+        """An answer call and how many claims were dropped for having no citation. The schema
         requires one, so the gateway's repair retry usually fixes a bare claim; if the output
         is still invalid, the raw text is read once more with the bare claims removed."""
         try:
-            answer = await self._call(
-                ctx,
-                ANSWER_PROMPT,
-                B1Answer,
-                6000,
-                question=ctx.item.question,
-                facts=ctx.item.facts,
-                evidence=evidence_block(hits) or "(the search found no evidence)",
-            )
+            answer = await self._call(ctx, prompt, B1Answer, 6000, **fields)
         except StructuredOutputError as exc:
             try:
                 raw = json.loads(exc.raw_text)
@@ -445,7 +472,7 @@ class B1System:
         before = [
             (claim, c) for _, _, claim in _claims(answer) for c in claim.citations if failing(c)
         ]
-        ctx.values["b1.citation_failures_before_repair"] = float(len(before))
+        ctx.values[f"{self.agent}.citation_failures_before_repair"] = float(len(before))
         todo = [(claim, c) for claim, c in before if c.evidence_id in presented]
         dropped = 0
         if todo:
@@ -466,15 +493,15 @@ class B1System:
                     dropped += 1
                 elif fix.quote.strip():
                     c.quote = fix.quote.strip()
-        ctx.values["b1.citation_failures_after_repair"] = float(
+        ctx.values[f"{self.agent}.citation_failures_after_repair"] = float(
             sum(1 for _, _, claim in _claims(answer) for c in claim.citations if failing(c))
         )
-        ctx.values["b1.citations_dropped_by_repair"] = float(dropped)
+        ctx.values[f"{self.agent}.citations_dropped_by_repair"] = float(dropped)
 
     # ---- the record ------------------------------------------------------------------------
 
-    @staticmethod
     def _register(
+        self,
         ctx: RunContext,
         service: SearchService,
         hits: Sequence[Hit],
@@ -491,20 +518,20 @@ class B1System:
         every = [i.id for i in issues]
         for n, hit in enumerate(hits, 1):
             evidence = registry.register(
-                hit, cited_in.get(f"E-{n:03d}") or every, Stage.S1, agent=AGENT
+                hit, cited_in.get(f"E-{n:03d}") or every, Stage.S1, agent=self.agent
             )
             assert evidence.id == f"E-{n:03d}"  # the prompt's IDs are the registry's
         return registry
 
-    @staticmethod
     def _record_claims(
+        self,
         ctx: RunContext,
         registry: EvidenceRegistry,
         answer: B1Answer,
         issues: Sequence[Issue],
         headers: dict[str, str],
     ) -> tuple[dict[str, Claim], list[_Cited]]:
-        by = CreatedBy(stage=Stage.S9, agent=AGENT)
+        by = CreatedBy(stage=Stage.S9, agent=self.agent)
         claims: dict[str, Claim] = {}
         cited: list[_Cited] = []
         for n, side, claim in _claims(answer):
@@ -515,11 +542,11 @@ class B1System:
                 id=registry.ids.next("C"),
                 text=claim.text.strip(),
                 position_id=f"{issues[n].id}.{side}",
-                author_agent=AGENT,
+                author_agent=self.agent,
                 created_by=by,
             )
             claims[created.id] = created
-            ctx.emitter.emit(ClaimCreatedPayload(claim=created), stage=Stage.S9, agent=AGENT)
+            ctx.emitter.emit(ClaimCreatedPayload(claim=created), stage=Stage.S9, agent=self.agent)
             seen: set[tuple[str, str]] = set()
             citations: list[Citation] = []
             for c in claim.citations:
@@ -551,21 +578,22 @@ class B1System:
                     )
                 ),
                 stage=Stage.S9,
-                agent=AGENT,
+                agent=self.agent,
             )
         return claims, cited
 
-    @staticmethod
     def _record_outcomes(
-        ctx: RunContext, cited: Sequence[_Cited], results: Sequence[VerificationResult]
+        self, ctx: RunContext, cited: Sequence[_Cited], results: Sequence[VerificationResult]
     ) -> None:
         counts = {status: 0 for status in VerificationStatus}
         for r in results:
             counts[r.status] += 1
         total = len(results)
         for status in VerificationStatus:
-            ctx.values[f"b1.share_{status.value}"] = counts[status] / total if total else None
-        ctx.values["b1.invalid_citations"] = float(counts[VerificationStatus.INVALID])
+            ctx.values[f"{self.agent}.share_{status.value}"] = (
+                counts[status] / total if total else None
+            )
+        ctx.values[f"{self.agent}.invalid_citations"] = float(counts[VerificationStatus.INVALID])
         ctx.details["citations"] = [
             {
                 "claim_id": c.citation.claim_id,
@@ -579,8 +607,8 @@ class B1System:
             for c, r in zip(cited, results, strict=True)
         ]
 
-    @staticmethod
     def _analysis(
+        self,
         question: str,
         answer: B1Answer,
         issues: Sequence[Issue],
@@ -670,7 +698,7 @@ class B1System:
             overall_summary=" ".join(words[:SUMMARY_MAX_WORDS]) or "No summary was given.",
             limitations=limitations,
             sources=sources,
-            created_by=CreatedBy(stage=Stage.S9, agent=AGENT),
+            created_by=CreatedBy(stage=Stage.S9, agent=self.agent),
         )
 
 
