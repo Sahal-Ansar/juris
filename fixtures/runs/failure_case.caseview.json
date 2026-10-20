@@ -97,6 +97,7 @@
       "issue_ids": [
         "I-1"
       ],
+      "kind": "search",
       "stage": "S1",
       "agent": "researcher"
     }

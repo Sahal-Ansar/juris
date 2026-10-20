@@ -39,6 +39,7 @@ from juris.events.catalog import (
     ObjectionRaisedPayload,
     PrecedentCardCreatedPayload,
     QueryIssuedPayload,
+    QueryKind,
     UnresolvedQuestionAddedPayload,
     ValidationFailedPayload,
     VerificationResultPayload,
@@ -168,10 +169,24 @@ class CaseRecord:
         )
         return issue
 
-    def add_query(self, query: str, issue_ids: Sequence[str], *, stage: Stage, agent: str) -> None:
-        _raise(self._unknown(issue_ids, self.view.issues, "issue"))
+    def add_query(
+        self,
+        query: str,
+        issue_ids: Sequence[str],
+        *,
+        stage: Stage,
+        agent: str,
+        kind: QueryKind = "search",
+    ) -> None:
+        """A search query, or (``provision``) a statute section to fetch by name."""
+        errors = self._unknown(issue_ids, self.view.issues, "issue")
+        if not query.strip():
+            errors.append("the query is empty")
+        _raise(errors)
         self.emitter.emit(
-            QueryIssuedPayload(query=query, issue_ids=list(issue_ids)), stage=stage, agent=agent
+            QueryIssuedPayload(query=query.strip(), issue_ids=list(issue_ids), kind=kind),
+            stage=stage,
+            agent=agent,
         )
 
     def register_evidence(

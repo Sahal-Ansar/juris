@@ -427,12 +427,16 @@ export interface QueryIssued {
   payload: QueryIssuedPayload;
 }
 /**
+ * A search query, or (``provision``) a statute section to fetch by name, e.g. "s. 16
+ * of the Indian Contract Act" (S0 proposes both; the Researcher runs them).
+ *
  * This interface was referenced by `JurisContract`'s JSON-Schema
  * via the `definition` "QueryIssuedPayload".
  */
 export interface QueryIssuedPayload {
   query: string;
   issue_ids: string[];
+  kind: "search" | "provision";
 }
 /**
  * This interface was referenced by `JurisContract`'s JSON-Schema
@@ -1492,6 +1496,7 @@ export interface AgentState {
 export interface QueryRecord {
   query: string;
   issue_ids: string[];
+  kind: "search" | "provision";
   stage: Stage | null;
   agent: string | null;
 }

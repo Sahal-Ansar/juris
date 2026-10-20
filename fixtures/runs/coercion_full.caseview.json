@@ -229,6 +229,7 @@
       "issue_ids": [
         "I-1"
       ],
+      "kind": "search",
       "stage": "S1",
       "agent": "researcher"
     },
@@ -237,6 +238,7 @@
       "issue_ids": [
         "I-1"
       ],
+      "kind": "search",
       "stage": "S1",
       "agent": "researcher"
     },
@@ -245,6 +247,7 @@
       "issue_ids": [
         "I-1"
       ],
+      "kind": "search",
       "stage": "S1",
       "agent": "researcher"
     },
@@ -253,6 +256,7 @@
       "issue_ids": [
         "I-2"
       ],
+      "kind": "search",
       "stage": "S1",
       "agent": "researcher"
     }

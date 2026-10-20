@@ -69,9 +69,16 @@ class IssueFramedPayload(JurisModel):
     assumptions: list[str] = Field(default_factory=list)
 
 
+QueryKind = Literal["search", "provision"]
+
+
 class QueryIssuedPayload(JurisModel):
+    """A search query, or (``provision``) a statute section to fetch by name, e.g. "s. 16
+    of the Indian Contract Act" (S0 proposes both; the Researcher runs them)."""
+
     query: Text
     issue_ids: list[IssueId] = Field(default_factory=list)
+    kind: QueryKind = "search"
 
 
 class EvidenceRegisteredPayload(JurisModel):

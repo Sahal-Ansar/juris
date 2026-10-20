@@ -2947,6 +2947,7 @@
     },
     "QueryIssuedPayload": {
       "additionalProperties": false,
+      "description": "A search query, or (``provision``) a statute section to fetch by name, e.g. \"s. 16\nof the Indian Contract Act\" (S0 proposes both; the Researcher runs them).",
       "properties": {
         "query": {
           "minLength": 1,
@@ -2960,11 +2961,21 @@
           },
           "title": "Issue Ids",
           "type": "array"
+        },
+        "kind": {
+          "default": "search",
+          "enum": [
+            "search",
+            "provision"
+          ],
+          "title": "Kind",
+          "type": "string"
         }
       },
       "required": [
         "query",
-        "issue_ids"
+        "issue_ids",
+        "kind"
       ],
       "title": "QueryIssuedPayload",
       "type": "object"

@@ -80,6 +80,7 @@ class AgentState(JurisModel):
 class QueryRecord(JurisModel):
     query: str
     issue_ids: list[str]
+    kind: Literal["search", "provision"] = "search"
     stage: Stage | None
     agent: str | None
 
@@ -251,6 +252,7 @@ def _apply(view: CaseView, event: Event) -> None:
                 QueryRecord(
                     query=event.payload.query,
                     issue_ids=list(event.payload.issue_ids),
+                    kind=event.payload.kind,
                     stage=event.stage,
                     agent=event.agent,
                 )

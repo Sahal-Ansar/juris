@@ -1282,6 +1282,15 @@
           "title": "Issue Ids",
           "type": "array"
         },
+        "kind": {
+          "default": "search",
+          "enum": [
+            "search",
+            "provision"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
         "stage": {
           "anyOf": [
             {
@@ -1307,6 +1316,7 @@
       "required": [
         "query",
         "issue_ids",
+        "kind",
         "stage",
         "agent"
       ],
