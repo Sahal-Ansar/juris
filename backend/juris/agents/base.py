@@ -20,6 +20,11 @@ writes it through the Case Record. ``run`` does it in this order:
    drops the whole output, and ``run`` returns None.
 5. **Apply.** ``apply`` writes the clean output through the Case Record. Since ``validate``
    already checked it, a rejection here is a bug and fails the stage.
+
+``run`` is ``produce`` (steps 1-4) then ``apply``. A stage that runs several agents at once
+(Counsel A and B) awaits their ``produce`` together and applies the outputs in a fixed order,
+so the record's IDs do not depend on which call finished first. ``attempts`` keeps each output
+the model gave and its problems (first, then after the repair), for the stage's statistics.
 """
 
 import json
@@ -83,6 +88,7 @@ class Agent[Out: BaseModel](ABC):
     def __init__(self, name: str | None = None, *, seed_offset: int = 0) -> None:
         self.name = name or self.role.value  # e.g. "counsel_a"; names events and call tags
         self.seed_offset = seed_offset  # jurors differ by seed (IDEA_final §6.1)
+        self.attempts: list[tuple[Out, list[Problem]]] = []  # the last run's outputs, checked
 
     @abstractmethod
     def input_view(self, view: CaseView) -> dict[str, str]:
@@ -107,7 +113,16 @@ class Agent[Out: BaseModel](ABC):
 
     async def run(self, ctx: StageContext) -> Out | None:
         """Prompt, check, repair once, drop what still fails, apply. None if nothing is left."""
+        output = await self.produce(ctx)
+        if output is not None:
+            self.apply(output, ctx.record, stage=ctx.stage)
+        return output
+
+    async def produce(self, ctx: StageContext) -> Out | None:
+        """Prompt, check, repair once, drop what still fails; write nothing but the agent and
+        validation events. None if nothing is left."""
         record, emit = ctx.record, ctx.run.emitter.emit
+        self.attempts = []
         model = ctx.run.config.model_for(self.role)
         emit(
             AgentStartedPayload(role=self.role, model=model.name), stage=ctx.stage, agent=self.name
@@ -128,6 +143,7 @@ class Agent[Out: BaseModel](ABC):
             assert result.parsed is not None  # the gateway raises if it never validates
             output = result.parsed
             problems = self.validate(output, record)
+            self.attempts.append((output, problems))
             if problems:
                 messages += [
                     ChatMessage(role="assistant", content=result.text),
@@ -142,6 +158,7 @@ class Agent[Out: BaseModel](ABC):
                     assert repaired.parsed is not None
                     output = repaired.parsed
                     problems = self.validate(output, record)
+                    self.attempts.append((output, problems))
             if problems:
                 output = self._drop(output, problems, ctx)
         except StructuredOutputError as exc:
@@ -152,8 +169,6 @@ class Agent[Out: BaseModel](ABC):
                 dropped=WHOLE_OUTPUT,
             )
             output = None
-        if output is not None:
-            self.apply(output, record, stage=ctx.stage)
         emit(
             AgentCompletedPayload(
                 role=self.role,
