@@ -90,6 +90,11 @@ class Agent[Out: BaseModel](ABC):
         self.seed_offset = seed_offset  # jurors differ by seed (IDEA_final §6.1)
         self.attempts: list[tuple[Out, list[Problem]]] = []  # the last run's outputs, checked
 
+    @property
+    def call_tags(self) -> dict[str, str]:
+        """Extra tags on this agent's calls (e.g. the judgment a Precedent Analyst reads)."""
+        return {}
+
     @abstractmethod
     def input_view(self, view: CaseView) -> dict[str, str]:
         """The role template's fields: everything this agent sees, and nothing more."""
@@ -201,6 +206,7 @@ class Agent[Out: BaseModel](ABC):
                 "role": self.role.value,
                 "stage": ctx.stage.value,
                 "item": ctx.run.item.id,
+                **self.call_tags,
                 **tags,
             },
         )

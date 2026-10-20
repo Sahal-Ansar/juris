@@ -176,6 +176,16 @@ class RetrievalService:
     def citing_cases(self, doc_id: str) -> list[LinkedCase]:
         return self.lookups.get_citing_cases(doc_id)
 
+    def chunk_ids(self, doc_id: str, section: str | None = None) -> list[str]:
+        """A document's chunk IDs in reading order, optionally of one section ("front",
+        "headnote", "body"): a cited chunk's neighbours, a judgment's headnote (PLAN 7.6)."""
+        sql = "SELECT chunk_id FROM chunks WHERE doc_id = :d"
+        if section is not None:
+            sql += " AND section = :s"
+        with self.engine.connect() as conn:
+            rows = conn.execute(text(sql + " ORDER BY chunk_id"), {"d": doc_id, "s": section})
+            return [r[0] for r in rows]
+
     def cited_cases(self, doc_id: str) -> list[LinkedCase]:
         return self.lookups.get_cited_cases(doc_id)
 

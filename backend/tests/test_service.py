@@ -202,6 +202,16 @@ def test_lookups_and_section_hits(service: RetrievalService) -> None:
 
 
 @pytest.mark.db
+def test_chunk_ids_in_reading_order(service: RetrievalService) -> None:
+    ids = service.chunk_ids(SC_OLD)
+    assert ids == sorted(ids) and f"{SC_OLD}#c0001" in ids
+    _, chunk = service.records(ids[0])
+    assert ids[0] in service.chunk_ids(SC_OLD, chunk.section)
+    assert service.chunk_ids(SC_OLD, "no such section") == []
+    assert service.chunk_ids("nope") == []
+
+
+@pytest.mark.db
 def test_records_are_valid_domain_models(service: RetrievalService) -> None:
     document, chunk = service.records(f"{SC_OLD}#c0001")
     assert document.id == SC_OLD and document.corpus_snapshot == "s"
