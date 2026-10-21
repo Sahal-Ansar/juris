@@ -1,6 +1,7 @@
 """The agent framework (PLAN 7.2): a dummy counsel agent end to end on canned responses,
 through one repair cycle and the drop step. No model, no database."""
 
+import copy
 import json
 from pathlib import Path
 from typing import Any
@@ -220,6 +221,25 @@ async def test_what_still_fails_after_the_repair_is_dropped() -> None:
         e.startswith("claims[0]: a claim needs at least one citation") for e in failure.errors
     )
     assert len(view.validation_failures) == 1
+
+
+async def test_a_repair_that_breaks_a_valid_citation_does_not_cost_it() -> None:
+    # the repair fixes nothing and breaks claim 1's good citation (as a small model did in S5)
+    worse = copy.deepcopy(MIXED)
+    worse["claims"][1]["citations"][0]["quote"] = "when " + SATYABRATA_QUOTE
+    ctx, _ = context(MIXED, worse)
+    output = await DummyCounsel("counsel_a").run(ctx)
+    assert output is not None and [c.text for c in output.claims] == ["One good, one bad."]
+    failure = ctx.record.view.validation_failures[0]  # the errors of the attempt kept
+    assert failure.dropped == "claims[2], claims[1].citations[1], claims[0].citations[0], claims[0]"
+
+
+async def test_a_clean_but_shorter_repair_is_not_preferred() -> None:
+    two = {"claims": [GOOD["claims"][0], claim("I-1.A", "Bad.", ("E-002", BAD_QUOTE))]}
+    ctx, _ = context(two, {"claims": []})  # the repair gives up instead of fixing the quote
+    output = await DummyCounsel("counsel_a").run(ctx)
+    assert output is not None and [c.text for c in output.claims] == ["Capped."]
+    assert ctx.record.view.validation_failures[0].dropped == "claims[1].citations[0], claims[1]"
 
 
 async def test_a_problem_with_the_whole_output_drops_it() -> None:

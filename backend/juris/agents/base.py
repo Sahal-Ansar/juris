@@ -15,9 +15,11 @@ writes it through the Case Record. ``run`` does it in this order:
    one-retry for output that does not match the schema.
 4. **Drop.** Whatever still fails is dropped: the list item each problem points into. Then the
    output is checked again, since dropping a claim's only citation leaves a claim with none, and
-   so on until it is clean. One ``validation_failed`` event records the errors and what was
-   dropped. A problem that points at no list item (or an output that no longer fits its schema)
-   drops the whole output, and ``run`` returns None.
+   so on until it is clean. A problem that points at no list item (or an output that no longer
+   fits its schema) drops the whole output, and ``run`` returns None. This is done for both
+   attempts, and the one that keeps more (list items at any depth; the repair on a tie) is
+   used: a repair can break a citation that was valid the first time. One
+   ``validation_failed`` event records the chosen attempt's errors and what was dropped.
 5. **Apply.** ``apply`` writes the clean output through the Case Record. Since ``validate``
    already checked it, a rejection here is a bug and fails the stage.
 
@@ -164,8 +166,8 @@ class Agent[Out: BaseModel](ABC):
                     output = repaired.parsed
                     problems = self.validate(output, record)
                     self.attempts.append((output, problems))
-            if problems:
-                output = self._drop(output, problems, ctx)
+            if problems or len(self.attempts) > 1:
+                output = self._keep_best(ctx)
         except StructuredOutputError as exc:
             record.reject(
                 [f"the output did not match the schema: {exc}"],
@@ -211,9 +213,32 @@ class Agent[Out: BaseModel](ABC):
             },
         )
 
-    def _drop(self, output: Out, problems: list[Problem], ctx: StageContext) -> Out | None:
+    def _keep_best(self, ctx: StageContext) -> Out | None:
+        """Of the attempts, the one that keeps the most after dropping what fails (the later
+        one on a tie), so a repair that breaks a valid citation does not cost it. Logs one
+        ``validation_failed`` if anything of the chosen attempt is dropped."""
+        best: tuple[int, Out | None, list[str], list[str]] | None = None
+        for output, problems in self.attempts:
+            kept, errors, dropped = self._drop(output, problems, ctx.record)
+            size = -1 if kept is None else _size(kept.model_dump(mode="json"))
+            if best is None or size >= best[0]:
+                best = (size, kept, errors, dropped)
+        assert best is not None
+        _, kept, errors, dropped = best
+        if errors:
+            ctx.record.reject(
+                errors,
+                stage=ctx.stage,
+                agent=self.name,
+                dropped=WHOLE_OUTPUT if kept is None else ", ".join(dropped),
+            )
+        return kept
+
+    def _drop(
+        self, output: Out, problems: list[Problem], record: CaseRecord
+    ) -> tuple[Out | None, list[str], list[str]]:
         """Drop the items the problems point into until the output is clean (see the module
-        docstring). Logs one ``validation_failed``."""
+        docstring). Returns what is left, the errors and the paths dropped; writes nothing."""
         errors = [str(p) for p in problems]
         dropped: list[str] = []
         current: Out | None = output
@@ -234,15 +259,9 @@ class Agent[Out: BaseModel](ABC):
                 errors.append(f"after dropping, the output no longer fits its schema: {exc}")
                 current = None
                 break
-            problems = self.validate(current, ctx.record)
+            problems = self.validate(current, record)
             errors += [str(p) for p in problems]
-        ctx.record.reject(
-            errors,
-            stage=ctx.stage,
-            agent=self.name,
-            dropped=WHOLE_OUTPUT if current is None else ", ".join(dropped),
-        )
-        return current
+        return current, errors, dropped
 
 
 def _item(path: OutputPath) -> OutputPath:
@@ -254,6 +273,15 @@ def _item(path: OutputPath) -> OutputPath:
 def _order(path: OutputPath) -> tuple[str, ...]:
     """Sort key: list indices compare as numbers, so reversing removes the last item first."""
     return tuple(f"{p:010d}" if isinstance(p, int) else p for p in path)
+
+
+def _size(data: Any) -> int:
+    """How much an output holds: its list items, counted at every depth."""
+    if isinstance(data, dict):
+        return sum(_size(v) for v in data.values())
+    if isinstance(data, list):
+        return len(data) + sum(_size(v) for v in data)
+    return 0
 
 
 def _remove(data: Any, path: OutputPath) -> None:
