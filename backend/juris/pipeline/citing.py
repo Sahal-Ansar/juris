@@ -21,13 +21,15 @@ def pinpoint(chunk: Chunk, header: str | None) -> str:
     return header or chunk.section or "chunk"
 
 
-_LOOSE_ID = re.compile(r"^E\s*-?\s*0*(\d+)$", re.IGNORECASE)
-
-
 def clean_evidence_id(raw: str) -> str:
     """The ID in the prompt's form: brackets, spaces, case and a missing hyphen are tolerated
     and the number is zero-padded to three digits, so "E-3", "E3", "e-03" and "[E-003]" are
     all "E-003". Anything else is returned stripped, and stays malformed."""
+    return clean_record_id(raw, "E")
+
+
+def clean_record_id(raw: str, prefix: str) -> str:
+    """``clean_evidence_id`` for any ``<prefix>-nnn`` ID (claims: "C-4" is "C-004")."""
     text = raw.strip().strip("[]()").strip()
-    loose = _LOOSE_ID.match(text)
-    return f"E-{int(loose.group(1)):03d}" if loose else text
+    loose = re.match(rf"^{prefix}\s*-?\s*0*(\d+)$", text, re.IGNORECASE)
+    return f"{prefix}-{int(loose.group(1)):03d}" if loose else text
