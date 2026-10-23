@@ -9,7 +9,8 @@ Each round, for every counsel that has claims to answer:
    evidence for its issue.
 2. **Counterarguments**: all ``RebuttalCounsel`` calls at once, then written in order.
 
-``rebuttal_rounds`` rounds (default 1, at most 2; 0 turns the stage into a no-op). The second
+``rebuttal_rounds`` rounds (default 1, at most 2; 0, or ``single_counsel``, turns the stage into
+a no-op). The second
 round answers what the first round added, and is optional: it is skipped with a
 ``budget_warning`` when what is left will not cover what the first round spent. The searches
 are skipped the same way once the budget is spent.
@@ -60,7 +61,8 @@ class RebuttalStage:
         searches: list[CounselSearch] = []
         rounds = 0
         last = Spend()
-        for round_no in range(1, ctx.params.rebuttal_rounds + 1):
+        planned = 0 if ctx.params.single_counsel else ctx.params.rebuttal_rounds  # no opponent
+        for round_no in range(1, planned + 1):
             if round_no > 1 and not ctx.budget.allows(last):
                 ctx.warn_budget(f"skipped rebuttal round {round_no}")
                 break

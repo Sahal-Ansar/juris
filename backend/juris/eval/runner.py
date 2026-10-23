@@ -43,6 +43,7 @@ from juris.llm.gateway import LLMGateway
 from juris.llm.providers.anthropic import AnthropicProvider
 from juris.llm.providers.base import Provider
 from juris.llm.providers.openai_compat import OpenAICompatProvider
+from juris.pipeline.system import JurisSystem
 from juris.runs import RunRecorder, git_state
 
 RESULTS_DIR = REPO_ROOT / "eval" / "results"
@@ -63,19 +64,12 @@ HEADLINE = (
 )
 
 
-def _not_yet(step: str) -> Callable[[], System]:
-    def make() -> System:
-        raise NotImplementedError(f"this config's system arrives in PLAN {step}")
-
-    return make
-
-
 SYSTEMS: dict[str, Callable[[], System]] = {
     "dummy": DummySystem,
     "b0": B0System,
     "b1": B1System,
     "b2": B2System,
-    "juris": _not_yet("7.12"),
+    "juris": JurisSystem,
 }
 
 

@@ -137,6 +137,12 @@ class DeliberationParams(_Strict):
     rebuttal_rounds: int = Field(default=1, ge=0, le=2)
     extra_searches_per_counsel: int = Field(default=3, ge=0)
     jurors: int = Field(default=3, ge=1)
+    # Counsel's evidence list cut to this many characters (S2, S5) for a small-context model;
+    # None shows the whole pool (D-052: 28,000 on the local 7B).
+    max_evidence_chars: int | None = Field(default=None, gt=0)
+    # The no_opponent ablation (PLAN 7.12): one counsel per issue, for the first position (A/B
+    # labels are seeded at random, D-050), and no rebuttal.
+    single_counsel: bool = False
 
     @model_validator(mode="after")
     def _evidence_range(self) -> Self:

@@ -1,8 +1,9 @@
 # B2: compute-matched single agent (IDEA_final §5 and R1, PLAN 6.4; juris.baselines.b2).
 # B1's draft, then critique -> revise rounds (the first critique also drives a second search)
 # until the token budget is spent. Same model (BASELINE role), retriever, citation format and
-# verifier as B1. The budget is an estimate of juris_full's tokens per case; PLAN 7.12
-# recalibrates it to within +-20% of the measured value (D-045).
+# verifier as B1. The budget was an estimate of juris_full's tokens per case (D-045); PLAN 7.12
+# measured both on dev with the local 7B: B2 159.0k vs juris_full 158.7k tokens per case (18
+# items, ratio 1.00), so it stays (D-060). Re-check it whenever the model changes.
 name: b2
 description: B1 plus a second search and self-critique rounds, at Juris's token budget.
 kind: b2
@@ -15,8 +16,8 @@ baseline:
   rerank: false
   repair_quotes: true
   # Critique -> revise rounds, while the estimated generation spend (prompt + output
-  # characters / 4, every BASELINE call) is under target_tokens. Estimate of juris_full:
-  # ~185k tokens per case, verifier included; B2's verifier adds a few thousand.
+  # characters / 4, every BASELINE call) is under target_tokens. With the verifier on top, B2
+  # spends about what juris_full does (above).
   max_rounds: 8
   target_tokens: 170000
   # The second search, after the first critique: its queries, and how many new chunks it may

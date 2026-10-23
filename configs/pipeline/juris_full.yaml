@@ -1,5 +1,6 @@
-# Full Juris pipeline (IDEA_final §5 "P", §6). These match the defaults in
-# juris.config and are spelled out so the profile is explicit.
+# Full Juris pipeline (IDEA_final §5 "P", §6; PLAN 7.12; juris.pipeline.system). The stages
+# and parameters match the defaults in juris.config and are spelled out so the profile is
+# explicit. Every role uses the settings' default model (set it in .env), like B0-B2.
 name: juris_full
 description: Full adversarial deliberation pipeline, S0-S10.
 kind: juris
@@ -24,3 +25,6 @@ params:
   rebuttal_rounds: 1
   extra_searches_per_counsel: 3
   jurors: 3
+  # Counsel's evidence cut to 28,000 characters: the local 7B's 16k-token context (D-052).
+  # Raise or remove it for a long-context model.
+  max_evidence_chars: 28000

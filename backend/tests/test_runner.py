@@ -8,7 +8,14 @@ import pytest
 from pydantic import TypeAdapter
 
 from juris.baselines.dummy import DummySystem, EchoProvider
-from juris.config import ModelSpec, RunConfig, Settings, load_profile, resolve_run_config
+from juris.config import (
+    ModelSpec,
+    PipelineProfile,
+    RunConfig,
+    Settings,
+    load_profile,
+    resolve_run_config,
+)
 from juris.eval.compare import (
     Experiment,
     comparison_table,
@@ -32,6 +39,7 @@ from juris.llm.cache import ResponseCache
 from juris.llm.gateway import LLMGateway
 from juris.llm.providers.fake import FakeProvider
 from juris.llm.types import ProviderRequest, ProviderResponse
+from juris.pipeline.system import ABLATIONS
 
 
 class CountingEcho(EchoProvider):
@@ -274,9 +282,11 @@ async def test_grader_values_are_stored(
     assert len(fake.calls) == 2  # every summary sentence cites evidence: no assertion call
 
 
-def test_unbuilt_systems_say_when_they_arrive() -> None:
-    with pytest.raises(NotImplementedError, match=r"PLAN 7\.12"):
-        SYSTEMS["juris"]()
+def test_every_profile_kind_has_a_system() -> None:
+    kinds = PipelineProfile.model_fields["kind"].annotation.__args__  # type: ignore[union-attr]
+    assert set(SYSTEMS) == set(kinds)
+    for name in ("juris_full", *ABLATIONS):
+        assert load_profile(name).kind == "juris"
 
 
 # ---- comparison ----------------------------------------------------------------------------

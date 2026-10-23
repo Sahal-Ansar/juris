@@ -213,6 +213,7 @@ async def test_uncitable_inline_citations_are_removed_without_a_call() -> None:
 
 def test_sentences_and_citation_removal() -> None:
     assert sentences("One [E-1]. Two? Three!  ") == ["One [E-1].", "Two?", "Three!"]
+    assert sentences("Held. [E-1] [E-2]. Next.") == ["Held. [E-1] [E-2].", "Next."]
     assert drop_ref("Held [E-12] and [E-120].", "E-012") == "Held and [E-120]."
     assert drop_ref("Held [ e 7 ].", "E-007") == "Held."
 

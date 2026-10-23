@@ -10,6 +10,9 @@ Recorded with the run (``s2.*``), pooled over every counsel:
   dropped. This is 7.5's measure (target at least 0.95);
 - ``claims`` and ``citations``: what reached the record, all of which pass invariants 1-2.
 
+With ``single_counsel`` (the no_opponent ablation, PLAN 7.12) only position A of each issue is
+argued; the A/B labels are seeded at random (D-050).
+
 Passthrough: no counsel runs and nothing is written (for testing later stages).
 """
 
@@ -34,6 +37,7 @@ class OpeningStage:
 
     async def run(self, ctx: StageContext) -> None:
         view = ctx.record.view
+        single = ctx.params.single_counsel  # the no_opponent ablation: position A only
         counsel = [
             Counsel(
                 issue.id,
@@ -42,7 +46,7 @@ class OpeningStage:
                 max_evidence_chars=self.max_evidence_chars,
             )
             for issue in view.issues.values()
-            for position in issue.positions
+            for position in (issue.positions[:1] if single else issue.positions)
         ]
         outputs = await ctx.gather(*(c.produce(ctx) for c in counsel))
         for c, output in zip(counsel, outputs, strict=True):

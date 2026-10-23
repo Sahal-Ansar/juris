@@ -23,7 +23,7 @@ non-citable ones removed).
 import re
 from dataclasses import dataclass
 
-from juris.agents.judge import citable, inline_refs
+from juris.agents.judge import INLINE, citable, inline_refs
 from juris.config import Role
 from juris.events import CaseView
 from juris.models import CaseAnalysis, IssueAnalysis, PositionAnalysis
@@ -52,7 +52,15 @@ class Ref:
 
 
 def sentences(text: str) -> list[str]:
-    return [s for s in _SENTENCE.split(text.strip()) if s]
+    """The sentences; a piece holding only citations ("... restraint. [E-012]") belongs to
+    the sentence before it."""
+    out: list[str] = []
+    for piece in _SENTENCE.split(text.strip()):
+        if out and not INLINE.sub("", piece).strip(" .,;"):
+            out[-1] += " " + piece
+        elif piece:
+            out.append(piece)
+    return out
 
 
 def drop_ref(sentence: str, evidence_id: str) -> str:
