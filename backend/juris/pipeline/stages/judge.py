@@ -6,13 +6,13 @@ first. When some have none (the no_verifier_gates ablation turns S4 and S7 off, 
 they are verified here, by S10's gate, before the Judge runs: the one final check then comes
 before the Judge instead of after it, and the agents of S5-S8 worked without verdicts.
 
-Recorded (``s9.*``): citations verified first, whether an analysis was written, its issues,
-and the inline citations and key evidence it gives.
+Recorded (``s9.*``): citations verified first, the record checks the Judge was given (PLAN 8.2),
+whether an analysis was written, its issues, and the inline citations and key evidence it gives.
 
 Passthrough runs the Judge too: every pipeline needs an analysis.
 """
 
-from juris.agents.judge import Judge, inline_refs
+from juris.agents.judge import Judge, inline_refs, record_checks
 from juris.models.common import Stage
 from juris.pipeline.budget import Spend
 from juris.pipeline.orchestrator import StageContext
@@ -38,6 +38,8 @@ class JudgeStage:
         if unchecked:
             final = StageContext(ctx.run, ctx.record, ctx.budget, Stage.S10, ctx.mode)
             await self.gate.run(final)
+        checks = record_checks(ctx.record.view)
+        values["s9.record_checks"] = float(len({c for found in checks.values() for c in found}))
         await Judge().run(ctx)
         analysis = ctx.record.view.analysis
         values["s9.analysis"] = float(analysis is not None)

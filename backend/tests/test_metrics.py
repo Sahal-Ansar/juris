@@ -12,6 +12,7 @@ from juris.config import REPO_ROOT, ModelSpec, TokenPrice
 from juris.db.models import LlmCall
 from juris.eval.juris_eval import JurisEvalItem
 from juris.eval.metrics import (
+    METRICS,
     Answer,
     ClaimEvidencePair,
     Grader,
@@ -449,3 +450,5 @@ async def test_suite_without_grader(view: CaseView, item: JurisEvalItem) -> None
     assert values["unsupported_claim_rate"] == pytest.approx(3 / 9)  # sentences unclassified
     assert values["citation_validity"] == pytest.approx(14 / 15)
     assert "| quality_rubric | n/a | n/a | 0 |" in result.table()
+    assert set(METRICS) <= set(result.items[0].results)  # the graph checks (PLAN 8.2) too
+    assert values["orphan_claim_rate"] == pytest.approx(0.2)

@@ -16,7 +16,10 @@ per evidence (a claim or argument cited inline is replaced by the evidence it ci
 check; ``normalise_refs``); positions get pinpoints from the chunks
 and their supporting authorities from the judgments they cite; every judgment relied on gets a
 limitation saying its treatment is not verified (D-013); the assumptions are listed as
-limitations; the sources list every document cited, with court, date, citation and pinpoints.
+limitations, and so are the evidence graph's checks (PLAN 8.2: positions with no verified
+support, contested issues, standing claims with no or only weak support), which the Judge also
+reads per issue as "Record checks"; the sources list every document cited, with court, date,
+citation and pinpoints.
 
 Checks (``validate``): every S0 issue once with each of its positions once (IDEA_final §8
 invariant 5); key evidence and conflicts only from citable evidence (invariant 3), conflicts
@@ -34,6 +37,7 @@ from juris.agents.cross_examiner import describe_claims, describe_precedents
 from juris.agents.juror import describe_objections
 from juris.config import Role
 from juris.events import CaseView
+from juris.graph.checks import hints
 from juris.models import (
     CaseAnalysis,
     CreatedBy,
@@ -114,6 +118,11 @@ def unresolved(view: CaseView) -> dict[str, tuple[str, str]]:
     }
 
 
+def record_checks(view: CaseView) -> dict[str, list[str]]:
+    """The evidence graph's integrity checks as sentences, by issue ("" for the whole case)."""
+    return hints(view.graph)
+
+
 def describe_jury(view: CaseView, issue_id: str) -> str:
     aggregate = view.jury_aggregate
     if aggregate is None:
@@ -156,8 +165,11 @@ class Judge(Agent[JudgeOutput]):
     def input_view(self, view: CaseView) -> dict[str, str]:
         quotes = citable(view)
         questions = unresolved(view)
+        checks = record_checks(view)
         blocks = []
         for issue in view.issues.values():
+            found = [*checks.get(issue.id, []), *checks.get("", [])]
+            checked = "\n".join(f"- {c}" for c in found) or "(none)"
             positions = "\n".join(f"{p.id}: {p.statement}" for p in issue.positions)
             asked = [f"{label}: {q}" for label, (i, q) in questions.items() if i == issue.id]
             blocks.append(
@@ -169,6 +181,7 @@ class Judge(Agent[JudgeOutput]):
                 f"{describe_jury(view, issue.id)}\n\n"
                 f"Citable evidence (cite only these):\n"
                 f"{describe_citable(view, issue.id, quotes)}\n\n"
+                f"Record checks:\n{checked}\n\n"
                 f"Unresolved questions to answer:\n" + ("\n".join(asked) or "(none)")
                 + "\n</issue>"
             )  # fmt: skip
@@ -438,6 +451,8 @@ def build_analysis(output: JudgeOutput, view: CaseView, *, stage: Stage) -> Case
     )
     limitations = [x.strip() for x in output.limitations if x.strip()] + gaps
     limitations += [f"Assumed: {a}" for a in view.assumptions]
+    checked = dict.fromkeys(c for found in record_checks(view).values() for c in found)
+    limitations += [f"Record check: {c}" for c in checked]
     limitations += [
         f"Treatment of {view.documents[d].title} not verified: whether later judgments followed, "
         "doubted or overruled it was not checked."

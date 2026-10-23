@@ -103,8 +103,16 @@ async def test_the_judge_writes_the_analysis_and_s10_checks_its_citations() -> N
         FATEH: ["para 12"],
     }
     assert ctx.run.values["s9.inline_citations"] == 5 and ctx.run.values["s9.key_evidence"] == 2
-    # what the judge saw: only citable evidence, the questions to answer
+    # the evidence graph's checks (PLAN 8.2) are listed as limitations and shown to the Judge
+    checks = [
+        "I-1 is contested: I-1.A, I-1.B rest on verified evidence.",
+        "Claim C-002 still stands, but its support is only weak (partial).",
+    ]
+    assert analysis.limitations[1:3] == [f"Record check: {c}" for c in checks]
+    assert ctx.run.values["s9.record_checks"] == 2
+    # what the judge saw: only citable evidence, the record checks, the questions to answer
     body = provider.prompts(JUDGE)[0].messages[0].content
+    assert "Record checks:\n" + "\n".join(f"- {c}" for c in checks) + "\n\n" in body
     citable_block = body.split("Citable evidence (cite only these):\n")[1].split("\n\n")[0]
     assert "[E-001] Indian Contract Act, 1872, s. 74:" in citable_block
     assert "[E-004]" not in citable_block

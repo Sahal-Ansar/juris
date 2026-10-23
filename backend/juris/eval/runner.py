@@ -32,7 +32,7 @@ from juris.baselines.base import RunContext, System
 from juris.baselines.dummy import DummySystem, EchoProvider
 from juris.config import REPO_ROOT, ModelSpec, RunConfig, Settings, TokenPrice
 from juris.eval.juris_eval import JurisEvalItem
-from juris.eval.metrics import Answer, Grader, MetricResult
+from juris.eval.metrics import GRAPH_METRICS, Answer, Grader, MetricResult
 from juris.eval.metrics.suite import score_answer
 from juris.eval.stats import aggregate
 from juris.events.catalog import CaseCreatedPayload, RunCompletedPayload, RunFailedPayload
@@ -61,6 +61,7 @@ HEADLINE = (
     "cost_latency.total_tokens",
     "cost_latency.usd",
     "cost_latency.wall_seconds",
+    *GRAPH_METRICS,
 )
 
 

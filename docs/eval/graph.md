@@ -58,7 +58,7 @@ of the 7.12 smoke test (juris_full and six ablations, 5 dev items, local 7B) and
 The 5 juris_full runs: 496 nodes and 652 edges in all (57 to 170 nodes per run). Of 249
 evidence nodes, only the cited ones (28 citations) link to a claim; the rest hang off their
 issue and source. 8.2's checks (orphan claims, weak-only support, positions with no verified
-support) read these edges.
+support) read these edges: see [graph_checks.md](graph_checks.md).
 
 The mock fixtures (`fixtures/runs/*.caseview.json`) now include the graph: `coercion_full`
 has every node and edge type (62 nodes, 102 edges); `test_graph.py` checks it after every

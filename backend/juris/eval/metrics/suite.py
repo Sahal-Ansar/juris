@@ -13,6 +13,7 @@ from juris.eval.metrics.claims import uncited_sentences, unsupported_claim_rate
 from juris.eval.metrics.common import MetricResult
 from juris.eval.metrics.cost import CallLike, cost_latency
 from juris.eval.metrics.graders import Grader, key_point_coverage, quality_rubric
+from juris.eval.metrics.graph import GRAPH_METRICS, graph_checks
 from juris.eval.stats import Aggregate, aggregate
 from juris.events.fold import CaseView
 
@@ -25,6 +26,7 @@ METRICS = (
     "key_point_coverage",
     "quality_rubric",
     "cost_latency",
+    *GRAPH_METRICS,
 )
 
 
@@ -101,6 +103,7 @@ async def score_answer(
         key_point_coverage(item, key_points, answered=answered),
         quality_rubric(rubric),
         cost_latency(view, answer.calls, answer.wall_seconds, answer.prices),
+        *graph_checks(view),
     ]
     return ItemScores(item.id, {r.name: r for r in results})
 
