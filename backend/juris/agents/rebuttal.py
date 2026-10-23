@@ -133,7 +133,7 @@ class RebuttalCounsel(CounselBase[RebuttalOutput]):
                     continue
                 lines.append(f"  reasoning: {argument.reasoning}")
                 lines += [
-                    f"  cites {c.evidence_id}: {_assessment(view, c, argument.id)}"
+                    f"  cites {c.evidence_id}: {assessment(view, c, argument.id)}"
                     for c in argument.citations
                 ]
             blocks.append("\n".join(lines))
@@ -257,7 +257,7 @@ def counter_counts(output: RebuttalOutput, problems: list[Problem]) -> tuple[int
     return count_citations([c.citations for c in output.counterarguments], problems)
 
 
-def _assessment(view: CaseView, citation: Citation, argument_id: str) -> str:
+def assessment(view: CaseView, citation: Citation, argument_id: str) -> str:
     """What S3 and S4 found about one citation of a target."""
     results = [
         v.result

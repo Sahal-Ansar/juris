@@ -218,8 +218,8 @@ def test_counterarguments_answer_the_other_side_of_the_same_issue() -> None:
 def test_claim_status_lifecycle() -> None:
     record = argued()
     set_ = record.set_claim_status
-    rejected(record, lambda: set_("C-001", ClaimStatus.CONTESTED, "r", stage=S4, agent="v"),
-             "from proposed to contested")  # fmt: skip
+    rejected(record, lambda: set_("C-001", ClaimStatus.FALLS, "r", stage=S4, agent="v"),
+             "from proposed to falls")  # fmt: skip
     assert set_("C-001", ClaimStatus.VERIFIED, "best citation verified", stage=S4, agent="v")
     assert not set_("C-001", ClaimStatus.VERIFIED, "again", stage=S4, agent="v")  # no-op
     assert set_("C-001", ClaimStatus.WEAK, "S7 re-check", stage=Stage.S7, agent="v")
@@ -231,6 +231,8 @@ def test_claim_status_lifecycle() -> None:
              "from survives to falls")  # fmt: skip
     rejected(record, lambda: set_("C-404", ClaimStatus.WEAK, "r", stage=S4, agent="v"), "C-404")
     assert record.view.claims["C-001"].status is ClaimStatus.SURVIVES
+    # a claim from S5 can be challenged in S6 before its first gate (S7)
+    assert set_("C-002", ClaimStatus.CONTESTED, "objection O-002", stage=Stage.S6, agent="s")
 
 
 # ---- S3, S4 ---------------------------------------------------------------------------------

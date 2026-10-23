@@ -74,9 +74,11 @@ SCRIBE = "scribe"
 
 # IDEA_final §8: proposed -> verified | weak | unsupported -> contested -> survives | falls.
 # A verification gate may move a claim between the three verdicts (S7 checks new citations).
+# A claim from S5 is challenged in S6 before its first gate (S7), so proposed -> contested too
+# (D-057); S7 still records its citations' results.
 _VERDICTS = frozenset({ClaimStatus.VERIFIED, ClaimStatus.WEAK, ClaimStatus.UNSUPPORTED})
 TRANSITIONS: dict[ClaimStatus, frozenset[ClaimStatus]] = {
-    ClaimStatus.PROPOSED: _VERDICTS,
+    ClaimStatus.PROPOSED: _VERDICTS | {ClaimStatus.CONTESTED},
     ClaimStatus.VERIFIED: _VERDICTS | {ClaimStatus.CONTESTED},
     ClaimStatus.WEAK: _VERDICTS | {ClaimStatus.CONTESTED},
     ClaimStatus.UNSUPPORTED: _VERDICTS | {ClaimStatus.CONTESTED},
