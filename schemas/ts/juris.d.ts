@@ -125,6 +125,36 @@ export type Leaning = "strongly_A" | "leaning_A" | "balanced" | "leaning_B" | "s
  * via the `definition` "Confidence".
  */
 export type Confidence = "low" | "moderate" | "high";
+/**
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "NodeType".
+ */
+export type NodeType =
+  | "issue"
+  | "position"
+  | "claim"
+  | "argument"
+  | "counterargument"
+  | "objection"
+  | "evidence"
+  | "document"
+  | "statute_section";
+/**
+ * Edges point from the node that acts to the node acted on.
+ *
+ * - ``about_issue``: position or evidence → issue
+ * - ``supports``: claim → position, argument → claim, argument → counterargument (its
+ *   reasoning), document → argument (precedent fit: directly, by analogy, or not at all)
+ * - ``challenges``: counterargument → claim, document → argument (distinguishable, contrary)
+ * - ``cites``: claim → evidence, one per citation
+ * - ``quotes``: evidence → document or statute section (the evidence is a span of it)
+ * - ``targets``: objection → the record object it objects to
+ * - ``case_cites_case``: a later judgment → the judgment it treated (followed, overruled, ...)
+ *
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "EdgeType".
+ */
+export type EdgeType = "about_issue" | "supports" | "challenges" | "cites" | "quotes" | "targets" | "case_cites_case";
 
 /**
  * Every type the backend sends to the UI (IDEA_final §12).
@@ -134,6 +164,7 @@ export interface JurisContract {
   event: Event;
   caseView: CaseView;
   caseAnalysis: CaseAnalysis;
+  evidenceGraph: EvidenceGraph;
 }
 /**
  * Fields shared by every event. Subclasses add ``type`` (a Literal) and ``payload``.
@@ -1409,6 +1440,9 @@ export interface RunTotals {
 /**
  * Everything the UI shows for one run. Dicts keep insertion (= event) order.
  *
+ * ``graph`` is derived from the rest (PLAN 8.1): it is built when the view is serialised and
+ * dropped when one is read back, so it can never disagree with the record.
+ *
  * This interface was referenced by `JurisContract`'s JSON-Schema
  * via the `definition` "CaseView".
  */
@@ -1468,6 +1502,7 @@ export interface CaseView {
   analysis: CaseAnalysis | null;
   totals: RunTotals | null;
   timeline: TimelineEntry[];
+  graph: EvidenceGraph;
 }
 /**
  * This interface was referenced by `JurisContract`'s JSON-Schema
@@ -1540,4 +1575,81 @@ export interface TimelineEntry {
   type: string;
   stage: Stage | null;
   agent: string | null;
+}
+/**
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "EvidenceGraph".
+ */
+export interface EvidenceGraph {
+  nodes: GraphNode[];
+  edges: GraphEdge[];
+}
+/**
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "GraphNode".
+ */
+export interface GraphNode {
+  id: string;
+  type: NodeType;
+  /**
+   * Short display text; the full object is in the CaseView
+   */
+  label: string;
+  /**
+   * For filtering by issue
+   */
+  issue_ids: string[];
+  /**
+   * Claims, arguments and counterarguments: the side they argue
+   */
+  position_id: string | null;
+  /**
+   * Claims only
+   */
+  claim_status: ClaimStatus | null;
+  /**
+   * Objections only
+   */
+  resolved: boolean | null;
+  /**
+   * Documents with a precedent card only
+   */
+  treatment_verified: boolean | null;
+}
+/**
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "GraphEdge".
+ */
+export interface GraphEdge {
+  source: string;
+  target: string;
+  type: EdgeType;
+  /**
+   * Strength of the relation, 0-1: a citation's verification, a claim's status, a precedent's fit. None when unknown or not applicable
+   */
+  weight: number | null;
+  /**
+   * cites: the citation's best result; None = not checked
+   */
+  verification: VerificationStatus | null;
+  /**
+   * cites: entailment label
+   */
+  label: EntailmentLabel | null;
+  /**
+   * cites and quotes
+   */
+  pinpoint: string | null;
+  /**
+   * cites: the argument the citation is in
+   */
+  argument_id: string | null;
+  /**
+   * document → argument edges
+   */
+  fit: PrecedentFit | null;
+  /**
+   * case_cites_case
+   */
+  treatment: Treatment | null;
 }

@@ -3691,5 +3691,1983 @@
       "stage": null,
       "agent": null
     }
-  ]
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "I-1",
+        "type": "issue",
+        "label": "Was the claimant's consent to the settlement caused by coercion within s. 15 of the Indian Contract Act?",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "I-1.A",
+        "type": "position",
+        "label": "Yes: withholding admitted dues to force a lower settlement is an unlawful detention of property, so consent was caused by coercion.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.A",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "I-1.B",
+        "type": "position",
+        "label": "No: this was commercial pressure in a dispute about money, not an act forbidden by law, so consent was free.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.B",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "I-2",
+        "type": "issue",
+        "label": "If consent was caused by coercion, can the claimant still avoid the settlement after accepting payment and waiting four months?",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "I-2.A",
+        "type": "position",
+        "label": "Yes: the settlement is voidable under s. 19, and accepting payment while in financial distress is not affirmation.",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": "I-2.A",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "I-2.B",
+        "type": "position",
+        "label": "No: by accepting the payment and delaying, the claimant affirmed the settlement and lost the right to avoid it.",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": "I-2.B",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-ICA-S15#s15",
+        "type": "statute_section",
+        "label": "contract_act, s. 15",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-001",
+        "type": "evidence",
+        "label": "[MOCK] Indian Contract Act, 1872, s. 15 (coercion) - paraphrase, s. 15",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-ICA-S14#s14",
+        "type": "statute_section",
+        "label": "contract_act, s. 14",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-002",
+        "type": "evidence",
+        "label": "[MOCK] Indian Contract Act, 1872, s. 14 (free consent) - paraphrase, s. 14",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-ICA-S19#s19",
+        "type": "statute_section",
+        "label": "contract_act, s. 19",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-003",
+        "type": "evidence",
+        "label": "[MOCK] Indian Contract Act, 1872, s. 19 (voidability of agreements without free consent) - paraphrase, s. 19",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-SC-1962-01",
+        "type": "document",
+        "label": "[MOCK] Bharat Cotton Mills v. Lakshmi Traders",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": true
+      },
+      {
+        "id": "E-004",
+        "type": "evidence",
+        "label": "[MOCK] Bharat Cotton Mills v. Lakshmi Traders, para 9",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-005",
+        "type": "evidence",
+        "label": "[MOCK] Bharat Cotton Mills v. Lakshmi Traders, para 12",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-SC-1978-02",
+        "type": "document",
+        "label": "[MOCK] Union Transport Co. v. Meera Devi",
+        "issue_ids": [
+          "I-1",
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": true
+      },
+      {
+        "id": "E-006",
+        "type": "evidence",
+        "label": "[MOCK] Union Transport Co. v. Meera Devi, para 7",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-SC-1994-03",
+        "type": "document",
+        "label": "[MOCK] Deccan Infrastructure Ltd. v. State Supply Corp.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": true
+      },
+      {
+        "id": "E-007",
+        "type": "evidence",
+        "label": "[MOCK] Deccan Infrastructure Ltd. v. State Supply Corp., para 21",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-008",
+        "type": "evidence",
+        "label": "[MOCK] Deccan Infrastructure Ltd. v. State Supply Corp., para 24",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-SC-2003-04",
+        "type": "document",
+        "label": "[MOCK] Anand Engineering v. Rao Constructions",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": false
+      },
+      {
+        "id": "E-009",
+        "type": "evidence",
+        "label": "[MOCK] Anand Engineering v. Rao Constructions, para 15",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-010",
+        "type": "evidence",
+        "label": "[MOCK] Anand Engineering v. Rao Constructions, para 18",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-SC-2011-05",
+        "type": "document",
+        "label": "[MOCK] Sunrise Housing v. Kavita Sharma",
+        "issue_ids": [
+          "I-1",
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": true
+      },
+      {
+        "id": "E-011",
+        "type": "evidence",
+        "label": "[MOCK] Sunrise Housing v. Kavita Sharma, para 31",
+        "issue_ids": [
+          "I-1",
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-012",
+        "type": "evidence",
+        "label": "[MOCK] Sunrise Housing v. Kavita Sharma, para 34",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-SC-2016-06",
+        "type": "document",
+        "label": "[MOCK] Horizon Power Ltd. v. Western Coal Suppliers",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": true
+      },
+      {
+        "id": "E-013",
+        "type": "evidence",
+        "label": "[MOCK] Horizon Power Ltd. v. Western Coal Suppliers, para 40",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-SC-2019-07",
+        "type": "document",
+        "label": "[MOCK] Metro Rail Corp. v. Prakash Builders",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-014",
+        "type": "evidence",
+        "label": "[MOCK] Metro Rail Corp. v. Prakash Builders, para 27",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-015",
+        "type": "evidence",
+        "label": "[MOCK] Metro Rail Corp. v. Prakash Builders, para 29",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-DHC-2020-08",
+        "type": "document",
+        "label": "[MOCK] Northstar Logistics v. Gupta Warehousing",
+        "issue_ids": [
+          "I-1",
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": true
+      },
+      {
+        "id": "E-016",
+        "type": "evidence",
+        "label": "[MOCK] Northstar Logistics v. Gupta Warehousing, para 18",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-017",
+        "type": "evidence",
+        "label": "[MOCK] Northstar Logistics v. Gupta Warehousing, para 22",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-BHC-2021-09",
+        "type": "document",
+        "label": "[MOCK] Konkan Shipping v. Patil Exports",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": true
+      },
+      {
+        "id": "E-018",
+        "type": "evidence",
+        "label": "[MOCK] Konkan Shipping v. Patil Exports, para 11",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-019",
+        "type": "evidence",
+        "label": "[MOCK] Konkan Shipping v. Patil Exports, para 14",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-020",
+        "type": "evidence",
+        "label": "[MOCK] Union Transport Co. v. Meera Devi, para 9",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "C-001",
+        "type": "claim",
+        "label": "Withholding amounts the respondent admitted were due, to force a lower settlement, is an unlawful detention of property and so coercion under s. 15.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.A",
+        "claim_status": "contested",
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "C-002",
+        "type": "claim",
+        "label": "The respondent's threat to blacklist the claimant was a threat to commit an act forbidden by the Penal Code.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.A",
+        "claim_status": "falls",
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "C-005",
+        "type": "claim",
+        "label": "Consent caused by coercion makes the settlement voidable at the claimant's option under s. 19.",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": "I-2.A",
+        "claim_status": "survives",
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "C-006",
+        "type": "claim",
+        "label": "Signing a 'full and final settlement' under pressure does not by itself bar the claim.",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": "I-2.A",
+        "claim_status": "weak",
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "C-003",
+        "type": "claim",
+        "label": "Commercial pressure in a money dispute is not coercion unless the act is forbidden by law.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.B",
+        "claim_status": "survives",
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "C-004",
+        "type": "claim",
+        "label": "The claimant has not pleaded the particulars of the alleged coercion.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.B",
+        "claim_status": "contested",
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "C-007",
+        "type": "claim",
+        "label": "By accepting Rs 30 lakh and waiting four months, the claimant affirmed the settlement.",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": "I-2.B",
+        "claim_status": "contested",
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "C-008",
+        "type": "claim",
+        "label": "Delay alone defeats the right to rescind a voidable contract.",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": "I-2.B",
+        "claim_status": "falls",
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "C-009",
+        "type": "claim",
+        "label": "The withholding arose from a genuine dispute about quantum, so it was not unlawful.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.B",
+        "claim_status": "survives",
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "C-010",
+        "type": "claim",
+        "label": "Accepting payment while the financial distress continued is not affirmation.",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": "I-2.A",
+        "claim_status": "survives",
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "A-001",
+        "type": "argument",
+        "label": "S. 15 covers unlawful detention of property; admitted dues belong to the claimant, and the only authority on admitted dues treats withholding them as coercion.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.A",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "A-002",
+        "type": "argument",
+        "label": "A threat of adverse action to extract a promise is coercion.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.A",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "A-003",
+        "type": "argument",
+        "label": "S. 19 makes the settlement voidable; a no-dues or settlement document signed without real choice is not a bar.",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": "I-2.A",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "A-004",
+        "type": "argument",
+        "label": "The definition is exhaustive; hard bargaining is not an act forbidden by law.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.B",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "A-005",
+        "type": "argument",
+        "label": "Particulars of coercion must be pleaded and proved by the party alleging it.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.B",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "A-006",
+        "type": "argument",
+        "label": "Acceptance of the benefit plus delay is affirmation; the delay here is long.",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": "I-2.B",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "A-007",
+        "type": "argument",
+        "label": "The later Supreme Court decision confines the unlawful-detention line to goods and to amounts admitted due; the respondent disputed quantum.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.B",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "A-008",
+        "type": "argument",
+        "label": "The claimant was still in distress when paid, and the authority on affirmation says acceptance in continuing distress is not affirmation.",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": "I-2.A",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "R-001",
+        "type": "counterargument",
+        "label": "The later Supreme Court decision confines the unlawful-detention line to goods and to amounts admitted due; the respondent disputed quantum.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.B",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "R-002",
+        "type": "counterargument",
+        "label": "The claimant was still in distress when paid, and the authority on affirmation says acceptance in continuing distress is not affirmation.",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": "I-2.A",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "O-001",
+        "type": "objection",
+        "label": "MOCK-DHC-2020-08 involved dues the payer admitted; the respondent says quantum was disputed. Is the admission established?",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.A",
+        "claim_status": null,
+        "resolved": false,
+        "treatment_verified": null
+      },
+      {
+        "id": "O-002",
+        "type": "objection",
+        "label": "C-002 cites a judgment about threats of prosecution; nothing in the record shows a threat of an act forbidden by law.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.A",
+        "claim_status": null,
+        "resolved": true,
+        "treatment_verified": null
+      },
+      {
+        "id": "O-003",
+        "type": "objection",
+        "label": "C-007 relies on MOCK-SC-2003-04, whose later treatment is not verified.",
+        "issue_ids": [
+          "I-2"
+        ],
+        "position_id": "I-2.B",
+        "claim_status": null,
+        "resolved": false,
+        "treatment_verified": null
+      },
+      {
+        "id": "O-004",
+        "type": "objection",
+        "label": "C-004 turns on the pleadings, which are not in the facts; the framing assumed they describe the pressure.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.B",
+        "claim_status": null,
+        "resolved": false,
+        "treatment_verified": null
+      }
+    ],
+    "edges": [
+      {
+        "source": "I-1.A",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "I-1.B",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "I-2.A",
+        "target": "I-2",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "I-2.B",
+        "target": "I-2",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-001",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-001",
+        "target": "MOCK-ICA-S15#s15",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "s. 15",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-002",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-002",
+        "target": "MOCK-ICA-S14#s14",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "s. 14",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-003",
+        "target": "I-2",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-003",
+        "target": "MOCK-ICA-S19#s19",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "s. 19",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-004",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-004",
+        "target": "MOCK-SC-1962-01",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 9",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-005",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-005",
+        "target": "MOCK-SC-1962-01",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 12",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-006",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-006",
+        "target": "MOCK-SC-1978-02",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 7",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-007",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-007",
+        "target": "MOCK-SC-1994-03",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 21",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-008",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-008",
+        "target": "MOCK-SC-1994-03",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 24",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-009",
+        "target": "I-2",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-009",
+        "target": "MOCK-SC-2003-04",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 15",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-010",
+        "target": "I-2",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-010",
+        "target": "MOCK-SC-2003-04",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 18",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-011",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-011",
+        "target": "I-2",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-011",
+        "target": "MOCK-SC-2011-05",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 31",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-012",
+        "target": "I-2",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-012",
+        "target": "MOCK-SC-2011-05",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 34",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-013",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-013",
+        "target": "MOCK-SC-2016-06",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 40",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-014",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-014",
+        "target": "MOCK-SC-2019-07",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 27",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-015",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-015",
+        "target": "MOCK-SC-2019-07",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 29",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-016",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-016",
+        "target": "MOCK-DHC-2020-08",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 18",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-017",
+        "target": "I-2",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-017",
+        "target": "MOCK-DHC-2020-08",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 22",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-018",
+        "target": "I-2",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-018",
+        "target": "MOCK-BHC-2021-09",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 11",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-019",
+        "target": "I-2",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-019",
+        "target": "MOCK-BHC-2021-09",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 14",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-020",
+        "target": "I-2",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-020",
+        "target": "MOCK-SC-1978-02",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 9",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-001",
+        "target": "I-1.A",
+        "type": "supports",
+        "weight": 0.5,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-002",
+        "target": "I-1.A",
+        "type": "supports",
+        "weight": 0.0,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-005",
+        "target": "I-2.A",
+        "type": "supports",
+        "weight": 1.0,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-006",
+        "target": "I-2.A",
+        "type": "supports",
+        "weight": 0.5,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-003",
+        "target": "I-1.B",
+        "type": "supports",
+        "weight": 1.0,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-004",
+        "target": "I-1.B",
+        "type": "supports",
+        "weight": 0.5,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-007",
+        "target": "I-2.B",
+        "type": "supports",
+        "weight": 0.5,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-008",
+        "target": "I-2.B",
+        "type": "supports",
+        "weight": 0.0,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-009",
+        "target": "I-1.B",
+        "type": "supports",
+        "weight": 1.0,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-010",
+        "target": "I-2.A",
+        "type": "supports",
+        "weight": 1.0,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "A-001",
+        "target": "C-001",
+        "type": "supports",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-001",
+        "target": "E-001",
+        "type": "cites",
+        "weight": 1.0,
+        "verification": "verified",
+        "label": "supports",
+        "pinpoint": "section text",
+        "argument_id": "A-001",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-001",
+        "target": "E-016",
+        "type": "cites",
+        "weight": 1.0,
+        "verification": "verified",
+        "label": "supports",
+        "pinpoint": "para 18",
+        "argument_id": "A-001",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-001",
+        "target": "E-011",
+        "type": "cites",
+        "weight": 0.5,
+        "verification": "weak",
+        "label": "partially_supports",
+        "pinpoint": "para 31",
+        "argument_id": "A-001",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "A-002",
+        "target": "C-002",
+        "type": "supports",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-002",
+        "target": "E-006",
+        "type": "cites",
+        "weight": 0.0,
+        "verification": "unsupported",
+        "label": "does_not_support",
+        "pinpoint": "para 7",
+        "argument_id": "A-002",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "A-003",
+        "target": "C-005",
+        "type": "supports",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "A-003",
+        "target": "C-006",
+        "type": "supports",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-005",
+        "target": "E-003",
+        "type": "cites",
+        "weight": 1.0,
+        "verification": "verified",
+        "label": "supports",
+        "pinpoint": "section text",
+        "argument_id": "A-003",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-006",
+        "target": "E-011",
+        "type": "cites",
+        "weight": 0.5,
+        "verification": "weak",
+        "label": "partially_supports",
+        "pinpoint": "para 31",
+        "argument_id": "A-003",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "A-004",
+        "target": "C-003",
+        "type": "supports",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-003",
+        "target": "E-004",
+        "type": "cites",
+        "weight": 1.0,
+        "verification": "verified",
+        "label": "supports",
+        "pinpoint": "para 9",
+        "argument_id": "A-004",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-003",
+        "target": "E-007",
+        "type": "cites",
+        "weight": 1.0,
+        "verification": "verified",
+        "label": "supports",
+        "pinpoint": "para 21",
+        "argument_id": "A-004",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "A-005",
+        "target": "C-004",
+        "type": "supports",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-004",
+        "target": "E-013",
+        "type": "cites",
+        "weight": 1.0,
+        "verification": "verified",
+        "label": "supports",
+        "pinpoint": "para 40",
+        "argument_id": "A-005",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "A-006",
+        "target": "C-007",
+        "type": "supports",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "A-006",
+        "target": "C-008",
+        "type": "supports",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-007",
+        "target": "E-009",
+        "type": "cites",
+        "weight": 1.0,
+        "verification": "verified",
+        "label": "supports",
+        "pinpoint": "para 15",
+        "argument_id": "A-006",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-007",
+        "target": "E-018",
+        "type": "cites",
+        "weight": 0.5,
+        "verification": "weak",
+        "label": "partially_supports",
+        "pinpoint": "para 11",
+        "argument_id": "A-006",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-008",
+        "target": "E-018",
+        "type": "cites",
+        "weight": 0.0,
+        "verification": "invalid",
+        "label": null,
+        "pinpoint": "para 11",
+        "argument_id": "A-006",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "A-007",
+        "target": "C-009",
+        "type": "supports",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-009",
+        "target": "E-014",
+        "type": "cites",
+        "weight": 1.0,
+        "verification": "verified",
+        "label": "supports",
+        "pinpoint": "para 27",
+        "argument_id": "A-007",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "A-008",
+        "target": "C-010",
+        "type": "supports",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-010",
+        "target": "E-010",
+        "type": "cites",
+        "weight": 1.0,
+        "verification": "verified",
+        "label": "supports",
+        "pinpoint": "para 18",
+        "argument_id": "A-008",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-010",
+        "target": "E-017",
+        "type": "cites",
+        "weight": 1.0,
+        "verification": "verified",
+        "label": "supports",
+        "pinpoint": "para 22",
+        "argument_id": "A-008",
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "A-007",
+        "target": "R-001",
+        "type": "supports",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "R-001",
+        "target": "C-001",
+        "type": "challenges",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "A-008",
+        "target": "R-002",
+        "type": "supports",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "R-002",
+        "target": "C-007",
+        "type": "challenges",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "MOCK-SC-1962-01",
+        "target": "A-004",
+        "type": "supports",
+        "weight": 1.0,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": "directly_supports",
+        "treatment": null
+      },
+      {
+        "source": "MOCK-SC-1962-01",
+        "target": "A-001",
+        "type": "challenges",
+        "weight": 0.5,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": "distinguishable",
+        "treatment": null
+      },
+      {
+        "source": "MOCK-SC-1994-03",
+        "target": "MOCK-SC-1962-01",
+        "type": "case_cites_case",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": "followed"
+      },
+      {
+        "source": "MOCK-SC-1978-02",
+        "target": "A-002",
+        "type": "supports",
+        "weight": 0.0,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": "does_not_support",
+        "treatment": null
+      },
+      {
+        "source": "MOCK-SC-1994-03",
+        "target": "A-004",
+        "type": "supports",
+        "weight": 1.0,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": "directly_supports",
+        "treatment": null
+      },
+      {
+        "source": "MOCK-SC-1994-03",
+        "target": "A-001",
+        "type": "supports",
+        "weight": 0.5,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": "supports_by_analogy",
+        "treatment": null
+      },
+      {
+        "source": "MOCK-SC-2019-07",
+        "target": "MOCK-SC-1994-03",
+        "type": "case_cites_case",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": "distinguished"
+      },
+      {
+        "source": "MOCK-SC-2003-04",
+        "target": "A-006",
+        "type": "supports",
+        "weight": 0.5,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": "supports_by_analogy",
+        "treatment": null
+      },
+      {
+        "source": "MOCK-SC-2011-05",
+        "target": "A-001",
+        "type": "supports",
+        "weight": 1.0,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": "directly_supports",
+        "treatment": null
+      },
+      {
+        "source": "MOCK-SC-2011-05",
+        "target": "A-003",
+        "type": "supports",
+        "weight": 0.5,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": "supports_by_analogy",
+        "treatment": null
+      },
+      {
+        "source": "MOCK-DHC-2020-08",
+        "target": "MOCK-SC-2011-05",
+        "type": "case_cites_case",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": "followed"
+      },
+      {
+        "source": "MOCK-SC-2016-06",
+        "target": "A-005",
+        "type": "supports",
+        "weight": 1.0,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": "directly_supports",
+        "treatment": null
+      },
+      {
+        "source": "MOCK-DHC-2020-08",
+        "target": "A-001",
+        "type": "supports",
+        "weight": 1.0,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": "directly_supports",
+        "treatment": null
+      },
+      {
+        "source": "MOCK-BHC-2021-09",
+        "target": "A-006",
+        "type": "supports",
+        "weight": 0.5,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": "supports_by_analogy",
+        "treatment": null
+      },
+      {
+        "source": "O-001",
+        "target": "C-001",
+        "type": "targets",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "O-002",
+        "target": "C-002",
+        "type": "targets",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "O-003",
+        "target": "C-007",
+        "type": "targets",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "O-004",
+        "target": "C-004",
+        "type": "targets",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      }
+    ]
+  }
 }

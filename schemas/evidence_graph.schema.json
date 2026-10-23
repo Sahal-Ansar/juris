@@ -1,0 +1,328 @@
+{
+  "$defs": {
+    "ClaimStatus": {
+      "description": "proposed → verified | weak | unsupported → contested → survives | falls.",
+      "enum": [
+        "proposed",
+        "verified",
+        "weak",
+        "unsupported",
+        "contested",
+        "survives",
+        "falls"
+      ],
+      "title": "ClaimStatus",
+      "type": "string"
+    },
+    "EdgeType": {
+      "description": "Edges point from the node that acts to the node acted on.\n\n- ``about_issue``: position or evidence → issue\n- ``supports``: claim → position, argument → claim, argument → counterargument (its\n  reasoning), document → argument (precedent fit: directly, by analogy, or not at all)\n- ``challenges``: counterargument → claim, document → argument (distinguishable, contrary)\n- ``cites``: claim → evidence, one per citation\n- ``quotes``: evidence → document or statute section (the evidence is a span of it)\n- ``targets``: objection → the record object it objects to\n- ``case_cites_case``: a later judgment → the judgment it treated (followed, overruled, ...)",
+      "enum": [
+        "about_issue",
+        "supports",
+        "challenges",
+        "cites",
+        "quotes",
+        "targets",
+        "case_cites_case"
+      ],
+      "title": "EdgeType",
+      "type": "string"
+    },
+    "EntailmentLabel": {
+      "enum": [
+        "supports",
+        "partially_supports",
+        "does_not_support",
+        "contradicts"
+      ],
+      "title": "EntailmentLabel",
+      "type": "string"
+    },
+    "GraphEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "target": {
+          "minLength": 1,
+          "title": "Target",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/EdgeType"
+        },
+        "weight": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Strength of the relation, 0-1: a citation's verification, a claim's status, a precedent's fit. None when unknown or not applicable",
+          "title": "Weight"
+        },
+        "verification": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VerificationStatus"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "cites: the citation's best result; None = not checked"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EntailmentLabel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "cites: entailment label"
+        },
+        "pinpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "cites and quotes",
+          "title": "Pinpoint"
+        },
+        "argument_id": {
+          "anyOf": [
+            {
+              "pattern": "^A-\\d{3,}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "cites: the argument the citation is in",
+          "title": "Argument Id"
+        },
+        "fit": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecedentFit"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "document → argument edges"
+        },
+        "treatment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Treatment"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "case_cites_case"
+        }
+      },
+      "required": [
+        "source",
+        "target",
+        "type",
+        "weight",
+        "verification",
+        "label",
+        "pinpoint",
+        "argument_id",
+        "fit",
+        "treatment"
+      ],
+      "title": "GraphEdge",
+      "type": "object"
+    },
+    "GraphNode": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/NodeType"
+        },
+        "label": {
+          "description": "Short display text; the full object is in the CaseView",
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "issue_ids": {
+          "description": "For filtering by issue",
+          "items": {
+            "pattern": "^I-\\d+$",
+            "type": "string"
+          },
+          "title": "Issue Ids",
+          "type": "array"
+        },
+        "position_id": {
+          "anyOf": [
+            {
+              "pattern": "^I-\\d+\\.[A-C]$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Claims, arguments and counterarguments: the side they argue",
+          "title": "Position Id"
+        },
+        "claim_status": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ClaimStatus"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Claims only"
+        },
+        "resolved": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Objections only",
+          "title": "Resolved"
+        },
+        "treatment_verified": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Documents with a precedent card only",
+          "title": "Treatment Verified"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "label",
+        "issue_ids",
+        "position_id",
+        "claim_status",
+        "resolved",
+        "treatment_verified"
+      ],
+      "title": "GraphNode",
+      "type": "object"
+    },
+    "NodeType": {
+      "enum": [
+        "issue",
+        "position",
+        "claim",
+        "argument",
+        "counterargument",
+        "objection",
+        "evidence",
+        "document",
+        "statute_section"
+      ],
+      "title": "NodeType",
+      "type": "string"
+    },
+    "PrecedentFit": {
+      "enum": [
+        "directly_supports",
+        "supports_by_analogy",
+        "distinguishable",
+        "does_not_support",
+        "contrary"
+      ],
+      "title": "PrecedentFit",
+      "type": "string"
+    },
+    "Treatment": {
+      "description": "How a later judgment treated a precedent (cues from PLAN 3.9).",
+      "enum": [
+        "followed",
+        "affirmed",
+        "distinguished",
+        "doubted",
+        "overruled",
+        "per_incuriam"
+      ],
+      "title": "Treatment",
+      "type": "string"
+    },
+    "VerificationStatus": {
+      "enum": [
+        "verified",
+        "weak",
+        "unsupported",
+        "invalid"
+      ],
+      "title": "VerificationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "nodes": {
+      "items": {
+        "$ref": "#/$defs/GraphNode"
+      },
+      "title": "Nodes",
+      "type": "array"
+    },
+    "edges": {
+      "items": {
+        "$ref": "#/$defs/GraphEdge"
+      },
+      "title": "Edges",
+      "type": "array"
+    }
+  },
+  "required": [
+    "nodes",
+    "edges"
+  ],
+  "title": "EvidenceGraph",
+  "type": "object"
+}

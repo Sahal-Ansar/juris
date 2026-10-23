@@ -524,5 +524,239 @@
       "stage": null,
       "agent": null
     }
-  ]
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "I-1",
+        "type": "issue",
+        "label": "Was consent to the settlement caused by coercion within s. 15?",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "I-1.A",
+        "type": "position",
+        "label": "Yes: coercion.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.A",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "I-1.B",
+        "type": "position",
+        "label": "No: commercial pressure.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.B",
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-ICA-S15#s15",
+        "type": "statute_section",
+        "label": "contract_act, s. 15",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-001",
+        "type": "evidence",
+        "label": "[MOCK] Indian Contract Act, 1872, s. 15 (coercion) - paraphrase, s. 15",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-SC-1994-03",
+        "type": "document",
+        "label": "[MOCK] Deccan Infrastructure Ltd. v. State Supply Corp.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-007",
+        "type": "evidence",
+        "label": "[MOCK] Deccan Infrastructure Ltd. v. State Supply Corp., para 21",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "MOCK-DHC-2020-08",
+        "type": "document",
+        "label": "[MOCK] Northstar Logistics v. Gupta Warehousing",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "E-016",
+        "type": "evidence",
+        "label": "[MOCK] Northstar Logistics v. Gupta Warehousing, para 18",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": null,
+        "claim_status": null,
+        "resolved": null,
+        "treatment_verified": null
+      },
+      {
+        "id": "C-002",
+        "type": "claim",
+        "label": "Commercial pressure is not coercion.",
+        "issue_ids": [
+          "I-1"
+        ],
+        "position_id": "I-1.B",
+        "claim_status": "proposed",
+        "resolved": null,
+        "treatment_verified": null
+      }
+    ],
+    "edges": [
+      {
+        "source": "I-1.A",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "I-1.B",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-001",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-001",
+        "target": "MOCK-ICA-S15#s15",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "s. 15",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-007",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-007",
+        "target": "MOCK-SC-1994-03",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 21",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-016",
+        "target": "I-1",
+        "type": "about_issue",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "E-016",
+        "target": "MOCK-DHC-2020-08",
+        "type": "quotes",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": "para 18",
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      },
+      {
+        "source": "C-002",
+        "target": "I-1.B",
+        "type": "supports",
+        "weight": null,
+        "verification": null,
+        "label": null,
+        "pinpoint": null,
+        "argument_id": null,
+        "fit": null,
+        "treatment": null
+      }
+    ]
+  }
 }

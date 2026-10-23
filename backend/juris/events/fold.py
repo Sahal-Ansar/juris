@@ -6,9 +6,9 @@ reconnect) are skipped, so folding is idempotent. Anything else out of order is 
 """
 
 from collections.abc import Iterable
-from typing import Literal
+from typing import Any, Literal
 
-from pydantic import AwareDatetime, BaseModel, ConfigDict, Field
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, computed_field, model_validator
 
 from juris.config import Role
 from juris.events.catalog import (
@@ -40,6 +40,7 @@ from juris.events.catalog import (
     ValidationFailed,
     VerificationResultRecorded,
 )
+from juris.graph.builder import build_graph
 from juris.models import (
     Argument,
     CaseAnalysis,
@@ -57,6 +58,7 @@ from juris.models import (
     VerificationResult,
 )
 from juris.models.common import Stage
+from juris.models.graph import EvidenceGraph
 
 
 class FoldError(ValueError):
@@ -115,7 +117,11 @@ class TimelineEntry(JurisModel):
 
 
 class CaseView(BaseModel):
-    """Everything the UI shows for one run. Dicts keep insertion (= event) order."""
+    """Everything the UI shows for one run. Dicts keep insertion (= event) order.
+
+    ``graph`` is derived from the rest (PLAN 8.1): it is built when the view is serialised and
+    dropped when one is read back, so it can never disagree with the record.
+    """
 
     model_config = ConfigDict(extra="forbid", json_schema_serialization_defaults_required=True)
 
@@ -150,6 +156,19 @@ class CaseView(BaseModel):
     analysis: CaseAnalysis | None = None
     totals: RunTotals | None = None
     timeline: list[TimelineEntry] = Field(default_factory=list)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _drop_graph(cls, data: Any) -> Any:
+        if isinstance(data, dict) and "graph" in data:
+            return {k: v for k, v in data.items() if k != "graph"}
+        return data
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def graph(self) -> EvidenceGraph:
+        """The evidence graph over this view (``juris.graph.builder``)."""
+        return build_graph(self)
 
 
 def fold(events: Iterable[Event], start: CaseView | None = None) -> CaseView:

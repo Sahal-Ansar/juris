@@ -18,7 +18,7 @@ These files let you build every screen before the backend exists. They are exact
 Import TypeScript types from `schemas/ts/juris.d.ts` (generated from the backend models; don't edit):
 
 - `Event`: union of every event type, discriminated on `type`. Each event is an envelope (`event_id`, `run_id`, `case_id`, `seq`, `ts`, `stage`, `agent`, `type`) plus a typed `payload`.
-- `CaseView`: the read model (issues, evidence with documents and chunks, claims, arguments, counterarguments, precedent cards, objections, unresolved questions, verifications, jury, analysis, timeline).
+- `CaseView`: the read model (issues, evidence with documents and chunks, claims, arguments, counterarguments, precedent cards, objections, unresolved questions, verifications, jury, analysis, timeline, and `graph`: the evidence graph, nodes and edges by type, see `docs/eval/graph.md`).
 - `CaseAnalysis`: the final output (inside `CaseView.analysis`).
 
 JSON Schemas for the same types are in `schemas/*.schema.json`.
@@ -26,7 +26,7 @@ JSON Schemas for the same types are in `schemas/*.schema.json`.
 ## Two ways to use them
 
 1. **Static screens:** load `*.caseview.json` and render it.
-2. **Live screens:** stream `*.jsonl` event by event and fold each event into your state. Your client-side fold must produce exactly `*.caseview.json` at the end (PLAN 11.1 tests this). The rules are in `backend/juris/events/fold.py`:
+2. **Live screens:** stream `*.jsonl` event by event and fold each event into your state. Your client-side fold must produce exactly `*.caseview.json` at the end (PLAN 11.1 tests this). `graph` is derived from the rest of the view (`backend/juris/graph/builder.py`): rebuild it from your folded state, or fetch it, rather than folding it from events. The rules are in `backend/juris/events/fold.py`:
    - apply events in `seq` order;
    - skip an event whose `seq` and `event_id` you have already applied (reconnects re-send events);
    - claims change status only through `claim_status_changed`;
