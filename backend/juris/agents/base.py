@@ -20,6 +20,8 @@ writes it through the Case Record. ``run`` does it in this order:
    attempts, and the one that keeps more (list items at any depth; the repair on a tie) is
    used: a repair can break a citation that was valid the first time. One
    ``validation_failed`` event records the chosen attempt's errors and what was dropped.
+   A **soft** problem goes back for the repair but never drops anything: it marks a gap that
+   ``apply`` fills itself (the Judge's missing issue gets an explicit placeholder, D-059).
 5. **Apply.** ``apply`` writes the clean output through the Case Record. Since ``validate``
    already checked it, a rejection here is a bug and fails the stage.
 
@@ -60,10 +62,12 @@ OutputPath = tuple[str | int, ...]
 
 @dataclass(frozen=True)
 class Problem:
-    """Why part of an output is rejected, and where it is (``()``: the output as a whole)."""
+    """Why part of an output is rejected, and where it is (``()``: the output as a whole).
+    ``soft``: worth a repair, but nothing is dropped for it."""
 
     message: str
     path: OutputPath = ()
+    soft: bool = False
 
     def __str__(self) -> str:
         return f"{where(self.path)}: {self.message}" if self.path else self.message
@@ -230,22 +234,24 @@ class Agent[Out: BaseModel](ABC):
                 errors,
                 stage=ctx.stage,
                 agent=self.name,
-                dropped=WHOLE_OUTPUT if kept is None else ", ".join(dropped),
+                dropped=WHOLE_OUTPUT if kept is None else ", ".join(dropped) or None,
             )
         return kept
 
     def _drop(
         self, output: Out, problems: list[Problem], record: CaseRecord
     ) -> tuple[Out | None, list[str], list[str]]:
-        """Drop the items the problems point into until the output is clean (see the module
-        docstring). Returns what is left, the errors and the paths dropped; writes nothing."""
+        """Drop the items the (hard) problems point into until the output is clean (see the
+        module docstring). Returns what is left, the errors (soft ones too) and the paths
+        dropped; writes nothing."""
         errors = [str(p) for p in problems]
         dropped: list[str] = []
         current: Out | None = output
+        hard = [p for p in problems if not p.soft]
         for _ in range(_MAX_DROP_ROUNDS):
-            if current is None or not problems:
+            if current is None or not hard:
                 break
-            items = [_item(p.path) for p in problems]
+            items = [_item(p.path) for p in hard]
             if any(not item for item in items):
                 current = None  # a problem with the output as a whole
                 break
@@ -259,8 +265,8 @@ class Agent[Out: BaseModel](ABC):
                 errors.append(f"after dropping, the output no longer fits its schema: {exc}")
                 current = None
                 break
-            problems = self.validate(current, record)
-            errors += [str(p) for p in problems]
+            hard = [p for p in self.validate(current, record) if not p.soft]
+            errors += [str(p) for p in hard]
         return current, errors, dropped
 
 
