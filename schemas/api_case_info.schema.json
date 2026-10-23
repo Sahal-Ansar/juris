@@ -1,0 +1,76 @@
+{
+  "$defs": {
+    "RunInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "profile": {
+          "minLength": 1,
+          "title": "Profile",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "running",
+            "completed",
+            "failed"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "profile",
+        "status",
+        "created_at"
+      ],
+      "title": "RunInfo",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "``GET /cases/{id}``: the question and every run of it, oldest first.",
+  "properties": {
+    "case_id": {
+      "minLength": 1,
+      "title": "Case Id",
+      "type": "string"
+    },
+    "question": {
+      "minLength": 1,
+      "title": "Question",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "runs": {
+      "items": {
+        "$ref": "#/$defs/RunInfo"
+      },
+      "title": "Runs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "case_id",
+    "question",
+    "created_at",
+    "runs"
+  ],
+  "title": "CaseInfo",
+  "type": "object"
+}

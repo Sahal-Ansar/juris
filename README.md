@@ -63,9 +63,19 @@ Every run writes a manifest (git commit, resolved config, models per role, promp
 uv run scripts/dummy_run.py --db
 ```
 
+## API
+
+A FastAPI app serves cases, runs, evidence, documents and configurations to the UI (`docs/api.md`):
+
+```bash
+uv run --group embed uvicorn --factory juris.api.app:create_app --port 8000
+```
+
+`POST /cases` with `{"question": "...", "profile": "juris_full"}` queues a run; read it at `GET /runs/{run_id}`. Interactive docs at `/docs`; the OpenAPI document is exported to `schemas/openapi.json`.
+
 ## UI contract (schemas)
 
-The Pydantic models are the source of truth. `schemas/` holds the exported JSON Schemas and `schemas/ts/juris.d.ts` (TypeScript types for the UI). After changing a model:
+The Pydantic models are the source of truth. `schemas/` holds the exported JSON Schemas, the API's OpenAPI document and `schemas/ts/juris.d.ts` (TypeScript types for the UI). After changing a model:
 
 ```bash
 npm ci                               # once: json-schema-to-typescript

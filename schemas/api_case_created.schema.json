@@ -1,0 +1,21 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "case_id": {
+      "minLength": 1,
+      "title": "Case Id",
+      "type": "string"
+    },
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "case_id",
+    "run_id"
+  ],
+  "title": "CaseCreated",
+  "type": "object"
+}

@@ -1,0 +1,234 @@
+"""The REST API (PLAN 9.1) through ``httpx.AsyncClient``: a case runs end to end on a scripted
+model and a fake retrieval service, and every response validates against the exported
+schemas. The document route reads a fake store here and Postgres in the ``db`` test."""
+
+import datetime as dt
+import json
+from collections.abc import AsyncIterator
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+import httpx
+import jsonschema
+import pytest
+from sqlalchemy.engine import Engine
+from sqlalchemy.orm import Session
+
+from juris.api.app import create_app
+from juris.api.documents import DbDocuments
+from juris.api.runs import RunManager
+from juris.api.schemas import DocumentDetail, DocumentParagraph
+from juris.baselines.base import RunContext
+from juris.config import REPO_ROOT, ModelsConfig, ModelSpec, Settings
+from juris.db import models as m
+from juris.eval.runner import GatewayFactory
+from juris.models import Document
+from juris.pipeline.system import JurisSystem
+from tests.conftest import migrate
+from tests.test_b1 import HITS
+from tests.test_system import FullService, Model
+
+QUESTION = "Can the seller forfeit the earnest money when the buyer backs out?"
+SCHEMAS = REPO_ROOT / "schemas"
+
+
+def check(schema: str, body: Any) -> None:
+    """Raise if ``body`` does not validate against ``schemas/<schema>.schema.json``."""
+    loaded = json.loads((SCHEMAS / f"{schema}.schema.json").read_text(encoding="utf-8"))
+    jsonschema.validators.validator_for(loaded)(loaded).validate(body)
+
+
+class FakeDocuments:
+    def document(self, doc_id: str) -> DocumentDetail | None:
+        if doc_id != "SC-1":
+            return None
+        return DocumentDetail(
+            document=Document(
+                id="SC-1", kind="judgment", title="A v. B", licence="public",
+                corpus_snapshot="snap",
+            ),
+            paragraphs=[DocumentParagraph(seq=0, no="1", part="body", text="Held.")],
+        )  # fmt: skip
+
+
+class Broken:
+    corpus_snapshot_id = "snap"
+    embedding_model = "none"
+
+    async def run(self, ctx: RunContext) -> None:
+        raise RuntimeError("retrieval is down")
+
+
+@dataclass
+class Api:
+    client: httpx.AsyncClient
+    runs: RunManager
+    model: Model
+
+
+def settings(tmp_path: Path) -> Settings:
+    spec = ModelSpec(provider="fake", name="m", effort=None)
+    return Settings(_env_file=None, models=ModelsConfig(default=spec), data_dir=tmp_path)  # type: ignore[call-arg]
+
+
+@pytest.fixture
+async def api(tmp_path: Path) -> AsyncIterator[Api]:
+    model = Model()
+    runs = RunManager(
+        settings=settings(tmp_path),
+        systems={
+            "juris": lambda: JurisSystem(service=lambda: FullService(hits=list(HITS))),
+            "b0": Broken,
+        },
+        gateways=GatewayFactory({"fake": model}, prices={}),
+    )
+    app = create_app(runs, FakeDocuments())
+    transport = httpx.ASGITransport(app=app)
+    async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+        yield Api(client, runs, model)
+    await runs.close()
+
+
+async def test_a_case_runs_end_to_end(api: Api, tmp_path: Path) -> None:
+    client = api.client
+    configs = (await client.get("/configs")).json()
+    names = {c["name"] for c in configs}
+    assert {"juris_full", "no_jury", "b0"} <= names and "b1" not in names and "dummy" not in names
+    for config in configs:
+        check("api_config_info", config)
+
+    created = await client.post("/cases", json={"question": QUESTION, "profile": "juris_full"})
+    assert created.status_code == 202
+    check("api_case_created", created.json())
+    case_id, run_id = created.json()["case_id"], created.json()["run_id"]
+    await api.runs.wait(run_id)
+
+    case = (await client.get(f"/cases/{case_id}")).json()
+    check("api_case_info", case)
+    assert case["question"] == QUESTION
+    assert [(r["run_id"], r["status"], r["profile"]) for r in case["runs"]] == [
+        (run_id, "completed", "juris_full")
+    ]
+
+    view = (await client.get(f"/runs/{run_id}")).json()
+    check("case_view", view)
+    assert view["status"] == "completed" and view["case_id"] == case_id
+    assert view["question"] == QUESTION and view["profile"] == "juris_full"
+
+    analysis = (await client.get(f"/runs/{run_id}/analysis")).json()
+    check("case_analysis", analysis)
+    assert analysis == view["analysis"] and analysis["created_by"]["stage"] == "S10"
+
+    graph = (await client.get(f"/runs/{run_id}/graph")).json()
+    check("evidence_graph", graph)
+    assert graph == view["graph"] and graph["nodes"]
+
+    evidence = (await client.get(f"/evidence/{run_id}/E-001")).json()
+    check("api_evidence_detail", evidence)
+    assert evidence["evidence"]["id"] == "E-001"
+    assert evidence["chunk"]["id"] == evidence["evidence"]["chunk_id"]
+    assert evidence["document"]["id"] == evidence["evidence"]["document_id"]
+    [citation] = evidence["citations"]  # counsel A cites E-001 once
+    assert citation["verification"]["status"] == "verified"
+
+    # the finished run is also on disk, like a run_case.py run
+    out = tmp_path / "runs" / "api" / run_id
+    assert {p.name for p in out.iterdir()} == {
+        "manifest.json", "events.jsonl", "caseview.json", "calls.json",
+    }  # fmt: skip
+    assert json.loads((out / "manifest.json").read_text(encoding="utf-8"))["status"] == (
+        "completed"
+    )
+    assert len(api.model.calls) > 10
+
+
+async def test_a_failed_run_is_reported(api: Api) -> None:
+    created = await api.client.post("/cases", json={"question": QUESTION, "profile": "b0"})
+    run_id = created.json()["run_id"]
+    await api.runs.wait(run_id)
+    view = (await api.client.get(f"/runs/{run_id}")).json()
+    check("case_view", view)
+    assert view["status"] == "failed" and "retrieval is down" in view["error"]
+    case = (await api.client.get(f"/cases/{created.json()['case_id']}")).json()
+    assert case["runs"][0]["status"] == "failed"
+    assert (await api.client.get(f"/runs/{run_id}/analysis")).status_code == 404
+
+
+async def test_bad_requests_and_unknown_ids(api: Api) -> None:
+    client = api.client
+    unknown = await client.post("/cases", json={"question": QUESTION, "profile": "b1"})
+    assert unknown.status_code == 422 and "b1" in unknown.json()["detail"]
+    assert (await client.post("/cases", json={"question": "Short?"})).status_code == 422
+    assert (await client.post("/cases", json={"question": QUESTION, "x": 1})).status_code == 422
+    for path in ("/cases/CASE-0", "/runs/r-0", "/runs/r-0/analysis", "/runs/r-0/graph",
+                 "/evidence/r-0/E-001", "/documents/SC-404"):  # fmt: skip
+        response = await client.get(path)
+        assert response.status_code == 404, path
+        assert "not found" in response.json()["detail"]
+    created = (await client.post("/cases", json={"question": QUESTION})).json()  # juris_full
+    await api.runs.wait(created["run_id"])
+    missing = await client.get(f"/evidence/{created['run_id']}/E-999")
+    assert missing.status_code == 404
+
+
+async def test_documents_and_cors(api: Api) -> None:
+    document = await api.client.get("/documents/SC-1")
+    check("api_document_detail", document.json())
+    assert document.json()["paragraphs"][0]["text"] == "Held."
+    preflight = await api.client.options(
+        "/cases",
+        headers={"Origin": "http://localhost:3000", "Access-Control-Request-Method": "POST"},
+    )
+    assert preflight.headers["access-control-allow-origin"] == "http://localhost:3000"
+    other = await api.client.get("/configs", headers={"Origin": "http://evil.example"})
+    assert "access-control-allow-origin" not in other.headers
+
+
+def test_the_default_profiles_are_every_runnable_one(tmp_path: Path) -> None:
+    names = {p.name for p in RunManager(settings=settings(tmp_path)).profiles()}
+    assert {"juris_full", "b0", "b1", "b2", "no_verifier_gates"} <= names
+    assert "dummy" not in names
+
+
+@pytest.mark.db
+def test_documents_from_the_database(engine: Engine) -> None:
+    with engine.begin() as conn:
+        migrate(conn)
+    with Session(engine) as session:
+        session.add(m.Snapshot(snapshot_id="s", slice_name="x", counts={}, notes=[]))
+        session.flush()
+        session.add_all([
+            m.Document(doc_id="SC-1", snapshot_id="s", kind="judgment", source="t",
+                       licence="public", title="A v. B", headnote="On forfeiture.",
+                       decision_date=dt.date(1963, 1, 1), citations=["AIR 1963 SC 1405"]),
+            m.Document(doc_id="ACT-x", snapshot_id="s", kind="statute", source="t",
+                       licence="public", title="An Act"),
+        ])  # fmt: skip
+        session.flush()
+        session.add_all([
+            m.Paragraph(doc_id="SC-1", seq=s, no=str(s + 1), part=1, section="body",
+                        numbering="explicit", char_start=s * 10, char_end=s * 10 + 9,
+                        page_start=1, page_end=1, text=t)
+            for s, t in ((1, "Second."), (0, "First."), (2, " "))
+        ])  # fmt: skip
+        session.add_all([
+            m.StatuteSection(section_id=f"x:{n}", doc_id="ACT-x", act_id="x", act="An Act",
+                             act_year=1872, section=str(n), title=f"Title {n}", text=f"{n}. Text",
+                             repealed=False, sub_sections=[], amendment_notes=[], amended_by=[],
+                             amendments_curated=False, char_start=100 - n, char_end=110 - n,
+                             page_start=1, page_end=1)
+            for n in (74, 73)
+        ])  # fmt: skip
+        session.commit()
+    store = DbDocuments(engine)
+    judgment = store.document("SC-1")
+    assert judgment is not None and judgment.headnote == "On forfeiture."
+    assert judgment.document.citations == ["AIR 1963 SC 1405"]
+    assert [(p.seq, p.text) for p in judgment.paragraphs] == [(0, "First."), (1, "Second.")]
+    statute = store.document("ACT-x")
+    assert statute is not None
+    sections = [(p.no, p.part, p.title) for p in statute.paragraphs]
+    assert sections == [("74", "section", "Title 74"), ("73", "section", "Title 73")]  # Act order
+    assert store.document("SC-404") is None
+    check("api_document_detail", judgment.model_dump(mode="json"))

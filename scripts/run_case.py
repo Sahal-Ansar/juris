@@ -26,30 +26,13 @@ from pathlib import Path
 
 from juris.baselines.base import RunContext
 from juris.config import get_settings, load_profile, resolve_run_config
-from juris.eval.juris_eval import JurisEvalItem, load_split
+from juris.eval.juris_eval import JurisEvalItem, free_item, load_split
 from juris.eval.runner import GatewayFactory
 from juris.events.catalog import CaseCreatedPayload, RunCompletedPayload, RunFailedPayload
 from juris.events.fold import fold
 from juris.events.store import EventEmitter, InMemoryEventStore
 from juris.pipeline.system import JurisSystem
 from juris.runs import RunRecorder
-
-
-def free_item(question: str) -> JurisEvalItem:
-    """A free question as an item: only its question and ID are read by the pipeline. The gold
-    fields serve scoring, which this script does not do, so they stay empty (unvalidated)."""
-    return JurisEvalItem.model_construct(
-        id="CASE",
-        split="dev",
-        topic="free question",
-        question=question,
-        facts=question,
-        gold_issues=[],
-        gold_supporting_authorities=[],
-        gold_sections=[],
-        key_points=[],
-        difficulty="medium",
-    )
 
 
 def find_item(item_id: str) -> JurisEvalItem:

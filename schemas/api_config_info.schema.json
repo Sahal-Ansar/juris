@@ -1,0 +1,42 @@
+{
+  "additionalProperties": false,
+  "description": "``GET /configs``: a profile in ``configs/pipeline/`` that ``POST /cases`` accepts.",
+  "properties": {
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "juris",
+        "b0",
+        "b1",
+        "b2",
+        "dummy"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "stages": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Stage -> on, off or passthrough",
+      "title": "Stages",
+      "type": "object"
+    }
+  },
+  "required": [
+    "name",
+    "kind",
+    "description",
+    "stages"
+  ],
+  "title": "ConfigInfo",
+  "type": "object"
+}

@@ -168,12 +168,15 @@ class BaselineParams(_Strict):
     revise_evidence_k: int = Field(default=14, ge=1)  # chunks shown to critique and revise
 
 
+ProfileKind = Literal["juris", "b0", "b1", "b2", "dummy"]  # dummy: tests the runner (PLAN 5.5)
+
+
 class PipelineProfile(_Strict):
     """One named system configuration, loaded from ``configs/pipeline/<name>.yaml``."""
 
     name: str
     description: str = ""
-    kind: Literal["juris", "b0", "b1", "b2", "dummy"]  # dummy: tests the runner (PLAN 5.5)
+    kind: ProfileKind
     seed: int = 0
     models: ModelsConfig | None = None
     budget: BudgetConfig | None = None
@@ -225,6 +228,12 @@ class Settings(BaseSettings):
     runs_dir: Path = Field(default=None, validate_default=False)  # type: ignore[assignment]
     llm_cache_path: Path = Field(default=None, validate_default=False)  # type: ignore[assignment]
     pipeline_configs_dir: Path = PIPELINE_CONFIGS_DIR
+
+    # REST API (PLAN 9.1): origins the browser may call from, and runs executed at once.
+    api_cors_origins: list[str] = Field(
+        default_factory=lambda: ["http://localhost:3000", "http://127.0.0.1:3000"]
+    )
+    api_concurrency: int = Field(default=1, ge=1)
 
     @model_validator(mode="after")
     def _derived_paths(self) -> Self:

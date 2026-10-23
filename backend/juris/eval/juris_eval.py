@@ -148,3 +148,21 @@ def check_against_corpus(conn: Connection, items: list[JurisEvalItem]) -> list[s
             f"{item.id}: unknown section {s}" for s in item.gold_sections if s not in found
         ]
     return problems
+
+
+def free_item(question: str, item_id: str = "CASE") -> JurisEvalItem:
+    """A free question as an item (``run_case.py``, the API): only its question and ID are read
+    by the pipeline. The gold fields serve scoring, which a free question has none of, so they
+    stay empty (unvalidated)."""
+    return JurisEvalItem.model_construct(
+        id=item_id,
+        split="dev",
+        topic="free question",
+        question=question,
+        facts=question,
+        gold_issues=[],
+        gold_supporting_authorities=[],
+        gold_sections=[],
+        key_points=[],
+        difficulty="medium",
+    )

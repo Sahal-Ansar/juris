@@ -1,0 +1,647 @@
+{
+  "$defs": {
+    "Chunk": {
+      "additionalProperties": false,
+      "description": "A retrievable span of a document, with paragraph (or page) provenance.\n\nJudgments before ~1970 have no numbered paragraphs, so they carry pages instead (D-010).",
+      "properties": {
+        "id": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "document_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Document Id",
+          "type": "string"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "para_start": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Para Start"
+        },
+        "para_end": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Para End"
+        },
+        "page_start": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page Start"
+        },
+        "page_end": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page End"
+        },
+        "char_start": {
+          "minimum": 0,
+          "title": "Char Start",
+          "type": "integer"
+        },
+        "char_end": {
+          "minimum": 0,
+          "title": "Char End",
+          "type": "integer"
+        },
+        "section": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Section heading, if any",
+          "title": "Section"
+        },
+        "statute": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StatuteMeta"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "document_id",
+        "text",
+        "para_start",
+        "para_end",
+        "page_start",
+        "page_end",
+        "char_start",
+        "char_end",
+        "section",
+        "statute"
+      ],
+      "title": "Chunk",
+      "type": "object"
+    },
+    "CourtLevel": {
+      "enum": [
+        "supreme_court",
+        "high_court",
+        "tribunal",
+        "subordinate",
+        "other"
+      ],
+      "title": "CourtLevel",
+      "type": "string"
+    },
+    "CreatedBy": {
+      "additionalProperties": false,
+      "description": "Which stage and agent produced an object (e.g. ``counsel_a``, ``case_record``).",
+      "properties": {
+        "stage": {
+          "$ref": "#/$defs/Stage"
+        },
+        "agent": {
+          "minLength": 1,
+          "title": "Agent",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage",
+        "agent"
+      ],
+      "title": "CreatedBy",
+      "type": "object"
+    },
+    "Document": {
+      "additionalProperties": false,
+      "description": "A judgment or statute in a corpus snapshot.",
+      "properties": {
+        "id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/DocumentKind"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "court": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Court"
+        },
+        "court_level": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CourtLevel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "bench_strength": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bench Strength"
+        },
+        "judges": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Judges",
+          "type": "array"
+        },
+        "decision_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Decision Date"
+        },
+        "cnr": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "eCourts case number; join key (D-010)",
+          "title": "Cnr"
+        },
+        "citations": {
+          "description": "The document's own citations, e.g. '2023 INSC 1043', '[2023] 16 S.C.R. 872'",
+          "items": {
+            "type": "string"
+          },
+          "title": "Citations",
+          "type": "array"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        },
+        "licence": {
+          "minLength": 1,
+          "title": "Licence",
+          "type": "string"
+        },
+        "corpus_snapshot": {
+          "minLength": 1,
+          "title": "Corpus Snapshot",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "title",
+        "court",
+        "court_level",
+        "bench_strength",
+        "judges",
+        "decision_date",
+        "cnr",
+        "citations",
+        "source_url",
+        "licence",
+        "corpus_snapshot"
+      ],
+      "title": "Document",
+      "type": "object"
+    },
+    "DocumentKind": {
+      "enum": [
+        "judgment",
+        "statute",
+        "other"
+      ],
+      "title": "DocumentKind",
+      "type": "string"
+    },
+    "EntailmentLabel": {
+      "enum": [
+        "supports",
+        "partially_supports",
+        "does_not_support",
+        "contradicts"
+      ],
+      "title": "EntailmentLabel",
+      "type": "string"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "A retrieved chunk registered for this run. Only registered evidence may be cited.",
+      "properties": {
+        "id": {
+          "pattern": "^E-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "chunk_id": {
+          "maxLength": 240,
+          "minLength": 1,
+          "title": "Chunk Id",
+          "type": "string"
+        },
+        "document_id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Document Id",
+          "type": "string"
+        },
+        "issue_ids": {
+          "items": {
+            "pattern": "^I-\\d+$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Issue Ids",
+          "type": "array"
+        },
+        "retrieval_score": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrieval Score"
+        },
+        "rerank_score": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rerank Score"
+        },
+        "retrieved_by_query": {
+          "minLength": 1,
+          "title": "Retrieved By Query",
+          "type": "string"
+        },
+        "registered_at_stage": {
+          "$ref": "#/$defs/Stage"
+        },
+        "created_by": {
+          "$ref": "#/$defs/CreatedBy"
+        }
+      },
+      "required": [
+        "id",
+        "chunk_id",
+        "document_id",
+        "issue_ids",
+        "retrieval_score",
+        "rerank_score",
+        "retrieved_by_query",
+        "registered_at_stage",
+        "created_by"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "EvidenceCitation": {
+      "additionalProperties": false,
+      "description": "A claim that cites the evidence, with the latest verification of that pair.",
+      "properties": {
+        "claim_id": {
+          "pattern": "^C-\\d{3,}$",
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "argument_id": {
+          "pattern": "^A-\\d{3,}$",
+          "title": "Argument Id",
+          "type": "string"
+        },
+        "pinpoint": {
+          "minLength": 1,
+          "title": "Pinpoint",
+          "type": "string"
+        },
+        "quote": {
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        },
+        "verification": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VerificationResult"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "claim_id",
+        "argument_id",
+        "pinpoint",
+        "quote",
+        "verification"
+      ],
+      "title": "EvidenceCitation",
+      "type": "object"
+    },
+    "Stage": {
+      "description": "Pipeline stages S0-S10 (IDEA_final §6).",
+      "enum": [
+        "S0",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S8",
+        "S9",
+        "S10"
+      ],
+      "title": "Stage",
+      "type": "string"
+    },
+    "StatuteMeta": {
+      "additionalProperties": false,
+      "description": "Section-level statute fields (IDEA_final §7.3, D-014).",
+      "properties": {
+        "act": {
+          "minLength": 1,
+          "title": "Act",
+          "type": "string"
+        },
+        "section": {
+          "minLength": 1,
+          "title": "Section",
+          "type": "string"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "in_force_from": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "In Force From"
+        },
+        "in_force_to": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "None = still in force",
+          "title": "In Force To"
+        },
+        "amended_by": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Amended By",
+          "type": "array"
+        },
+        "amendments_curated": {
+          "default": false,
+          "description": "True only if dates came from configs/statutes/amendments.yaml",
+          "title": "Amendments Curated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "act",
+        "section",
+        "title",
+        "in_force_from",
+        "in_force_to",
+        "amended_by",
+        "amendments_curated"
+      ],
+      "title": "StatuteMeta",
+      "type": "object"
+    },
+    "VerificationCheck": {
+      "description": "The verifier's checks, cheapest first; ``check`` records the one that decided.",
+      "enum": [
+        "existence",
+        "quote",
+        "entailment"
+      ],
+      "title": "VerificationCheck",
+      "type": "string"
+    },
+    "VerificationResult": {
+      "additionalProperties": false,
+      "description": "The Citation Verifier's verdict on one citation (S4/S7/S10).",
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/VerificationStatus"
+        },
+        "check": {
+          "$ref": "#/$defs/VerificationCheck",
+          "description": "The check that decided the status"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EntailmentLabel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Set by the entailment check"
+        },
+        "justification": {
+          "minLength": 1,
+          "title": "Justification",
+          "type": "string"
+        },
+        "verifier_model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "None for code-only checks",
+          "title": "Verifier Model"
+        },
+        "created_by": {
+          "$ref": "#/$defs/CreatedBy"
+        }
+      },
+      "required": [
+        "status",
+        "check",
+        "label",
+        "justification",
+        "verifier_model",
+        "created_by"
+      ],
+      "title": "VerificationResult",
+      "type": "object"
+    },
+    "VerificationStatus": {
+      "enum": [
+        "verified",
+        "weak",
+        "unsupported",
+        "invalid"
+      ],
+      "title": "VerificationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "``GET /evidence/{run_id}/{evidence_id}``: the evidence, its source and who cites it.",
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "document": {
+      "$ref": "#/$defs/Document"
+    },
+    "chunk": {
+      "$ref": "#/$defs/Chunk"
+    },
+    "citations": {
+      "items": {
+        "$ref": "#/$defs/EvidenceCitation"
+      },
+      "title": "Citations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "evidence",
+    "document",
+    "chunk",
+    "citations"
+  ],
+  "title": "EvidenceDetail",
+  "type": "object"
+}

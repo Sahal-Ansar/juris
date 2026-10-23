@@ -1,0 +1,274 @@
+{
+  "$defs": {
+    "CourtLevel": {
+      "enum": [
+        "supreme_court",
+        "high_court",
+        "tribunal",
+        "subordinate",
+        "other"
+      ],
+      "title": "CourtLevel",
+      "type": "string"
+    },
+    "Document": {
+      "additionalProperties": false,
+      "description": "A judgment or statute in a corpus snapshot.",
+      "properties": {
+        "id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/DocumentKind"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "court": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Court"
+        },
+        "court_level": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CourtLevel"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "bench_strength": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bench Strength"
+        },
+        "judges": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Judges",
+          "type": "array"
+        },
+        "decision_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Decision Date"
+        },
+        "cnr": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "eCourts case number; join key (D-010)",
+          "title": "Cnr"
+        },
+        "citations": {
+          "description": "The document's own citations, e.g. '2023 INSC 1043', '[2023] 16 S.C.R. 872'",
+          "items": {
+            "type": "string"
+          },
+          "title": "Citations",
+          "type": "array"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        },
+        "licence": {
+          "minLength": 1,
+          "title": "Licence",
+          "type": "string"
+        },
+        "corpus_snapshot": {
+          "minLength": 1,
+          "title": "Corpus Snapshot",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "title",
+        "court",
+        "court_level",
+        "bench_strength",
+        "judges",
+        "decision_date",
+        "cnr",
+        "citations",
+        "source_url",
+        "licence",
+        "corpus_snapshot"
+      ],
+      "title": "Document",
+      "type": "object"
+    },
+    "DocumentKind": {
+      "enum": [
+        "judgment",
+        "statute",
+        "other"
+      ],
+      "title": "DocumentKind",
+      "type": "string"
+    },
+    "DocumentParagraph": {
+      "additionalProperties": false,
+      "description": "One paragraph of a judgment, or one section of a statute.",
+      "properties": {
+        "seq": {
+          "description": "Order in the document; a chunk's para_start/para_end",
+          "minimum": 0,
+          "title": "Seq",
+          "type": "integer"
+        },
+        "no": {
+          "description": "\"12\", \"12-13\", \"p-4\" (inferred), or a statute section \"74\"",
+          "minLength": 1,
+          "title": "No",
+          "type": "string"
+        },
+        "part": {
+          "enum": [
+            "front",
+            "headnote",
+            "body",
+            "section"
+          ],
+          "title": "Part",
+          "type": "string"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A statute section's heading",
+          "title": "Title"
+        },
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "page_start": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page Start"
+        },
+        "page_end": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page End"
+        }
+      },
+      "required": [
+        "seq",
+        "no",
+        "part",
+        "title",
+        "text",
+        "page_start",
+        "page_end"
+      ],
+      "title": "DocumentParagraph",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "``GET /documents/{id}``: a corpus document with its full text, paragraph by paragraph.",
+  "properties": {
+    "document": {
+      "$ref": "#/$defs/Document"
+    },
+    "headnote": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Headnote"
+    },
+    "paragraphs": {
+      "items": {
+        "$ref": "#/$defs/DocumentParagraph"
+      },
+      "title": "Paragraphs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "document",
+    "headnote",
+    "paragraphs"
+  ],
+  "title": "DocumentDetail",
+  "type": "object"
+}

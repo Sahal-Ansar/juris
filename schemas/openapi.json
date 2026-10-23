@@ -1,0 +1,3178 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Juris",
+    "summary": "Evidence-grounded multi-agent legal case deliberation (Indian contract law)",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/cases": {
+      "post": {
+        "summary": "Create Case",
+        "description": "Open a case and queue a run of it; follow it at ``GET /runs/{run_id}``.",
+        "operationId": "create_case_cases_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseCreated"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cases/{case_id}": {
+      "get": {
+        "summary": "Get Case",
+        "operationId": "get_case_cases__case_id__get",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseInfo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such case, run or object"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/runs/{run_id}": {
+      "get": {
+        "summary": "Get Run",
+        "operationId": "get_run_runs__run_id__get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseView"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such case, run or object"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/runs/{run_id}/analysis": {
+      "get": {
+        "summary": "Get Analysis",
+        "operationId": "get_analysis_runs__run_id__analysis_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseAnalysis"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such case, run or object"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/runs/{run_id}/graph": {
+      "get": {
+        "summary": "Get Graph",
+        "operationId": "get_graph_runs__run_id__graph_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceGraph"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such case, run or object"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/evidence/{run_id}/{evidence_id}": {
+      "get": {
+        "summary": "Get Evidence",
+        "operationId": "get_evidence_evidence__run_id___evidence_id__get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "evidence_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Evidence Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such case, run or object"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/documents/{doc_id}": {
+      "get": {
+        "summary": "Get Document",
+        "operationId": "get_document_documents__doc_id__get",
+        "parameters": [
+          {
+            "name": "doc_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Doc Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such case, run or object"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/configs": {
+      "get": {
+        "summary": "Get Configs",
+        "operationId": "get_configs_configs_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ConfigInfo"
+                  },
+                  "type": "array",
+                  "title": "Response Get Configs Configs Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AgentState": {
+        "properties": {
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "running",
+              "done"
+            ],
+            "title": "Status"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "input_tokens": {
+            "type": "integer",
+            "title": "Input Tokens",
+            "default": 0
+          },
+          "output_tokens": {
+            "type": "integer",
+            "title": "Output Tokens",
+            "default": 0
+          },
+          "cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Usd"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "role",
+          "status",
+          "model",
+          "input_tokens",
+          "output_tokens",
+          "cost_usd"
+        ],
+        "title": "AgentState"
+      },
+      "Argument": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^A-\\d{3,}$",
+            "title": "Id"
+          },
+          "claim_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^C-\\d{3,}$"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Claim Ids"
+          },
+          "reasoning": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Reasoning"
+          },
+          "citations": {
+            "items": {
+              "$ref": "#/components/schemas/Citation"
+            },
+            "type": "array",
+            "title": "Citations"
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/CreatedBy"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "claim_ids",
+          "reasoning",
+          "citations",
+          "created_by"
+        ],
+        "title": "Argument",
+        "description": "Links claims to evidence with short, structured reasoning."
+      },
+      "BudgetWarningPayload": {
+        "properties": {
+          "tokens_used": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Tokens Used"
+          },
+          "tokens_budget": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tokens Budget"
+          },
+          "usd_used": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Usd Used"
+          },
+          "usd_budget": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Usd Budget"
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Action",
+            "description": "What the orchestrator skipped or reduced"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tokens_used",
+          "tokens_budget",
+          "usd_used",
+          "usd_budget",
+          "action"
+        ],
+        "title": "BudgetWarningPayload"
+      },
+      "CaseAnalysis": {
+        "properties": {
+          "question": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Question"
+          },
+          "facts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Facts"
+          },
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Assumptions"
+          },
+          "issues": {
+            "items": {
+              "$ref": "#/components/schemas/IssueAnalysis"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Issues"
+          },
+          "overall_summary": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Overall Summary"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/SourceRef"
+            },
+            "type": "array",
+            "title": "Sources"
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer",
+            "default": "This is a research output generated by an automated system. It is not legal advice and not a judgment. Verify every authority against the official source before relying on it."
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/CreatedBy"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "question",
+          "facts",
+          "assumptions",
+          "issues",
+          "overall_summary",
+          "limitations",
+          "sources",
+          "disclaimer",
+          "created_by"
+        ],
+        "title": "CaseAnalysis",
+        "description": "The Judge's final analysis. Gives a leaning per issue, never a verdict.\n\nChecks that need the whole Case Record (citations only to verified/weak evidence,\nevery S0 issue covered, unverified treatment listed in ``limitations``) are enforced\nby the Case Record, not here."
+      },
+      "CaseCreated": {
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Case Id"
+          },
+          "run_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Run Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "case_id",
+          "run_id"
+        ],
+        "title": "CaseCreated"
+      },
+      "CaseInfo": {
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Case Id"
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Question"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "runs": {
+            "items": {
+              "$ref": "#/components/schemas/RunInfo"
+            },
+            "type": "array",
+            "title": "Runs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "case_id",
+          "question",
+          "created_at",
+          "runs"
+        ],
+        "title": "CaseInfo",
+        "description": "``GET /cases/{id}``: the question and every run of it, oldest first."
+      },
+      "CaseRequest": {
+        "properties": {
+          "question": {
+            "type": "string",
+            "minLength": 10,
+            "title": "Question"
+          },
+          "profile": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Profile",
+            "description": "A name from GET /configs",
+            "default": "juris_full"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "question"
+        ],
+        "title": "CaseRequest",
+        "description": "``POST /cases``: a legal question or fact scenario, and the configuration to run."
+      },
+      "CaseView": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "question": {
+            "type": "string",
+            "title": "Question"
+          },
+          "profile": {
+            "type": "string",
+            "title": "Profile"
+          },
+          "corpus_snapshot_id": {
+            "type": "string",
+            "title": "Corpus Snapshot Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "running",
+              "completed",
+              "failed"
+            ],
+            "title": "Status",
+            "default": "running"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "current_stage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Stage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "stages": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/StageState"
+            },
+            "propertyNames": {
+              "$ref": "#/components/schemas/Stage"
+            },
+            "type": "object",
+            "title": "Stages"
+          },
+          "agents": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/AgentState"
+            },
+            "type": "object",
+            "title": "Agents"
+          },
+          "facts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Facts"
+          },
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Assumptions"
+          },
+          "issues": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Issue"
+            },
+            "type": "object",
+            "title": "Issues"
+          },
+          "queries": {
+            "items": {
+              "$ref": "#/components/schemas/QueryRecord"
+            },
+            "type": "array",
+            "title": "Queries"
+          },
+          "documents": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Document"
+            },
+            "type": "object",
+            "title": "Documents"
+          },
+          "chunks": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Chunk"
+            },
+            "type": "object",
+            "title": "Chunks"
+          },
+          "evidence": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "object",
+            "title": "Evidence"
+          },
+          "claims": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Claim"
+            },
+            "type": "object",
+            "title": "Claims"
+          },
+          "arguments": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Argument"
+            },
+            "type": "object",
+            "title": "Arguments"
+          },
+          "counterarguments": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Counterargument"
+            },
+            "type": "object",
+            "title": "Counterarguments"
+          },
+          "precedent_cards": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/PrecedentCard"
+            },
+            "type": "object",
+            "title": "Precedent Cards"
+          },
+          "objections": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Objection"
+            },
+            "type": "object",
+            "title": "Objections"
+          },
+          "unresolved_questions": {
+            "items": {
+              "$ref": "#/components/schemas/UnresolvedQuestion"
+            },
+            "type": "array",
+            "title": "Unresolved Questions"
+          },
+          "verifications": {
+            "items": {
+              "$ref": "#/components/schemas/VerificationRecord"
+            },
+            "type": "array",
+            "title": "Verifications"
+          },
+          "jury_ballots": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JuryBallot"
+            },
+            "type": "object",
+            "title": "Jury Ballots"
+          },
+          "jury_aggregate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JuryAggregatedPayload"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "validation_failures": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            },
+            "type": "array",
+            "title": "Validation Failures"
+          },
+          "budget_warnings": {
+            "items": {
+              "$ref": "#/components/schemas/BudgetWarningPayload"
+            },
+            "type": "array",
+            "title": "Budget Warnings"
+          },
+          "analysis": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CaseAnalysis"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "totals": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RunTotals"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "timeline": {
+            "items": {
+              "$ref": "#/components/schemas/TimelineEntry"
+            },
+            "type": "array",
+            "title": "Timeline"
+          },
+          "graph": {
+            "$ref": "#/components/schemas/EvidenceGraph",
+            "description": "The evidence graph over this view (``juris.graph.builder``).",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run_id",
+          "case_id",
+          "question",
+          "profile",
+          "corpus_snapshot_id",
+          "status",
+          "error",
+          "current_stage",
+          "stages",
+          "agents",
+          "facts",
+          "assumptions",
+          "issues",
+          "queries",
+          "documents",
+          "chunks",
+          "evidence",
+          "claims",
+          "arguments",
+          "counterarguments",
+          "precedent_cards",
+          "objections",
+          "unresolved_questions",
+          "verifications",
+          "jury_ballots",
+          "jury_aggregate",
+          "validation_failures",
+          "budget_warnings",
+          "analysis",
+          "totals",
+          "timeline",
+          "graph"
+        ],
+        "title": "CaseView",
+        "description": "Everything the UI shows for one run. Dicts keep insertion (= event) order.\n\n``graph`` is derived from the rest (PLAN 8.1): it is built when the view is serialised and\ndropped when one is read back, so it can never disagree with the record."
+      },
+      "Chunk": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 240,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "document_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Document Id"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Text"
+          },
+          "para_start": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Para Start"
+          },
+          "para_end": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Para End"
+          },
+          "page_start": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Start"
+          },
+          "page_end": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page End"
+          },
+          "char_start": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Char Start"
+          },
+          "char_end": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Char End"
+          },
+          "section": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Section",
+            "description": "Section heading, if any"
+          },
+          "statute": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StatuteMeta"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "document_id",
+          "text",
+          "para_start",
+          "para_end",
+          "page_start",
+          "page_end",
+          "char_start",
+          "char_end",
+          "section",
+          "statute"
+        ],
+        "title": "Chunk",
+        "description": "A retrievable span of a document, with paragraph (or page) provenance.\n\nJudgments before ~1970 have no numbered paragraphs, so they carry pages instead (D-010)."
+      },
+      "Citation": {
+        "properties": {
+          "claim_id": {
+            "type": "string",
+            "pattern": "^C-\\d{3,}$",
+            "title": "Claim Id"
+          },
+          "evidence_id": {
+            "type": "string",
+            "pattern": "^E-\\d{3,}$",
+            "title": "Evidence Id"
+          },
+          "pinpoint": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Pinpoint",
+            "description": "Paragraph or page, e.g. 'para 12' or 'p. 358'"
+          },
+          "quote": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Quote",
+            "description": "Must be an exact normalised substring of the chunk"
+          },
+          "verification": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VerificationResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "claim_id",
+          "evidence_id",
+          "pinpoint",
+          "quote",
+          "verification"
+        ],
+        "title": "Citation",
+        "description": "A claim's link to evidence: pinpoint plus a verbatim quote from the chunk."
+      },
+      "Claim": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^C-\\d{3,}$",
+            "title": "Id"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Text"
+          },
+          "position_id": {
+            "type": "string",
+            "pattern": "^I-\\d+\\.[A-C]$",
+            "title": "Position Id"
+          },
+          "author_agent": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Author Agent"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ClaimStatus",
+            "default": "proposed"
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/CreatedBy"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "text",
+          "position_id",
+          "author_agent",
+          "status",
+          "created_by"
+        ],
+        "title": "Claim",
+        "description": "An atomic legal proposition put forward for a position."
+      },
+      "ClaimStatus": {
+        "type": "string",
+        "enum": [
+          "proposed",
+          "verified",
+          "weak",
+          "unsupported",
+          "contested",
+          "survives",
+          "falls"
+        ],
+        "title": "ClaimStatus",
+        "description": "proposed → verified | weak | unsupported → contested → survives | falls."
+      },
+      "Confidence": {
+        "type": "string",
+        "enum": [
+          "low",
+          "moderate",
+          "high"
+        ],
+        "title": "Confidence"
+      },
+      "ConfigInfo": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "juris",
+              "b0",
+              "b1",
+              "b2",
+              "dummy"
+            ],
+            "title": "Kind"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "stages": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Stages",
+            "description": "Stage -> on, off or passthrough"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "kind",
+          "description",
+          "stages"
+        ],
+        "title": "ConfigInfo",
+        "description": "``GET /configs``: a profile in ``configs/pipeline/`` that ``POST /cases`` accepts."
+      },
+      "Counterargument": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^R-\\d{3,}$",
+            "title": "Id"
+          },
+          "targets": {
+            "type": "string",
+            "pattern": "^C-\\d{3,}$",
+            "title": "Targets"
+          },
+          "argument_id": {
+            "type": "string",
+            "pattern": "^A-\\d{3,}$",
+            "title": "Argument Id"
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/CreatedBy"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "targets",
+          "argument_id",
+          "created_by"
+        ],
+        "title": "Counterargument",
+        "description": "A rebuttal (S5) aimed at a specific opposing claim."
+      },
+      "CourtLevel": {
+        "type": "string",
+        "enum": [
+          "supreme_court",
+          "high_court",
+          "tribunal",
+          "subordinate",
+          "other"
+        ],
+        "title": "CourtLevel"
+      },
+      "CreatedBy": {
+        "properties": {
+          "stage": {
+            "$ref": "#/components/schemas/Stage"
+          },
+          "agent": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Agent"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "stage",
+          "agent"
+        ],
+        "title": "CreatedBy",
+        "description": "Which stage and agent produced an object (e.g. ``counsel_a``, ``case_record``)."
+      },
+      "Document": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/DocumentKind"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Title"
+          },
+          "court": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Court"
+          },
+          "court_level": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CourtLevel"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "bench_strength": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bench Strength"
+          },
+          "judges": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Judges"
+          },
+          "decision_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision Date"
+          },
+          "cnr": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cnr",
+            "description": "eCourts case number; join key (D-010)"
+          },
+          "citations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Citations",
+            "description": "The document's own citations, e.g. '2023 INSC 1043', '[2023] 16 S.C.R. 872'"
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          },
+          "licence": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Licence"
+          },
+          "corpus_snapshot": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Corpus Snapshot"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "court",
+          "court_level",
+          "bench_strength",
+          "judges",
+          "decision_date",
+          "cnr",
+          "citations",
+          "source_url",
+          "licence",
+          "corpus_snapshot"
+        ],
+        "title": "Document",
+        "description": "A judgment or statute in a corpus snapshot."
+      },
+      "DocumentDetail": {
+        "properties": {
+          "document": {
+            "$ref": "#/components/schemas/Document"
+          },
+          "headnote": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headnote"
+          },
+          "paragraphs": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentParagraph"
+            },
+            "type": "array",
+            "title": "Paragraphs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "document",
+          "headnote",
+          "paragraphs"
+        ],
+        "title": "DocumentDetail",
+        "description": "``GET /documents/{id}``: a corpus document with its full text, paragraph by paragraph."
+      },
+      "DocumentKind": {
+        "type": "string",
+        "enum": [
+          "judgment",
+          "statute",
+          "other"
+        ],
+        "title": "DocumentKind"
+      },
+      "DocumentParagraph": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seq",
+            "description": "Order in the document; a chunk's para_start/para_end"
+          },
+          "no": {
+            "type": "string",
+            "minLength": 1,
+            "title": "No",
+            "description": "\"12\", \"12-13\", \"p-4\" (inferred), or a statute section \"74\""
+          },
+          "part": {
+            "type": "string",
+            "enum": [
+              "front",
+              "headnote",
+              "body",
+              "section"
+            ],
+            "title": "Part"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title",
+            "description": "A statute section's heading"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Text"
+          },
+          "page_start": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Start"
+          },
+          "page_end": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page End"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "seq",
+          "no",
+          "part",
+          "title",
+          "text",
+          "page_start",
+          "page_end"
+        ],
+        "title": "DocumentParagraph",
+        "description": "One paragraph of a judgment, or one section of a statute."
+      },
+      "EdgeType": {
+        "type": "string",
+        "enum": [
+          "about_issue",
+          "supports",
+          "challenges",
+          "cites",
+          "quotes",
+          "targets",
+          "case_cites_case"
+        ],
+        "title": "EdgeType",
+        "description": "Edges point from the node that acts to the node acted on.\n\n- ``about_issue``: position or evidence → issue\n- ``supports``: claim → position, argument → claim, argument → counterargument (its\n  reasoning), document → argument (precedent fit: directly, by analogy, or not at all)\n- ``challenges``: counterargument → claim, document → argument (distinguishable, contrary)\n- ``cites``: claim → evidence, one per citation\n- ``quotes``: evidence → document or statute section (the evidence is a span of it)\n- ``targets``: objection → the record object it objects to\n- ``case_cites_case``: a later judgment → the judgment it treated (followed, overruled, ...)"
+      },
+      "EntailmentLabel": {
+        "type": "string",
+        "enum": [
+          "supports",
+          "partially_supports",
+          "does_not_support",
+          "contradicts"
+        ],
+        "title": "EntailmentLabel"
+      },
+      "Evidence": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^E-\\d{3,}$",
+            "title": "Id"
+          },
+          "chunk_id": {
+            "type": "string",
+            "maxLength": 240,
+            "minLength": 1,
+            "title": "Chunk Id"
+          },
+          "document_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Document Id"
+          },
+          "issue_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^I-\\d+$"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Issue Ids"
+          },
+          "retrieval_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Retrieval Score"
+          },
+          "rerank_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rerank Score"
+          },
+          "retrieved_by_query": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Retrieved By Query"
+          },
+          "registered_at_stage": {
+            "$ref": "#/components/schemas/Stage"
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/CreatedBy"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "chunk_id",
+          "document_id",
+          "issue_ids",
+          "retrieval_score",
+          "rerank_score",
+          "retrieved_by_query",
+          "registered_at_stage",
+          "created_by"
+        ],
+        "title": "Evidence",
+        "description": "A retrieved chunk registered for this run. Only registered evidence may be cited."
+      },
+      "EvidenceCitation": {
+        "properties": {
+          "claim_id": {
+            "type": "string",
+            "pattern": "^C-\\d{3,}$",
+            "title": "Claim Id"
+          },
+          "argument_id": {
+            "type": "string",
+            "pattern": "^A-\\d{3,}$",
+            "title": "Argument Id"
+          },
+          "pinpoint": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Pinpoint"
+          },
+          "quote": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Quote"
+          },
+          "verification": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VerificationResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "claim_id",
+          "argument_id",
+          "pinpoint",
+          "quote",
+          "verification"
+        ],
+        "title": "EvidenceCitation",
+        "description": "A claim that cites the evidence, with the latest verification of that pair."
+      },
+      "EvidenceDetail": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Run Id"
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/Evidence"
+          },
+          "document": {
+            "$ref": "#/components/schemas/Document"
+          },
+          "chunk": {
+            "$ref": "#/components/schemas/Chunk"
+          },
+          "citations": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceCitation"
+            },
+            "type": "array",
+            "title": "Citations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run_id",
+          "evidence",
+          "document",
+          "chunk",
+          "citations"
+        ],
+        "title": "EvidenceDetail",
+        "description": "``GET /evidence/{run_id}/{evidence_id}``: the evidence, its source and who cites it."
+      },
+      "EvidenceGraph": {
+        "properties": {
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/GraphNode"
+            },
+            "type": "array",
+            "title": "Nodes"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/GraphEdge"
+            },
+            "type": "array",
+            "title": "Edges"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "nodes",
+          "edges"
+        ],
+        "title": "EvidenceGraph"
+      },
+      "EvidenceRef": {
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "pattern": "^E-\\d{3,}$",
+            "title": "Evidence Id"
+          },
+          "pinpoint": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Pinpoint"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "evidence_id",
+          "pinpoint"
+        ],
+        "title": "EvidenceRef"
+      },
+      "GraphEdge": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Source"
+          },
+          "target": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Target"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EdgeType"
+          },
+          "weight": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weight",
+            "description": "Strength of the relation, 0-1: a citation's verification, a claim's status, a precedent's fit. None when unknown or not applicable"
+          },
+          "verification": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VerificationStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "cites: the citation's best result; None = not checked"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EntailmentLabel"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "cites: entailment label"
+          },
+          "pinpoint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pinpoint",
+            "description": "cites and quotes"
+          },
+          "argument_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^A-\\d{3,}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Argument Id",
+            "description": "cites: the argument the citation is in"
+          },
+          "fit": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PrecedentFit"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "document → argument edges"
+          },
+          "treatment": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Treatment"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "case_cites_case"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source",
+          "target",
+          "type",
+          "weight",
+          "verification",
+          "label",
+          "pinpoint",
+          "argument_id",
+          "fit",
+          "treatment"
+        ],
+        "title": "GraphEdge"
+      },
+      "GraphNode": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/NodeType"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Label",
+            "description": "Short display text; the full object is in the CaseView"
+          },
+          "issue_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^I-\\d+$"
+            },
+            "type": "array",
+            "title": "Issue Ids",
+            "description": "For filtering by issue"
+          },
+          "position_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^I-\\d+\\.[A-C]$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Position Id",
+            "description": "Claims, arguments and counterarguments: the side they argue"
+          },
+          "claim_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ClaimStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Claims only"
+          },
+          "resolved": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resolved",
+            "description": "Objections only"
+          },
+          "treatment_verified": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Treatment Verified",
+            "description": "Documents with a precedent card only"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "label",
+          "issue_ids",
+          "position_id",
+          "claim_status",
+          "resolved",
+          "treatment_verified"
+        ],
+        "title": "GraphNode"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Issue": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^I-\\d+$",
+            "title": "Id"
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Question"
+          },
+          "positions": {
+            "items": {
+              "$ref": "#/components/schemas/Position"
+            },
+            "type": "array",
+            "maxItems": 3,
+            "minItems": 2,
+            "title": "Positions"
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/CreatedBy"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "question",
+          "positions",
+          "created_by"
+        ],
+        "title": "Issue",
+        "description": "A precise legal question with 2 (at most 3) positions."
+      },
+      "IssueAnalysis": {
+        "properties": {
+          "issue_id": {
+            "type": "string",
+            "pattern": "^I-\\d+$",
+            "title": "Issue Id"
+          },
+          "issue_text": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Issue Text"
+          },
+          "positions": {
+            "items": {
+              "$ref": "#/components/schemas/PositionAnalysis"
+            },
+            "type": "array",
+            "maxItems": 3,
+            "minItems": 2,
+            "title": "Positions"
+          },
+          "key_conflicts": {
+            "items": {
+              "$ref": "#/components/schemas/KeyConflict"
+            },
+            "type": "array",
+            "title": "Key Conflicts"
+          },
+          "leaning": {
+            "$ref": "#/components/schemas/Leaning"
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/Confidence"
+          },
+          "confidence_reason": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Confidence Reason"
+          },
+          "unresolved_questions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Unresolved Questions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "issue_id",
+          "issue_text",
+          "positions",
+          "key_conflicts",
+          "leaning",
+          "confidence",
+          "confidence_reason",
+          "unresolved_questions"
+        ],
+        "title": "IssueAnalysis"
+      },
+      "JuryAggregatedPayload": {
+        "properties": {
+          "per_position": {
+            "patternProperties": {
+              "^I-\\d+\\.[A-C]$": {
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/ScoreStats"
+                },
+                "type": "object"
+              }
+            },
+            "type": "object",
+            "title": "Per Position"
+          },
+          "contested_issue_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^I-\\d+$"
+            },
+            "type": "array",
+            "title": "Contested Issue Ids",
+            "description": "High spread: flagged for the Judge"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "per_position",
+          "contested_issue_ids"
+        ],
+        "title": "JuryAggregatedPayload",
+        "description": "Deterministic aggregate of all ballots: per position, per rubric criterion."
+      },
+      "JuryBallot": {
+        "properties": {
+          "juror_id": {
+            "type": "string",
+            "pattern": "^J-\\d+$",
+            "title": "Juror Id"
+          },
+          "per_position_scores": {
+            "patternProperties": {
+              "^I-\\d+\\.[A-C]$": {
+                "$ref": "#/components/schemas/RubricScores"
+              }
+            },
+            "type": "object",
+            "minProperties": 2,
+            "title": "Per Position Scores"
+          },
+          "justifications": {
+            "items": {
+              "$ref": "#/components/schemas/Justification"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Justifications"
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/CreatedBy"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "juror_id",
+          "per_position_scores",
+          "justifications",
+          "created_by"
+        ],
+        "title": "JuryBallot",
+        "description": "One juror's independent scores (S8). Jurors cannot add evidence."
+      },
+      "Justification": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Text"
+          },
+          "cited_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Cited Ids",
+            "description": "Evidence/claim/objection IDs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "text",
+          "cited_ids"
+        ],
+        "title": "Justification"
+      },
+      "KeyConflict": {
+        "properties": {
+          "authority_a": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Authority A"
+          },
+          "authority_b": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Authority B"
+          },
+          "distinction": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Distinction"
+          },
+          "weightier": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weightier",
+            "description": "None if neither prevails"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "authority_a",
+          "authority_b",
+          "distinction",
+          "weightier",
+          "reason"
+        ],
+        "title": "KeyConflict",
+        "description": "Two authorities that pull in different directions, and which weighs more."
+      },
+      "Leaning": {
+        "type": "string",
+        "enum": [
+          "strongly_A",
+          "leaning_A",
+          "balanced",
+          "leaning_B",
+          "strongly_B",
+          "insufficient_evidence"
+        ],
+        "title": "Leaning"
+      },
+      "NodeType": {
+        "type": "string",
+        "enum": [
+          "issue",
+          "position",
+          "claim",
+          "argument",
+          "counterargument",
+          "objection",
+          "evidence",
+          "document",
+          "statute_section"
+        ],
+        "title": "NodeType"
+      },
+      "Objection": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^O-\\d{3,}$",
+            "title": "Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ObjectionType"
+          },
+          "target_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Target Id"
+          },
+          "raised_by": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Raised By"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Text"
+          },
+          "response": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Response",
+            "description": "The targeted counsel's one reply"
+          },
+          "resolved": {
+            "type": "boolean",
+            "title": "Resolved",
+            "default": false
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/CreatedBy"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "target_id",
+          "raised_by",
+          "text",
+          "response",
+          "resolved",
+          "created_by"
+        ],
+        "title": "Objection",
+        "description": "A Cross-Examiner objection (S6) against a claim, citation, argument, ... ID."
+      },
+      "ObjectionType": {
+        "type": "string",
+        "enum": [
+          "unsupported_claim",
+          "citation_mismatch",
+          "distinguishable_precedent",
+          "overruled_or_doubted",
+          "wrong_statute_or_version",
+          "logical_gap",
+          "missing_evidence",
+          "fact_assumption"
+        ],
+        "title": "ObjectionType"
+      },
+      "Position": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^I-\\d+\\.[A-C]$",
+            "title": "Id"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Statement"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "statement"
+        ],
+        "title": "Position",
+        "description": "One side of an issue, phrased neutrally."
+      },
+      "PositionAnalysis": {
+        "properties": {
+          "position_id": {
+            "type": "string",
+            "pattern": "^I-\\d+\\.[A-C]$",
+            "title": "Position Id"
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Summary"
+          },
+          "supporting_authorities": {
+            "items": {
+              "type": "string",
+              "maxLength": 200,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Supporting Authorities"
+          },
+          "key_evidence": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceRef"
+            },
+            "type": "array",
+            "title": "Key Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "position_id",
+          "summary",
+          "supporting_authorities",
+          "key_evidence"
+        ],
+        "title": "PositionAnalysis"
+      },
+      "PrecedentCard": {
+        "properties": {
+          "document_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Document Id"
+          },
+          "principle": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Principle",
+            "description": "The ratio as the model reads it"
+          },
+          "principle_source": {
+            "type": "string",
+            "const": "model_extracted",
+            "title": "Principle Source",
+            "default": "model_extracted"
+          },
+          "material_facts": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Material Facts"
+          },
+          "distinguishing_factors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Distinguishing Factors"
+          },
+          "treatment": {
+            "items": {
+              "$ref": "#/components/schemas/TreatmentSignal"
+            },
+            "type": "array",
+            "title": "Treatment"
+          },
+          "treatment_verified": {
+            "type": "boolean",
+            "title": "Treatment Verified",
+            "default": false
+          },
+          "fit_by_argument": {
+            "patternProperties": {
+              "^A-\\d{3,}$": {
+                "$ref": "#/components/schemas/PrecedentFit"
+              }
+            },
+            "type": "object",
+            "title": "Fit By Argument"
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/CreatedBy"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "document_id",
+          "principle",
+          "principle_source",
+          "material_facts",
+          "distinguishing_factors",
+          "treatment",
+          "treatment_verified",
+          "fit_by_argument",
+          "created_by"
+        ],
+        "title": "PrecedentCard",
+        "description": "The Precedent Analyst's assessment of one cited judgment (S3).\n\nUnknown treatment is ``treatment=[]`` with ``treatment_verified=False``: never good law\nby default (IDEA_final §9, D-013)."
+      },
+      "PrecedentFit": {
+        "type": "string",
+        "enum": [
+          "directly_supports",
+          "supports_by_analogy",
+          "distinguishable",
+          "does_not_support",
+          "contrary"
+        ],
+        "title": "PrecedentFit"
+      },
+      "QueryRecord": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "title": "Query"
+          },
+          "issue_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Issue Ids"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "search",
+              "provision"
+            ],
+            "title": "Kind",
+            "default": "search"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Stage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "agent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "query",
+          "issue_ids",
+          "kind",
+          "stage",
+          "agent"
+        ],
+        "title": "QueryRecord"
+      },
+      "Role": {
+        "type": "string",
+        "enum": [
+          "issue_framer",
+          "researcher",
+          "counsel",
+          "precedent_analyst",
+          "verifier",
+          "cross_examiner",
+          "juror",
+          "judge",
+          "baseline"
+        ],
+        "title": "Role",
+        "description": "Every LLM-backed role; each can get its own model."
+      },
+      "RubricScores": {
+        "properties": {
+          "evidence_strength": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Evidence Strength"
+          },
+          "precedent_fit": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Precedent Fit"
+          },
+          "counterargument_handling": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Counterargument Handling"
+          },
+          "unresolved_risk": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Unresolved Risk"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "evidence_strength",
+          "precedent_fit",
+          "counterargument_handling",
+          "unresolved_risk"
+        ],
+        "title": "RubricScores",
+        "description": "The jury rubric for one position (IDEA_final §6.1), each scored 1-5."
+      },
+      "RunInfo": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Run Id"
+          },
+          "profile": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Profile"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "completed",
+              "failed"
+            ],
+            "title": "Status"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run_id",
+          "profile",
+          "status",
+          "created_at"
+        ],
+        "title": "RunInfo"
+      },
+      "RunTotals": {
+        "properties": {
+          "llm_calls": {
+            "type": "integer",
+            "title": "Llm Calls",
+            "default": 0
+          },
+          "cached_calls": {
+            "type": "integer",
+            "title": "Cached Calls",
+            "default": 0
+          },
+          "input_tokens": {
+            "type": "integer",
+            "title": "Input Tokens",
+            "default": 0
+          },
+          "output_tokens": {
+            "type": "integer",
+            "title": "Output Tokens",
+            "default": 0
+          },
+          "usd": {
+            "type": "number",
+            "title": "Usd",
+            "default": 0.0
+          },
+          "unpriced_calls": {
+            "type": "integer",
+            "title": "Unpriced Calls",
+            "default": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "llm_calls",
+          "cached_calls",
+          "input_tokens",
+          "output_tokens",
+          "usd",
+          "unpriced_calls"
+        ],
+        "title": "RunTotals"
+      },
+      "ScoreStats": {
+        "properties": {
+          "mean": {
+            "type": "number",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Mean"
+          },
+          "spread": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Spread",
+            "description": "Max minus min across jurors"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mean",
+          "spread"
+        ],
+        "title": "ScoreStats"
+      },
+      "SourceRef": {
+        "properties": {
+          "document_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Document Id"
+          },
+          "court": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Court"
+          },
+          "date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date"
+          },
+          "citation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Citation"
+          },
+          "pinpoints_used": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Pinpoints Used"
+          },
+          "link": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Link"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "document_id",
+          "court",
+          "date",
+          "citation",
+          "pinpoints_used",
+          "link"
+        ],
+        "title": "SourceRef"
+      },
+      "Stage": {
+        "type": "string",
+        "enum": [
+          "S0",
+          "S1",
+          "S2",
+          "S3",
+          "S4",
+          "S5",
+          "S6",
+          "S7",
+          "S8",
+          "S9",
+          "S10"
+        ],
+        "title": "Stage",
+        "description": "Pipeline stages S0-S10 (IDEA_final §6)."
+      },
+      "StageState": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "running",
+              "completed",
+              "skipped",
+              "passthrough"
+            ],
+            "title": "Status"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "reason"
+        ],
+        "title": "StageState"
+      },
+      "StatuteMeta": {
+        "properties": {
+          "act": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Act"
+          },
+          "section": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Section"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "in_force_from": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "In Force From"
+          },
+          "in_force_to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "In Force To",
+            "description": "None = still in force"
+          },
+          "amended_by": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Amended By"
+          },
+          "amendments_curated": {
+            "type": "boolean",
+            "title": "Amendments Curated",
+            "description": "True only if dates came from configs/statutes/amendments.yaml",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "act",
+          "section",
+          "title",
+          "in_force_from",
+          "in_force_to",
+          "amended_by",
+          "amendments_curated"
+        ],
+        "title": "StatuteMeta",
+        "description": "Section-level statute fields (IDEA_final §7.3, D-014)."
+      },
+      "TimelineEntry": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "title": "Seq"
+          },
+          "event_id": {
+            "type": "string",
+            "title": "Event Id"
+          },
+          "ts": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ts"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Stage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "agent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "seq",
+          "event_id",
+          "ts",
+          "type",
+          "stage",
+          "agent"
+        ],
+        "title": "TimelineEntry"
+      },
+      "Treatment": {
+        "type": "string",
+        "enum": [
+          "followed",
+          "affirmed",
+          "distinguished",
+          "doubted",
+          "overruled",
+          "per_incuriam"
+        ],
+        "title": "Treatment",
+        "description": "How a later judgment treated a precedent (cues from PLAN 3.9)."
+      },
+      "TreatmentSignal": {
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/Treatment"
+          },
+          "by_document_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "By Document Id"
+          },
+          "cue_text": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Cue Text"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "by_document_id",
+          "cue_text"
+        ],
+        "title": "TreatmentSignal",
+        "description": "A treatment cue in the corpus: a later judgment that followed, overruled, ... this one."
+      },
+      "UnresolvedQuestion": {
+        "properties": {
+          "question": {
+            "type": "string",
+            "title": "Question"
+          },
+          "issue_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Issue Id"
+          },
+          "from_objection_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From Objection Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "question",
+          "issue_id",
+          "from_objection_id"
+        ],
+        "title": "UnresolvedQuestion"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "ValidationFailure": {
+        "properties": {
+          "stage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Stage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "agent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Agent"
+          },
+          "errors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Errors"
+          },
+          "dropped": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dropped"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "stage",
+          "agent",
+          "errors",
+          "dropped"
+        ],
+        "title": "ValidationFailure"
+      },
+      "VerificationCheck": {
+        "type": "string",
+        "enum": [
+          "existence",
+          "quote",
+          "entailment"
+        ],
+        "title": "VerificationCheck",
+        "description": "The verifier's checks, cheapest first; ``check`` records the one that decided."
+      },
+      "VerificationRecord": {
+        "properties": {
+          "claim_id": {
+            "type": "string",
+            "title": "Claim Id"
+          },
+          "evidence_id": {
+            "type": "string",
+            "title": "Evidence Id"
+          },
+          "result": {
+            "$ref": "#/components/schemas/VerificationResult"
+          },
+          "seq": {
+            "type": "integer",
+            "title": "Seq"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "claim_id",
+          "evidence_id",
+          "result",
+          "seq"
+        ],
+        "title": "VerificationRecord"
+      },
+      "VerificationResult": {
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/VerificationStatus"
+          },
+          "check": {
+            "$ref": "#/components/schemas/VerificationCheck",
+            "description": "The check that decided the status"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EntailmentLabel"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Set by the entailment check"
+          },
+          "justification": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Justification"
+          },
+          "verifier_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verifier Model",
+            "description": "None for code-only checks"
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/CreatedBy"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "check",
+          "label",
+          "justification",
+          "verifier_model",
+          "created_by"
+        ],
+        "title": "VerificationResult",
+        "description": "The Citation Verifier's verdict on one citation (S4/S7/S10)."
+      },
+      "VerificationStatus": {
+        "type": "string",
+        "enum": [
+          "verified",
+          "weak",
+          "unsupported",
+          "invalid"
+        ],
+        "title": "VerificationStatus"
+      }
+    }
+  }
+}

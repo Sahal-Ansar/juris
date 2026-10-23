@@ -1,0 +1,245 @@
+"""Cases and runs behind the API (PLAN 9.1): submit a question, run it in the background, read
+it back from its events.
+
+``submit`` opens the run at once (``case_created`` is its first event, so ``GET /runs/{id}``
+answers straight away) and queues it. A few workers (``concurrency``, default 1: the local
+model has one GPU) take runs off an asyncio queue and execute each in a thread with its own
+event loop: the system emits its events into the store, then ``run_completed`` or
+``run_failed``. Every read is a fold of the stored events.
+
+The thread keeps the server answering during a run: retrieval (loading the models, embedding
+and reranking a search) is synchronous and would otherwise hold the server's loop for seconds.
+Model clients and the response cache belong to one loop and thread, so each run makes its own
+gateway (``GatewayFactory.from_settings``) in its thread. Only the run's thread writes its
+events; the server reads them.
+
+The store is in memory, so runs last as long as the process (PLAN 9.3 adds the database). Each
+finished run is also written to ``<runs_dir>/api/<run_id>/`` like a ``run_case.py`` run:
+manifest, events, folded view and model calls.
+"""
+
+import asyncio
+import json
+import secrets
+from collections.abc import Callable, Mapping
+from dataclasses import dataclass, field
+from datetime import UTC, datetime
+from pathlib import Path
+
+from juris.api.schemas import CaseCreated, CaseInfo, RunInfo, RunStatus
+from juris.baselines.b0 import B0System
+from juris.baselines.b1 import B1System
+from juris.baselines.b2 import B2System
+from juris.baselines.base import RunContext, System
+from juris.config import PipelineProfile, Settings, get_settings, load_profile, resolve_run_config
+from juris.eval.juris_eval import free_item
+from juris.eval.runner import GatewayFactory
+from juris.events.catalog import CaseCreatedPayload, RunCompletedPayload, RunFailedPayload
+from juris.events.fold import CaseView, fold
+from juris.events.store import EventEmitter, EventStore, InMemoryEventStore
+from juris.llm.gateway import LLMGateway
+from juris.pipeline.system import JurisSystem
+from juris.runs import RunRecorder, new_run_id
+
+# The configurations the API runs, by profile kind (the runner's, without its test system).
+SYSTEMS: dict[str, Callable[[], System]] = {
+    "juris": JurisSystem,
+    "b0": B0System,
+    "b1": B1System,
+    "b2": B2System,
+}
+
+
+class UnknownProfile(ValueError):
+    """No profile of that name that the API can run."""
+
+
+@dataclass
+class _Run:
+    run_id: str
+    case_id: str
+    question: str
+    profile: PipelineProfile
+    created_at: datetime
+    status: RunStatus = "queued"
+    done: asyncio.Event = field(default_factory=asyncio.Event)
+
+
+@dataclass
+class _Case:
+    case_id: str
+    question: str
+    created_at: datetime
+    run_ids: list[str] = field(default_factory=list)
+
+
+class RunManager:
+    def __init__(
+        self,
+        *,
+        settings: Settings | None = None,
+        systems: Mapping[str, Callable[[], System]] = SYSTEMS,
+        gateways: Callable[[], LLMGateway] | None = None,  # default: one factory per run
+        store: EventStore | None = None,
+        concurrency: int = 1,
+        out_dir: Path | None = None,
+    ) -> None:
+        self.settings = settings or get_settings()
+        self.store = store or InMemoryEventStore()
+        self.out_dir = out_dir or self.settings.runs_dir / "api"
+        self._factories = dict(systems)
+        self._systems: dict[str, System] = {}
+        self._gateways = gateways
+        self._concurrency = concurrency
+        self._cases: dict[str, _Case] = {}
+        self._runs: dict[str, _Run] = {}
+        self._queue: asyncio.Queue[str] | None = None
+        self._workers: list[asyncio.Task[None]] = []
+
+    # ---- configurations ----------------------------------------------------------------
+
+    def profiles(self) -> list[PipelineProfile]:
+        """Every profile in the configs directory that the API can run, by name."""
+        found = [load_profile(p) for p in sorted(self.settings.pipeline_configs_dir.glob("*.yaml"))]
+        return [p for p in found if p.kind in self._factories]
+
+    def profile(self, name: str) -> PipelineProfile:
+        for profile in self.profiles():
+            if profile.name == name:
+                return profile
+        raise UnknownProfile(f"no runnable profile named {name!r} (see GET /configs)")
+
+    def system(self, kind: str) -> System:
+        """One instance per kind, kept for the process (Juris's retrieval loads once)."""
+        if kind not in self._systems:
+            self._systems[kind] = self._factories[kind]()
+        return self._systems[kind]
+
+    # ---- cases and runs ----------------------------------------------------------------
+
+    def submit(self, question: str, profile_name: str) -> CaseCreated:
+        """Open a case and its first run, and queue the run. Raises ``UnknownProfile``."""
+        profile = self.profile(profile_name)
+        now = datetime.now(UTC)
+        case = _Case(f"CASE-{secrets.token_hex(4)}", question, now)
+        run = _Run(new_run_id(profile.name), case.case_id, question, profile, now)
+        case.run_ids.append(run.run_id)
+        self._cases[case.case_id] = case
+        self._runs[run.run_id] = run
+        EventEmitter(self.store, run_id=run.run_id, case_id=case.case_id).emit(
+            CaseCreatedPayload(
+                question=question,
+                profile=profile.name,
+                corpus_snapshot_id=self.system(profile.kind).corpus_snapshot_id,
+            )
+        )
+        self._start_workers().put_nowait(run.run_id)
+        return CaseCreated(case_id=case.case_id, run_id=run.run_id)
+
+    def case(self, case_id: str) -> CaseInfo | None:
+        case = self._cases.get(case_id)
+        if case is None:
+            return None
+        runs = [self._runs[r] for r in case.run_ids]
+        return CaseInfo(
+            case_id=case.case_id,
+            question=case.question,
+            created_at=case.created_at,
+            runs=[
+                RunInfo(
+                    run_id=r.run_id, profile=r.profile.name, status=r.status,
+                    created_at=r.created_at,
+                )
+                for r in runs
+            ],
+        )  # fmt: skip
+
+    def view(self, run_id: str) -> CaseView | None:
+        """The run's record as it stands: a fold of its events so far."""
+        events = self.store.read(run_id)
+        return fold(events) if events else None
+
+    async def wait(self, run_id: str) -> None:
+        """Until the run has finished (completed or failed)."""
+        await self._runs[run_id].done.wait()
+
+    # ---- execution ---------------------------------------------------------------------
+
+    def _start_workers(self) -> asyncio.Queue[str]:
+        """The queue, with its workers started on first use (inside the server's loop)."""
+        if self._queue is None:
+            self._queue = asyncio.Queue()
+            self._workers = [
+                asyncio.create_task(self._work(), name=f"juris-run-worker-{n}")
+                for n in range(self._concurrency)
+            ]
+        return self._queue
+
+    async def _work(self) -> None:
+        assert self._queue is not None
+        while True:
+            run = self._runs[await self._queue.get()]
+            run.status = "running"
+            try:
+                await asyncio.to_thread(asyncio.run, self._execute(run))
+            except Exception as exc:  # a broken run must not stop the worker
+                view = self.view(run.run_id)
+                if view is None or view.status == "running":
+                    EventEmitter(self.store, run_id=run.run_id, case_id=run.case_id).emit(
+                        RunFailedPayload(reason=f"{type(exc).__name__}: {exc}")
+                    )
+            finally:
+                view = self.view(run.run_id)
+                run.status = "completed" if view and view.status == "completed" else "failed"
+                run.done.set()
+                self._queue.task_done()
+
+    async def _execute(self, run: _Run) -> None:
+        profile = run.profile
+        config = resolve_run_config(self.settings, profile)
+        system = self.system(profile.kind)
+        # in this run's thread: its own model clients and cache connection (module docstring)
+        own: GatewayFactory | None = None
+        if self._gateways is not None:
+            gateway = self._gateways()
+        else:
+            own = GatewayFactory.from_settings(self.settings)
+            gateway = own()
+        emitter = EventEmitter(self.store, run_id=run.run_id, case_id=run.case_id)
+        recorder = RunRecorder(
+            config,
+            corpus_snapshot_id=system.corpus_snapshot_id,
+            embedding_model=system.embedding_model,
+            ledger=gateway.ledger,
+            runs_dir=self.out_dir,
+            seeds={"item": profile.seed},
+            run_id=run.run_id,
+        )
+        item = free_item(run.question, run.case_id)
+        ctx = RunContext(item, config, gateway, emitter, profile.seed)
+        try:
+            with recorder:
+                await system.run(ctx)
+        except Exception as exc:  # recorded as the run's end, like the runner
+            emitter.emit(RunFailedPayload(reason=f"{type(exc).__name__}: {exc}"))
+        else:
+            emitter.emit(RunCompletedPayload(totals=recorder.manifest.totals))
+        events = self.store.read(run.run_id)
+        out = recorder.run_dir
+        (out / "events.jsonl").write_text(
+            "".join(e.model_dump_json() + "\n" for e in events), encoding="utf-8"
+        )
+        (out / "caseview.json").write_text(fold(events).model_dump_json(), encoding="utf-8")
+        (out / "calls.json").write_text(
+            json.dumps([r.model_dump(mode="json") for r in gateway.ledger.records]),
+            encoding="utf-8",
+        )
+        if own is not None and own.cache is not None:
+            own.cache.close()
+
+    async def close(self) -> None:
+        """Cancel the workers (server shutdown); queued and running runs are abandoned."""
+        for task in self._workers:
+            task.cancel()
+        await asyncio.gather(*self._workers, return_exceptions=True)
+        self._workers, self._queue = [], None

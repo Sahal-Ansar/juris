@@ -17,6 +17,24 @@
     },
     "evidenceGraph": {
       "$ref": "#/$defs/EvidenceGraph"
+    },
+    "caseRequest": {
+      "$ref": "#/$defs/CaseRequest"
+    },
+    "caseCreated": {
+      "$ref": "#/$defs/juris__api__schemas__CaseCreated"
+    },
+    "caseInfo": {
+      "$ref": "#/$defs/CaseInfo"
+    },
+    "configInfo": {
+      "$ref": "#/$defs/ConfigInfo"
+    },
+    "documentDetail": {
+      "$ref": "#/$defs/DocumentDetail"
+    },
+    "evidenceDetail": {
+      "$ref": "#/$defs/EvidenceDetail"
     }
   },
   "required": [
@@ -24,7 +42,13 @@
     "event",
     "caseView",
     "caseAnalysis",
-    "evidenceGraph"
+    "evidenceGraph",
+    "caseRequest",
+    "caseCreated",
+    "caseInfo",
+    "configInfo",
+    "documentDetail",
+    "evidenceDetail"
   ],
   "additionalProperties": false,
   "$defs": {
@@ -715,83 +739,6 @@
       "title": "CaseAnalysis",
       "type": "object"
     },
-    "CaseCreated": {
-      "additionalProperties": false,
-      "properties": {
-        "schema_version": {
-          "default": "1.0",
-          "pattern": "^1\\.\\d+$",
-          "type": "string"
-        },
-        "event_id": {
-          "pattern": "^evt_\\d{6,}$",
-          "type": "string"
-        },
-        "run_id": {
-          "minLength": 1,
-          "type": "string"
-        },
-        "case_id": {
-          "minLength": 1,
-          "type": "string"
-        },
-        "seq": {
-          "description": "Strictly increasing per run, starting at 1",
-          "minimum": 1,
-          "type": "integer"
-        },
-        "ts": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "stage": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/Stage"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "None for run-level events"
-        },
-        "agent": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "None for events emitted by code"
-        },
-        "type": {
-          "const": "case_created",
-          "default": "case_created",
-          "type": "string"
-        },
-        "payload": {
-          "$ref": "#/$defs/CaseCreatedPayload"
-        }
-      },
-      "required": [
-        "schema_version",
-        "event_id",
-        "run_id",
-        "case_id",
-        "seq",
-        "ts",
-        "stage",
-        "agent",
-        "type",
-        "payload"
-      ],
-      "title": "CaseCreated",
-      "type": "object"
-    },
     "CaseCreatedPayload": {
       "additionalProperties": false,
       "properties": {
@@ -814,6 +761,60 @@
         "corpus_snapshot_id"
       ],
       "title": "CaseCreatedPayload",
+      "type": "object"
+    },
+    "CaseInfo": {
+      "additionalProperties": false,
+      "description": "``GET /cases/{id}``: the question and every run of it, oldest first.",
+      "properties": {
+        "case_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "question": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "runs": {
+          "items": {
+            "$ref": "#/$defs/RunInfo"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "case_id",
+        "question",
+        "created_at",
+        "runs"
+      ],
+      "title": "CaseInfo",
+      "type": "object"
+    },
+    "CaseRequest": {
+      "additionalProperties": false,
+      "description": "``POST /cases``: a legal question or fact scenario, and the configuration to run.",
+      "properties": {
+        "question": {
+          "minLength": 10,
+          "type": "string"
+        },
+        "profile": {
+          "default": "juris_full",
+          "description": "A name from GET /configs",
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "question",
+        "profile"
+      ],
+      "title": "CaseRequest",
       "type": "object"
     },
     "CaseView": {
@@ -1472,6 +1473,44 @@
       "title": "Confidence",
       "type": "string"
     },
+    "ConfigInfo": {
+      "additionalProperties": false,
+      "description": "``GET /configs``: a profile in ``configs/pipeline/`` that ``POST /cases`` accepts.",
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "juris",
+            "b0",
+            "b1",
+            "b2",
+            "dummy"
+          ],
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "stages": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Stage -> on, off or passthrough",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "kind",
+        "description",
+        "stages"
+      ],
+      "title": "ConfigInfo",
+      "type": "object"
+    },
     "Counterargument": {
       "additionalProperties": false,
       "description": "A rebuttal (S5) aimed at a specific opposing claim.",
@@ -1746,6 +1785,39 @@
       "title": "Document",
       "type": "object"
     },
+    "DocumentDetail": {
+      "additionalProperties": false,
+      "description": "``GET /documents/{id}``: a corpus document with its full text, paragraph by paragraph.",
+      "properties": {
+        "document": {
+          "$ref": "#/$defs/Document"
+        },
+        "headnote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "paragraphs": {
+          "items": {
+            "$ref": "#/$defs/DocumentParagraph"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "document",
+        "headnote",
+        "paragraphs"
+      ],
+      "title": "DocumentDetail",
+      "type": "object"
+    },
     "DocumentKind": {
       "enum": [
         "judgment",
@@ -1754,6 +1826,80 @@
       ],
       "title": "DocumentKind",
       "type": "string"
+    },
+    "DocumentParagraph": {
+      "additionalProperties": false,
+      "description": "One paragraph of a judgment, or one section of a statute.",
+      "properties": {
+        "seq": {
+          "description": "Order in the document; a chunk's para_start/para_end",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "no": {
+          "description": "\"12\", \"12-13\", \"p-4\" (inferred), or a statute section \"74\"",
+          "minLength": 1,
+          "type": "string"
+        },
+        "part": {
+          "enum": [
+            "front",
+            "headnote",
+            "body",
+            "section"
+          ],
+          "type": "string"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A statute section's heading"
+        },
+        "text": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "page_start": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "page_end": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "seq",
+        "no",
+        "part",
+        "title",
+        "text",
+        "page_start",
+        "page_end"
+      ],
+      "title": "DocumentParagraph",
+      "type": "object"
     },
     "EdgeType": {
       "description": "Edges point from the node that acts to the node acted on.\n\n- ``about_issue``: position or evidence → issue\n- ``supports``: claim → position, argument → claim, argument → counterargument (its\n  reasoning), document → argument (precedent fit: directly, by analogy, or not at all)\n- ``challenges``: counterargument → claim, document → argument (distinguishable, contrary)\n- ``cites``: claim → evidence, one per citation\n- ``quotes``: evidence → document or statute section (the evidence is a span of it)\n- ``targets``: objection → the record object it objects to\n- ``case_cites_case``: a later judgment → the judgment it treated (followed, overruled, ...)",
@@ -1850,7 +1996,7 @@
     "Event": {
       "oneOf": [
         {
-          "$ref": "#/$defs/CaseCreated"
+          "$ref": "#/$defs/juris__events__catalog__CaseCreated"
         },
         {
           "$ref": "#/$defs/StageStarted"
@@ -1925,7 +2071,7 @@
       "discriminator": {
         "propertyName": "type",
         "mapping": {
-          "case_created": "#/$defs/CaseCreated",
+          "case_created": "#/$defs/juris__events__catalog__CaseCreated",
           "stage_started": "#/$defs/StageStarted",
           "stage_completed": "#/$defs/StageCompleted",
           "agent_started": "#/$defs/AgentStarted",
@@ -2024,6 +2170,82 @@
         "created_by"
       ],
       "title": "Evidence",
+      "type": "object"
+    },
+    "EvidenceCitation": {
+      "additionalProperties": false,
+      "description": "A claim that cites the evidence, with the latest verification of that pair.",
+      "properties": {
+        "claim_id": {
+          "pattern": "^C-\\d{3,}$",
+          "type": "string"
+        },
+        "argument_id": {
+          "pattern": "^A-\\d{3,}$",
+          "type": "string"
+        },
+        "pinpoint": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "quote": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "verification": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VerificationResult"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "claim_id",
+        "argument_id",
+        "pinpoint",
+        "quote",
+        "verification"
+      ],
+      "title": "EvidenceCitation",
+      "type": "object"
+    },
+    "EvidenceDetail": {
+      "additionalProperties": false,
+      "description": "``GET /evidence/{run_id}/{evidence_id}``: the evidence, its source and who cites it.",
+      "properties": {
+        "run_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/Evidence"
+        },
+        "document": {
+          "$ref": "#/$defs/Document"
+        },
+        "chunk": {
+          "$ref": "#/$defs/Chunk"
+        },
+        "citations": {
+          "items": {
+            "$ref": "#/$defs/EvidenceCitation"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "run_id",
+        "evidence",
+        "document",
+        "chunk",
+        "citations"
+      ],
+      "title": "EvidenceDetail",
       "type": "object"
     },
     "EvidenceGraph": {
@@ -3766,6 +3988,40 @@
       "title": "RunFailedPayload",
       "type": "object"
     },
+    "RunInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "profile": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "running",
+            "completed",
+            "failed"
+          ],
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "profile",
+        "status",
+        "created_at"
+      ],
+      "title": "RunInfo",
+      "type": "object"
+    },
     "RunTotals": {
       "additionalProperties": false,
       "properties": {
@@ -4813,6 +5069,102 @@
       ],
       "title": "VerificationStatus",
       "type": "string"
+    },
+    "juris__api__schemas__CaseCreated": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "run_id": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "case_id",
+        "run_id"
+      ],
+      "title": "CaseCreated",
+      "type": "object"
+    },
+    "juris__events__catalog__CaseCreated": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "default": "1.0",
+          "pattern": "^1\\.\\d+$",
+          "type": "string"
+        },
+        "event_id": {
+          "pattern": "^evt_\\d{6,}$",
+          "type": "string"
+        },
+        "run_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "case_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "seq": {
+          "description": "Strictly increasing per run, starting at 1",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "ts": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "stage": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Stage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "None for run-level events"
+        },
+        "agent": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "None for events emitted by code"
+        },
+        "type": {
+          "const": "case_created",
+          "default": "case_created",
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/$defs/CaseCreatedPayload"
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "run_id",
+        "case_id",
+        "seq",
+        "ts",
+        "stage",
+        "agent",
+        "type",
+        "payload"
+      ],
+      "title": "CaseCreated",
+      "type": "object"
     }
   }
 }

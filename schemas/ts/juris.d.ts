@@ -165,6 +165,12 @@ export interface JurisContract {
   caseView: CaseView;
   caseAnalysis: CaseAnalysis;
   evidenceGraph: EvidenceGraph;
+  caseRequest: CaseRequest;
+  caseCreated: CaseCreated1;
+  caseInfo: CaseInfo;
+  configInfo: ConfigInfo;
+  documentDetail: DocumentDetail;
+  evidenceDetail: EvidenceDetail;
 }
 /**
  * Fields shared by every event. Subclasses add ``type`` (a Literal) and ``payload``.
@@ -193,7 +199,7 @@ export interface EnvelopeBase {
 }
 /**
  * This interface was referenced by `JurisContract`'s JSON-Schema
- * via the `definition` "CaseCreated".
+ * via the `definition` "juris__events__catalog__CaseCreated".
  */
 export interface CaseCreated {
   schema_version: string;
@@ -1652,4 +1658,125 @@ export interface GraphEdge {
    * case_cites_case
    */
   treatment: Treatment | null;
+}
+/**
+ * ``POST /cases``: a legal question or fact scenario, and the configuration to run.
+ *
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "CaseRequest".
+ */
+export interface CaseRequest {
+  question: string;
+  /**
+   * A name from GET /configs
+   */
+  profile: string;
+}
+/**
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "juris__api__schemas__CaseCreated".
+ */
+export interface CaseCreated1 {
+  case_id: string;
+  run_id: string;
+}
+/**
+ * ``GET /cases/{id}``: the question and every run of it, oldest first.
+ *
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "CaseInfo".
+ */
+export interface CaseInfo {
+  case_id: string;
+  question: string;
+  created_at: string;
+  runs: RunInfo[];
+}
+/**
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "RunInfo".
+ */
+export interface RunInfo {
+  run_id: string;
+  profile: string;
+  status: "queued" | "running" | "completed" | "failed";
+  created_at: string;
+}
+/**
+ * ``GET /configs``: a profile in ``configs/pipeline/`` that ``POST /cases`` accepts.
+ *
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "ConfigInfo".
+ */
+export interface ConfigInfo {
+  name: string;
+  kind: "juris" | "b0" | "b1" | "b2" | "dummy";
+  description: string;
+  /**
+   * Stage -> on, off or passthrough
+   */
+  stages: {
+    [k: string]: string;
+  };
+}
+/**
+ * ``GET /documents/{id}``: a corpus document with its full text, paragraph by paragraph.
+ *
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "DocumentDetail".
+ */
+export interface DocumentDetail {
+  document: Document;
+  headnote: string | null;
+  paragraphs: DocumentParagraph[];
+}
+/**
+ * One paragraph of a judgment, or one section of a statute.
+ *
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "DocumentParagraph".
+ */
+export interface DocumentParagraph {
+  /**
+   * Order in the document; a chunk's para_start/para_end
+   */
+  seq: number;
+  /**
+   * "12", "12-13", "p-4" (inferred), or a statute section "74"
+   */
+  no: string;
+  part: "front" | "headnote" | "body" | "section";
+  /**
+   * A statute section's heading
+   */
+  title: string | null;
+  text: string;
+  page_start: number | null;
+  page_end: number | null;
+}
+/**
+ * ``GET /evidence/{run_id}/{evidence_id}``: the evidence, its source and who cites it.
+ *
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "EvidenceDetail".
+ */
+export interface EvidenceDetail {
+  run_id: string;
+  evidence: Evidence;
+  document: Document;
+  chunk: Chunk;
+  citations: EvidenceCitation[];
+}
+/**
+ * A claim that cites the evidence, with the latest verification of that pair.
+ *
+ * This interface was referenced by `JurisContract`'s JSON-Schema
+ * via the `definition` "EvidenceCitation".
+ */
+export interface EvidenceCitation {
+  claim_id: string;
+  argument_id: string;
+  pinpoint: string;
+  quote: string;
+  verification: VerificationResult | null;
 }

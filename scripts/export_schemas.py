@@ -6,7 +6,9 @@ Writes (serialization mode, i.e. what the backend sends):
     schemas/case_view.schema.json      the read model (fold of events)
     schemas/case_analysis.schema.json  the final output
     schemas/evidence_graph.schema.json the evidence graph (also inside the read model)
+    schemas/api_*.schema.json          the REST API's own bodies (PLAN 9.1, juris.api.schemas)
     schemas/juris.schema.json          one bundle of all of the above (input for TS)
+    schemas/openapi.json               the REST API's OpenAPI document
     schemas/ts/juris.d.ts              TypeScript types (json-schema-to-typescript)
 
 Usage:
@@ -25,7 +27,17 @@ from typing import Any
 
 from pydantic import TypeAdapter
 
-from juris.config import REPO_ROOT
+from juris.api.app import create_app
+from juris.api.runs import RunManager
+from juris.api.schemas import (
+    CaseCreated,
+    CaseInfo,
+    CaseRequest,
+    ConfigInfo,
+    DocumentDetail,
+    EvidenceDetail,
+)
+from juris.config import REPO_ROOT, Settings
 from juris.events import CaseView, EnvelopeBase, Event
 from juris.models import CaseAnalysis
 from juris.models.graph import EvidenceGraph
@@ -40,6 +52,12 @@ TOP_LEVEL: dict[str, tuple[str, Any]] = {
     "case_view": ("CaseView", CaseView),
     "case_analysis": ("CaseAnalysis", CaseAnalysis),
     "evidence_graph": ("EvidenceGraph", EvidenceGraph),
+    "api_case_request": ("CaseRequest", CaseRequest),
+    "api_case_created": ("CaseCreated", CaseCreated),
+    "api_case_info": ("CaseInfo", CaseInfo),
+    "api_config_info": ("ConfigInfo", ConfigInfo),
+    "api_document_detail": ("DocumentDetail", DocumentDetail),
+    "api_evidence_detail": ("EvidenceDetail", EvidenceDetail),
 }
 
 
@@ -95,7 +113,15 @@ def json_schemas() -> dict[str, str]:
         "$defs": dict(sorted(defs.items())),
     }
     files["juris.schema.json"] = _dump(_strip_property_titles(bundle))
+    files["openapi.json"] = _dump(openapi())
     return files
+
+
+def openapi() -> dict[str, Any]:
+    """The API's OpenAPI document. Built from a manager that runs nothing (nothing is loaded
+    until a run is submitted), so no database or model is needed."""
+    settings = Settings(_env_file=None)  # type: ignore[call-arg]
+    return create_app(RunManager(settings=settings)).openapi()
 
 
 def typescript(bundle_path: Path, out_path: Path) -> None:
