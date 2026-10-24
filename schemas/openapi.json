@@ -213,6 +213,89 @@
         }
       }
     },
+    "/runs/{run_id}/events": {
+      "get": {
+        "summary": "Get Events",
+        "description": "Stream the run's events, from the start or after ``Last-Event-ID`` (or ``after``).",
+        "operationId": "get_events_runs__run_id__events_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Resume after this seq",
+              "title": "After"
+            },
+            "description": "Resume after this seq"
+          },
+          {
+            "name": "last-event-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sent by EventSource on reconnect",
+              "title": "Last-Event-Id"
+            },
+            "description": "Sent by EventSource on reconnect"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The run's events in seq order, as Server-Sent Events: `id` is the seq, `data` an Event envelope; `: ping` comments while quiet; `event: end` after run_completed or run_failed",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "The run has ended and the client has every event"
+          },
+          "404": {
+            "description": "No such case, run or object"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/evidence/{run_id}/{evidence_id}": {
       "get": {
         "summary": "Get Evidence",

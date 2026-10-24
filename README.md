@@ -71,7 +71,7 @@ A FastAPI app serves cases, runs, evidence, documents and configurations to the 
 uv run --group embed uvicorn --factory juris.api.app:create_app --port 8000
 ```
 
-`POST /cases` with `{"question": "...", "profile": "juris_full"}` queues a run; read it at `GET /runs/{run_id}`. Interactive docs at `/docs`; the OpenAPI document is exported to `schemas/openapi.json`.
+`POST /cases` with `{"question": "...", "profile": "juris_full"}` queues a run; read it at `GET /runs/{run_id}`, or follow it live as Server-Sent Events at `GET /runs/{run_id}/events` (resumable with `Last-Event-ID`). Interactive docs at `/docs`; the OpenAPI document is exported to `schemas/openapi.json`.
 
 ## UI contract (schemas)
 

@@ -1,8 +1,8 @@
-# REST API (PLAN 9.1)
+# REST API and event stream (PLAN 9.1-9.2)
 
 Code: `backend/juris/api/` (`app.py` routes, `runs.py` cases and the run queue, `documents.py`
-corpus documents, `schemas.py` the API's own bodies). Tests: `backend/tests/test_api.py`.
-Decision: D-063. Contract: `schemas/openapi.json`, `schemas/api_*.schema.json`,
+corpus documents, `schemas.py` the API's own bodies, `stream.py` the event stream). Tests:
+`backend/tests/test_api.py`. Decisions: D-063 (API), D-064 (stream). Contract: `schemas/openapi.json`, `schemas/api_*.schema.json`,
 `schemas/ts/juris.d.ts`.
 
 ```bash
@@ -20,6 +20,7 @@ Interactive docs at `http://localhost:8000/docs`.
 | `GET /runs/{run_id}` | `CaseView` | the record so far, folded from the run's events; includes the evidence graph |
 | `GET /runs/{run_id}/analysis` | `CaseAnalysis` | 404 until the Judge has written it, and for a run that failed without one |
 | `GET /runs/{run_id}/graph` | `EvidenceGraph` | the graph alone (PLAN 8.1) |
+| `GET /runs/{run_id}/events` | `text/event-stream` | the run's events, live; see below |
 | `GET /evidence/{run_id}/{evidence_id}` | `EvidenceDetail` | the evidence, its chunk and document, and every citation of it with its latest verification |
 | `GET /documents/{doc_id}` | `DocumentDetail` | a corpus document from Postgres with its text by paragraph; a statute's sections stand in for paragraphs |
 | `GET /configs` | `ConfigInfo[]` | the profiles `POST /cases` accepts: Juris, its ablations, B0-B2 |
@@ -30,6 +31,36 @@ body is FastAPI's 422. CORS allows `JURIS_API_CORS_ORIGINS` (default the local f
 
 A paragraph's `seq` is what a chunk's `para_start` and `para_end` count, so the UI can go from a
 citation to the paragraph in the full document (IDEA_final §13, traceability).
+
+## The event stream
+
+`GET /runs/{run_id}/events` sends every event of the run in `seq` order, then each new one as it
+is stored, and closes after the run's last event:
+
+```text
+retry: 3000                      once: reconnect after 3 s
+
+id: 12                           the event's seq
+data: {"event_id": "evt_000012", "seq": 12, "type": "claim_created", ...}
+
+: ping                           a comment after JURIS_API_SSE_PING_SECONDS (15) of quiet
+
+event: end                       after run_completed or run_failed, then the server closes
+data: {}
+```
+
+`data` is the envelope exactly as stored (`schemas/event.schema.json`), on one line. In a
+browser, `new EventSource("/runs/<id>/events")` with `onmessage` gets every event; listen for
+`end` to close it. On a dropped connection `EventSource` reconnects with `Last-Event-ID: <seq>`
+and the stream resumes at the next seq, so no event is missed or repeated; `?after=<seq>` does
+the same for clients that cannot set the header. Once the client has the run's last event, a
+reconnect gets `204 No Content`, which tells `EventSource` to stop. An unknown run is a 404, a
+`Last-Event-ID` that is not a seq a 400.
+
+New events reach the stream without polling: the run's thread appends to the store, and the
+store wakes the run's open streams on the server's loop (`call_soon_threadsafe`). Whether a
+run has ended is read from the store (its last event is `run_completed` or `run_failed`), not
+from the run's status, which is set only after the run's files are written.
 
 ## How runs execute
 
@@ -67,3 +98,17 @@ profiles; `GET /documents/ACT-contract_act` returns the Contract Act's 268 secti
 analysis, graph and evidence routes answered for the finished run. The remaining pauses of a
 second or two are most likely the run's thread holding the interpreter (tokenising, Python
 work between model calls).
+
+## Live check of the event stream (2026-10-24, local 7B)
+
+`uvicorn` with `JURIS_API_SSE_PING_SECONDS=2`; `curl -N` on `GET /runs/{id}/events` right after
+`POST /cases` (JE-007's question, `juris_full`, model calls from the cache):
+
+- 184 events, seq 1 to 184 with no gap, from `case_created` to `run_completed`, then
+  `event: end`; the stream opened while the run was at its start and followed it live.
+- Reconnecting with `Last-Event-ID: 40` resumed at seq 41 (the other 144 events); with the last
+  seq, `204 No Content`.
+- Pings: the first check sent 51 where the run's quiet gaps allow about 29. A wake-up scheduled
+  for an event the stream had already sent ended a wait with nothing new, which the stream took
+  for quiet. After the fix (such a wake-up goes back to waiting, and a test covers it) the
+  second run sent 11 pings, exactly the number its quiet gaps of 2 s allow.

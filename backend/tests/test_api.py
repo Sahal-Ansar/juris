@@ -1,9 +1,12 @@
-"""The REST API (PLAN 9.1) through ``httpx.AsyncClient``: a case runs end to end on a scripted
-model and a fake retrieval service, and every response validates against the exported
-schemas. The document route reads a fake store here and Postgres in the ``db`` test."""
+"""The REST API (PLAN 9.1-9.2) through ``httpx.AsyncClient``: a case runs end to end on a
+scripted model and a fake retrieval service, and every response validates against the exported
+schemas; the event stream delivers every event once, in order, also across a reconnect. The
+document route reads a fake store here and Postgres in the ``db`` test."""
 
+import asyncio
 import datetime as dt
 import json
+import threading
 from collections.abc import AsyncIterator
 from dataclasses import dataclass
 from pathlib import Path
@@ -60,6 +63,19 @@ class Broken:
         raise RuntimeError("retrieval is down")
 
 
+class Gated:
+    """A run that waits (in its own thread) until the test opens the gate."""
+
+    corpus_snapshot_id = "snap"
+    embedding_model = "none"
+
+    def __init__(self) -> None:
+        self.gate = threading.Event()
+
+    async def run(self, ctx: RunContext) -> None:
+        await asyncio.to_thread(self.gate.wait, 10)
+
+
 @dataclass
 class Api:
     client: httpx.AsyncClient
@@ -69,7 +85,10 @@ class Api:
 
 def settings(tmp_path: Path) -> Settings:
     spec = ModelSpec(provider="fake", name="m", effort=None)
-    return Settings(_env_file=None, models=ModelsConfig(default=spec), data_dir=tmp_path)  # type: ignore[call-arg]
+    return Settings(  # type: ignore[call-arg]
+        _env_file=None, models=ModelsConfig(default=spec), data_dir=tmp_path,
+        api_sse_ping_seconds=0.05,
+    )  # fmt: skip
 
 
 @pytest.fixture
@@ -80,6 +99,7 @@ async def api(tmp_path: Path) -> AsyncIterator[Api]:
         systems={
             "juris": lambda: JurisSystem(service=lambda: FullService(hits=list(HITS))),
             "b0": Broken,
+            "b2": Gated,
         },
         gateways=GatewayFactory({"fake": model}, prices={}),
     )
@@ -232,3 +252,104 @@ def test_documents_from_the_database(engine: Engine) -> None:
     assert sections == [("74", "section", "Title 74"), ("73", "section", "Title 73")]  # Act order
     assert store.document("SC-404") is None
     check("api_document_detail", judgment.model_dump(mode="json"))
+
+
+# ---- the event stream (PLAN 9.2) ---------------------------------------------------------
+
+
+def blocks(body: str) -> list[dict[str, str]]:
+    """The stream's messages: each a dict of its fields; a comment is ``{":": text}``."""
+    out = []
+    for block in body.split("\n\n"):
+        if not block:
+            continue
+        fields: dict[str, str] = {}
+        for line in block.split("\n"):
+            name, _, value = line.partition(":")
+            fields[name or ":"] = value.removeprefix(" ")
+        out.append(fields)
+    return out
+
+
+def sent(body: str) -> list[dict[str, Any]]:
+    """The events in a stream's body (pings and control messages left out)."""
+    return [json.loads(b["data"]) for b in blocks(body) if "id" in b]
+
+
+async def test_the_stream_sends_every_event_in_order(api: Api) -> None:
+    created = (await api.client.post("/cases", json={"question": QUESTION})).json()
+    run_id = created["run_id"]
+    response = await api.client.get(f"/runs/{run_id}/events")  # from the start, to the end
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("text/event-stream")
+    messages = blocks(response.text)
+    assert messages[0] == {"retry": "3000"}
+    assert messages[-1] == {"event": "end", "data": "{}"}
+    events = sent(response.text)
+    seqs = [e["seq"] for e in events]
+    assert seqs == list(range(1, len(events) + 1)) and len(events) > 50
+    assert [int(b["id"]) for b in messages if "id" in b] == seqs
+    stored = [e.model_dump(mode="json") for e in api.runs.store.read(run_id)]
+    assert events == stored  # everything the run stored, as stored
+    assert events[0]["type"] == "case_created" and events[-1]["type"] == "run_completed"
+    for event in events:
+        check("event", event)
+
+
+async def test_reconnecting_resumes_without_gaps_or_duplicates(api: Api) -> None:
+    client = api.client
+    run_id = (await client.post("/cases", json={"question": QUESTION})).json()["run_id"]
+    full = sent((await client.get(f"/runs/{run_id}/events")).text)
+    half = len(full) // 2
+    resumed = await client.get(f"/runs/{run_id}/events", headers={"Last-Event-ID": str(half)})
+    assert full[:half] + sent(resumed.text) == full
+    by_query = await client.get(f"/runs/{run_id}/events", params={"after": half})
+    assert sent(by_query.text) == full[half:]
+    # once the client has the last event there is nothing to resume: EventSource stops
+    done = await client.get(f"/runs/{run_id}/events", headers={"Last-Event-ID": str(len(full))})
+    assert done.status_code == 204 and done.text == ""
+    bad = await client.get(f"/runs/{run_id}/events", headers={"Last-Event-ID": "evt_3"})
+    assert bad.status_code == 400
+    assert (await client.get("/runs/r-0/events")).status_code == 404
+
+
+async def test_a_live_stream_pings_while_quiet_and_ends_with_the_run(api: Api) -> None:
+    run_id = (await api.client.post("/cases", json={"question": QUESTION, "profile": "b2"})).json()[
+        "run_id"
+    ]
+    listening = asyncio.create_task(api.client.get(f"/runs/{run_id}/events"))
+    await asyncio.sleep(0.4)  # the run waits at its gate: only case_created so far
+    assert not listening.done()
+    gated = api.runs.system("b2")
+    assert isinstance(gated, Gated)
+    gated.gate.set()
+    response = await asyncio.wait_for(listening, 10)
+    messages = blocks(response.text)
+    kinds = [
+        json.loads(m["data"])["type"] if "id" in m else m.get("event") or m.get(":") or "retry"
+        for m in messages
+    ]
+    assert kinds[:2] == ["retry", "case_created"]
+    assert kinds[-2:] == ["run_completed", "end"]
+    pings = kinds[2:-2]
+    assert len(pings) >= 2 and set(pings) == {"ping"}  # nothing else happened meanwhile
+
+
+async def test_a_wake_up_with_nothing_new_does_not_end_the_wait(api: Api) -> None:
+    """A wake scheduled for an event the stream already has must not count as quiet (it
+    would send a ping early)."""
+    run_id = (await api.client.post("/cases", json={"question": QUESTION, "profile": "b2"})).json()[
+        "run_id"
+    ]
+    last = api.runs.store.last_seq(run_id)
+    waiting = asyncio.create_task(api.runs.wait_events(run_id, last, 0.5))
+    await asyncio.sleep(0.05)
+    api.runs._wake(run_id)  # stale: no new event
+    await asyncio.sleep(0.2)
+    assert not waiting.done()
+    assert await waiting == []  # at the timeout
+    gated = api.runs.system("b2")
+    assert isinstance(gated, Gated)
+    gated.gate.set()
+    [completed] = await api.runs.wait_events(run_id, last, 5)
+    assert completed.type == "run_completed"

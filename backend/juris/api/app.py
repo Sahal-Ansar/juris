@@ -1,4 +1,4 @@
-"""The REST API (PLAN 9.1, IDEA_final §12): the UI's way in.
+"""The REST API (PLAN 9.1-9.2, IDEA_final §12): the UI's way in.
 
     uv run uvicorn --factory juris.api.app:create_app --port 8000
 
@@ -7,6 +7,8 @@
 - ``GET /runs/{run_id}``: the ``CaseView`` so far (a fold of the run's events).
 - ``GET /runs/{run_id}/analysis``: the ``CaseAnalysis``, once written (404 before).
 - ``GET /runs/{run_id}/graph``: the evidence graph (PLAN 8.1).
+- ``GET /runs/{run_id}/events``: the run's events as Server-Sent Events, live, resumable
+  with ``Last-Event-ID`` (``juris.api.stream``, PLAN 9.2).
 - ``GET /evidence/{run_id}/{evidence_id}``: evidence, its chunk and document, who cites it.
 - ``GET /documents/{doc_id}``: a corpus document with its paragraphs.
 - ``GET /configs``: the profiles ``POST /cases`` accepts.
@@ -20,9 +22,11 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, Header, HTTPException, Query, Response, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 
+from juris.api import stream
 from juris.api.documents import DbDocuments, DocumentStore
 from juris.api.runs import RunManager, UnknownProfile
 from juris.api.schemas import (
@@ -111,6 +115,40 @@ def create_app(
     @app.get("/runs/{run_id}/graph", response_model=EvidenceGraph, responses=NOT_FOUND)
     async def get_graph(run_id: str) -> EvidenceGraph:
         return view_of(run_id).graph
+
+    @app.get(
+        "/runs/{run_id}/events",
+        response_class=StreamingResponse,
+        responses={
+            200: {
+                "description": "The run's events in seq order, as Server-Sent Events: "
+                "`id` is the seq, `data` an Event envelope; `: ping` comments while quiet; "
+                "`event: end` after run_completed or run_failed",
+                "content": {"text/event-stream": {"schema": {"type": "string"}}},
+            },
+            204: {"description": "The run has ended and the client has every event"},
+            **NOT_FOUND,
+        },
+    )
+    async def get_events(
+        run_id: str,
+        after: int | None = Query(None, ge=0, description="Resume after this seq"),
+        last_event_id: str | None = Header(None, description="Sent by EventSource on reconnect"),
+    ) -> Response:
+        """Stream the run's events, from the start or after ``Last-Event-ID`` (or ``after``)."""
+        view_of(run_id)  # 404 for an unknown run
+        after_seq = after or 0
+        if last_event_id is not None:
+            if not last_event_id.strip().isdigit():
+                raise HTTPException(status.HTTP_400_BAD_REQUEST, "Last-Event-ID must be a seq")
+            after_seq = int(last_event_id)
+        if stream.ended(manager, run_id, after_seq):
+            return Response(status_code=status.HTTP_204_NO_CONTENT)
+        return StreamingResponse(
+            stream.events(manager, run_id, after_seq, settings.api_sse_ping_seconds),
+            media_type="text/event-stream",
+            headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+        )
 
     @app.get("/evidence/{run_id}/{evidence_id}", response_model=EvidenceDetail, responses=NOT_FOUND)
     async def get_evidence(run_id: str, evidence_id: str) -> EvidenceDetail:

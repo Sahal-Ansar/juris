@@ -11,7 +11,8 @@ The thread keeps the server answering during a run: retrieval (loading the model
 and reranking a search) is synchronous and would otherwise hold the server's loop for seconds.
 Model clients and the response cache belong to one loop and thread, so each run makes its own
 gateway (``GatewayFactory.from_settings``) in its thread. Only the run's thread writes its
-events; the server reads them.
+events; the server reads them. Each append wakes the run's listeners on the server's loop
+(``wait_events``, for the event stream, PLAN 9.2).
 
 The store is in memory, so runs last as long as the process (PLAN 9.3 adds the database). Each
 finished run is also written to ``<runs_dir>/api/<run_id>/`` like a ``run_case.py`` run:
@@ -34,7 +35,12 @@ from juris.baselines.base import RunContext, System
 from juris.config import PipelineProfile, Settings, get_settings, load_profile, resolve_run_config
 from juris.eval.juris_eval import free_item
 from juris.eval.runner import GatewayFactory
-from juris.events.catalog import CaseCreatedPayload, RunCompletedPayload, RunFailedPayload
+from juris.events.catalog import (
+    CaseCreatedPayload,
+    Event,
+    RunCompletedPayload,
+    RunFailedPayload,
+)
 from juris.events.fold import CaseView, fold
 from juris.events.store import EventEmitter, EventStore, InMemoryEventStore
 from juris.llm.gateway import LLMGateway
@@ -52,6 +58,24 @@ SYSTEMS: dict[str, Callable[[], System]] = {
 
 class UnknownProfile(ValueError):
     """No profile of that name that the API can run."""
+
+
+class _NotifyingStore:
+    """An event store that reports each append (from any thread) to ``on_append``."""
+
+    def __init__(self, inner: EventStore, on_append: Callable[[str], None]) -> None:
+        self._inner = inner
+        self._on_append = on_append
+
+    def append(self, event: Event) -> None:
+        self._inner.append(event)
+        self._on_append(event.run_id)
+
+    def read(self, run_id: str, after_seq: int = 0) -> list[Event]:
+        return self._inner.read(run_id, after_seq)
+
+    def last_seq(self, run_id: str) -> int:
+        return self._inner.last_seq(run_id)
 
 
 @dataclass
@@ -85,7 +109,7 @@ class RunManager:
         out_dir: Path | None = None,
     ) -> None:
         self.settings = settings or get_settings()
-        self.store = store or InMemoryEventStore()
+        self.store: EventStore = _NotifyingStore(store or InMemoryEventStore(), self._appended)
         self.out_dir = out_dir or self.settings.runs_dir / "api"
         self._factories = dict(systems)
         self._systems: dict[str, System] = {}
@@ -95,6 +119,8 @@ class RunManager:
         self._runs: dict[str, _Run] = {}
         self._queue: asyncio.Queue[str] | None = None
         self._workers: list[asyncio.Task[None]] = []
+        self._loop: asyncio.AbstractEventLoop | None = None  # the server's, set on first submit
+        self._listeners: dict[str, set[asyncio.Future[None]]] = {}
 
     # ---- configurations ----------------------------------------------------------------
 
@@ -120,6 +146,7 @@ class RunManager:
     def submit(self, question: str, profile_name: str) -> CaseCreated:
         """Open a case and its first run, and queue the run. Raises ``UnknownProfile``."""
         profile = self.profile(profile_name)
+        self._loop = asyncio.get_running_loop()
         now = datetime.now(UTC)
         case = _Case(f"CASE-{secrets.token_hex(4)}", question, now)
         run = _Run(new_run_id(profile.name), case.case_id, question, profile, now)
@@ -162,6 +189,39 @@ class RunManager:
     async def wait(self, run_id: str) -> None:
         """Until the run has finished (completed or failed)."""
         await self._runs[run_id].done.wait()
+
+    async def wait_events(self, run_id: str, after_seq: int, timeout: float) -> list[Event]:
+        """The run's events after ``after_seq``: at once if there are any, else the next ones
+        to arrive, or [] after ``timeout`` seconds. A wake-up that brings nothing new (one
+        scheduled for an event the caller already has) goes back to waiting."""
+        loop = asyncio.get_running_loop()
+        deadline = loop.time() + timeout
+        listeners = self._listeners.setdefault(run_id, set())
+        while True:
+            listener: asyncio.Future[None] = loop.create_future()
+            listeners.add(listener)
+            try:
+                events = self.store.read(run_id, after_seq)  # after registering: none missed
+                remaining = deadline - loop.time()
+                if events or remaining <= 0:
+                    return events
+                try:
+                    await asyncio.wait_for(listener, remaining)
+                except TimeoutError:
+                    return []
+            finally:
+                listeners.discard(listener)
+
+    def _appended(self, run_id: str) -> None:
+        """Called by the store in whichever thread appended: wake the listeners on the loop."""
+        loop = self._loop
+        if loop is not None and not loop.is_closed():
+            loop.call_soon_threadsafe(self._wake, run_id)
+
+    def _wake(self, run_id: str) -> None:
+        for listener in self._listeners.get(run_id, ()):
+            if not listener.done():
+                listener.set_result(None)
 
     # ---- execution ---------------------------------------------------------------------
 
