@@ -1,6 +1,7 @@
-"""The REST API (PLAN 9.1-9.2, IDEA_final §12): the UI's way in.
+"""The REST API (PLAN 9.1-9.3, IDEA_final §12): the UI's way in.
 
     uv run uvicorn --factory juris.api.app:create_app --port 8000
+    JURIS_API_MODE=mock uv run uvicorn --factory juris.api.app:create_app --port 8000
 
 - ``POST /cases``: a question and a profile → ``case_id``, ``run_id``; the run is queued.
 - ``GET /cases/{case_id}``: the question and its runs with their status.
@@ -8,7 +9,8 @@
 - ``GET /runs/{run_id}/analysis``: the ``CaseAnalysis``, once written (404 before).
 - ``GET /runs/{run_id}/graph``: the evidence graph (PLAN 8.1).
 - ``GET /runs/{run_id}/events``: the run's events as Server-Sent Events, live, resumable
-  with ``Last-Event-ID`` (``juris.api.stream``, PLAN 9.2).
+  with ``Last-Event-ID`` (``juris.api.stream``, PLAN 9.2); ``?replay=true&speed=2`` re-streams
+  a finished run at its recorded pace (PLAN 9.3).
 - ``GET /evidence/{run_id}/{evidence_id}``: evidence, its chunk and document, who cites it.
 - ``GET /documents/{doc_id}``: a corpus document with its paragraphs.
 - ``GET /configs``: the profiles ``POST /cases`` accepts.
@@ -16,6 +18,10 @@
 Every response is a schema-exported type (``scripts/export_schemas.py``); the OpenAPI
 document is exported with them (``schemas/openapi.json``). CORS allows the local frontend
 (``JURIS_API_CORS_ORIGINS``).
+
+Live mode keeps the events in Postgres, so runs outlive the server: the factory restores them
+before serving (``RunManager.restore``). Mock mode (``JURIS_API_MODE=mock``, ``juris.api.mock``)
+serves the 2.4 fixtures through the same routes, with no model, retrieval or database.
 """
 
 from collections.abc import AsyncIterator
@@ -25,10 +31,12 @@ from typing import Any
 from fastapi import FastAPI, Header, HTTPException, Query, Response, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
+from sqlalchemy import create_engine
 
 from juris.api import stream
 from juris.api.documents import DbDocuments, DocumentStore
-from juris.api.runs import RunManager, UnknownProfile
+from juris.api.mock import FixtureDocuments, MockSystem, load_fixtures
+from juris.api.runs import SYSTEMS, RunManager, UnknownProfile
 from juris.api.schemas import (
     CaseCreated,
     CaseInfo,
@@ -39,8 +47,11 @@ from juris.api.schemas import (
     EvidenceDetail,
 )
 from juris.config import Settings, get_settings
+from juris.db.events import DbEventStore
 from juris.eval.metrics.common import pair_results
+from juris.eval.runner import GatewayFactory
 from juris.events.fold import CaseView
+from juris.events.store import InMemoryEventStore
 from juris.models import CaseAnalysis
 from juris.models.graph import EvidenceGraph
 
@@ -51,15 +62,37 @@ def _not_found(what: str) -> HTTPException:
     return HTTPException(status.HTTP_404_NOT_FOUND, f"{what} not found")
 
 
+def default_runs(settings: Settings) -> RunManager:
+    """Live: events and manifests in Postgres. Mock: the fixtures in memory, every profile
+    replaying the coercion run, no model providers."""
+    if settings.api_mode == "mock":
+        return RunManager(
+            settings=settings,
+            systems={kind: lambda: MockSystem(settings.api_mock_speed) for kind in SYSTEMS},
+            gateways=GatewayFactory({}, prices={}),
+            store=load_fixtures(InMemoryEventStore()),
+            concurrency=settings.api_concurrency,
+            out_dir=settings.runs_dir / "api-mock",
+        )
+    return RunManager(
+        settings=settings,
+        store=DbEventStore(create_engine(settings.database_url())),
+        concurrency=settings.api_concurrency,
+        db_url=settings.database_url(driver=None),
+    )
+
+
 def create_app(
     runs: RunManager | None = None,
     documents: DocumentStore | None = None,
     settings: Settings | None = None,
 ) -> FastAPI:
-    """The app over a run manager and a document store (by default from the settings)."""
+    """The app over a run manager and a document store (by default from the settings), with
+    the runs its store already holds restored."""
     settings = settings or (runs.settings if runs is not None else get_settings())
-    manager = runs or RunManager(settings=settings, concurrency=settings.api_concurrency)
-    store = documents or DbDocuments()
+    manager = runs or default_runs(settings)
+    manager.restore()
+    store = documents or (FixtureDocuments() if settings.api_mode == "mock" else DbDocuments())
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
@@ -127,6 +160,7 @@ def create_app(
                 "content": {"text/event-stream": {"schema": {"type": "string"}}},
             },
             204: {"description": "The run has ended and the client has every event"},
+            409: {"description": "Replay of a run that has not finished"},
             **NOT_FOUND,
         },
     )
@@ -134,8 +168,12 @@ def create_app(
         run_id: str,
         after: int | None = Query(None, ge=0, description="Resume after this seq"),
         last_event_id: str | None = Header(None, description="Sent by EventSource on reconnect"),
+        replay: bool = Query(False, description="Re-stream a finished run at its recorded pace"),
+        speed: float = Query(1.0, gt=0, le=1000, description="Replay: this many times faster"),
+        max_gap: float = Query(2.0, ge=0, le=60, description="Replay: longest wait (seconds)"),
     ) -> Response:
-        """Stream the run's events, from the start or after ``Last-Event-ID`` (or ``after``)."""
+        """Stream the run's events, from the start or after ``Last-Event-ID`` (or ``after``);
+        live, or with ``replay`` as recorded."""
         view_of(run_id)  # 404 for an unknown run
         after_seq = after or 0
         if last_event_id is not None:
@@ -144,8 +182,19 @@ def create_app(
             after_seq = int(last_event_id)
         if stream.ended(manager, run_id, after_seq):
             return Response(status_code=status.HTTP_204_NO_CONTENT)
+        ping = settings.api_sse_ping_seconds
+        if replay:
+            if not stream.finished(manager, run_id):
+                raise HTTPException(
+                    status.HTTP_409_CONFLICT, f"run {run_id} has not finished: stream it live"
+                )
+            body = stream.replay(
+                manager, run_id, after_seq, speed=speed, max_gap=max_gap, ping_seconds=ping
+            )
+        else:
+            body = stream.events(manager, run_id, after_seq, ping)
         return StreamingResponse(
-            stream.events(manager, run_id, after_seq, settings.api_sse_ping_seconds),
+            body,
             media_type="text/event-stream",
             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
         )

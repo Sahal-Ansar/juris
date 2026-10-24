@@ -229,13 +229,16 @@ class Settings(BaseSettings):
     llm_cache_path: Path = Field(default=None, validate_default=False)  # type: ignore[assignment]
     pipeline_configs_dir: Path = PIPELINE_CONFIGS_DIR
 
-    # REST API (PLAN 9.1-9.2): origins the browser may call from, runs executed at once, and
-    # the seconds of quiet after which the event stream sends a keep-alive comment.
+    # REST API (PLAN 9.1-9.3): origins the browser may call from, runs executed at once, the
+    # seconds of quiet after which the event stream sends a keep-alive comment; live (Postgres,
+    # the real pipeline) or mock (the 2.4 fixtures), and how much faster mock runs replay.
     api_cors_origins: list[str] = Field(
         default_factory=lambda: ["http://localhost:3000", "http://127.0.0.1:3000"]
     )
     api_concurrency: int = Field(default=1, ge=1)
     api_sse_ping_seconds: float = Field(default=15.0, gt=0)  # keep-alive on a quiet stream
+    api_mode: Literal["live", "mock"] = "live"
+    api_mock_speed: float = Field(default=10.0, gt=0)
 
     @model_validator(mode="after")
     def _derived_paths(self) -> Self:

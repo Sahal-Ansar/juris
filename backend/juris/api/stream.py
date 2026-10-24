@@ -16,8 +16,13 @@ as it is stored, in the SSE wire format::
 Reconnecting with ``Last-Event-ID: 12`` (what ``EventSource`` sends) or ``?after=12`` resumes
 at seq 13, so a client sees every event once. A reconnect after the run's last event gets
 ``204 No Content``, which tells ``EventSource`` to stop reconnecting.
+
+``?replay=true&speed=2`` re-streams a finished run (PLAN 9.3) in the same format, paced by its
+events' timestamps: each gap divided by ``speed`` and capped at ``max_gap`` seconds (a model
+call can take minutes), with pings through a gap longer than the ping interval.
 """
 
+import asyncio
 from collections.abc import AsyncIterator
 
 from juris.api.runs import RunManager
@@ -34,12 +39,16 @@ def frame(event: Event) -> bytes:
     return f"id: {event.seq}\ndata: {event.model_dump_json()}\n\n".encode()
 
 
+def finished(runs: RunManager, run_id: str) -> bool:
+    """Whether the run's terminal event is stored. Read from the store, not the run's status,
+    which the worker sets only after writing the run's files."""
+    tail = runs.store.read(run_id, runs.store.last_seq(run_id) - 1)
+    return bool(tail) and tail[-1].type in TERMINAL
+
+
 def ended(runs: RunManager, run_id: str, after_seq: int) -> bool:
-    """Whether the run's terminal event is stored and the client has had it. Read from the
-    store, not the run's status, which the worker sets only after writing the run's files."""
-    last = runs.store.last_seq(run_id)
-    tail = runs.store.read(run_id, last - 1)
-    return bool(tail) and tail[-1].type in TERMINAL and last <= after_seq
+    """Whether the run has finished and the client has had its last event."""
+    return finished(runs, run_id) and runs.store.last_seq(run_id) <= after_seq
 
 
 async def events(
@@ -59,3 +68,30 @@ async def events(
             if event.type in TERMINAL:
                 yield END
                 return
+
+
+async def replay(
+    runs: RunManager,
+    run_id: str,
+    after_seq: int,
+    *,
+    speed: float,
+    max_gap: float,
+    ping_seconds: float,
+) -> AsyncIterator[bytes]:
+    """A finished run's events after ``after_seq``, paced as recorded (sped up and capped);
+    the first is sent at once."""
+    yield f"retry: {RETRY_MS}\n\n".encode()
+    previous: Event | None = None
+    for event in runs.store.read(run_id, after_seq):
+        if previous is not None:
+            wait = min(max((event.ts - previous.ts).total_seconds(), 0.0) / speed, max_gap)
+            while wait > 0:
+                step = min(wait, ping_seconds)
+                await asyncio.sleep(step)
+                wait -= step
+                if wait > 0:
+                    yield PING
+        yield frame(event)
+        previous = event
+    yield END

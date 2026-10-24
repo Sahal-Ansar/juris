@@ -14,9 +14,12 @@ gateway (``GatewayFactory.from_settings``) in its thread. Only the run's thread 
 events; the server reads them. Each append wakes the run's listeners on the server's loop
 (``wait_events``, for the event stream, PLAN 9.2).
 
-The store is in memory, so runs last as long as the process (PLAN 9.3 adds the database). Each
-finished run is also written to ``<runs_dir>/api/<run_id>/`` like a ``run_case.py`` run:
-manifest, events, folded view and model calls.
+The server keeps its events in Postgres (``juris.db.events``, PLAN 9.3); tests and mock mode
+keep them in memory. ``restore`` rebuilds the cases and runs from the store when the server
+starts, so finished runs outlive it; a run the store holds no end for was cut off by the last
+shutdown, and is closed with ``run_failed``. Each finished run is also written to
+``<runs_dir>/api/<run_id>/`` like a ``run_case.py`` run: manifest, events, folded view and
+model calls (the manifest also to the ``runs`` table when ``db_url`` is given).
 """
 
 import asyncio
@@ -26,6 +29,7 @@ from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Protocol
 
 from juris.api.schemas import CaseCreated, CaseInfo, RunInfo, RunStatus
 from juris.baselines.b0 import B0System
@@ -56,14 +60,23 @@ SYSTEMS: dict[str, Callable[[], System]] = {
 }
 
 
+INTERRUPTED = "interrupted: the server stopped before the run finished"
+
+
 class UnknownProfile(ValueError):
     """No profile of that name that the API can run."""
+
+
+class RunLog(EventStore, Protocol):
+    """An event store that can list its runs (to restore them after a restart)."""
+
+    def bounds(self) -> list[tuple[Event, Event]]: ...
 
 
 class _NotifyingStore:
     """An event store that reports each append (from any thread) to ``on_append``."""
 
-    def __init__(self, inner: EventStore, on_append: Callable[[str], None]) -> None:
+    def __init__(self, inner: RunLog, on_append: Callable[[str], None]) -> None:
         self._inner = inner
         self._on_append = on_append
 
@@ -77,13 +90,16 @@ class _NotifyingStore:
     def last_seq(self, run_id: str) -> int:
         return self._inner.last_seq(run_id)
 
+    def bounds(self) -> list[tuple[Event, Event]]:
+        return self._inner.bounds()
+
 
 @dataclass
 class _Run:
     run_id: str
     case_id: str
     question: str
-    profile: PipelineProfile
+    profile: str
     created_at: datetime
     status: RunStatus = "queued"
     done: asyncio.Event = field(default_factory=asyncio.Event)
@@ -104,20 +120,22 @@ class RunManager:
         settings: Settings | None = None,
         systems: Mapping[str, Callable[[], System]] = SYSTEMS,
         gateways: Callable[[], LLMGateway] | None = None,  # default: one factory per run
-        store: EventStore | None = None,
+        store: RunLog | None = None,
         concurrency: int = 1,
         out_dir: Path | None = None,
+        db_url: str | None = None,  # also record each run's manifest in the ``runs`` table
     ) -> None:
         self.settings = settings or get_settings()
-        self.store: EventStore = _NotifyingStore(store or InMemoryEventStore(), self._appended)
+        self.store: RunLog = _NotifyingStore(store or InMemoryEventStore(), self._appended)
         self.out_dir = out_dir or self.settings.runs_dir / "api"
+        self._db_url = db_url
         self._factories = dict(systems)
         self._systems: dict[str, System] = {}
         self._gateways = gateways
         self._concurrency = concurrency
         self._cases: dict[str, _Case] = {}
         self._runs: dict[str, _Run] = {}
-        self._queue: asyncio.Queue[str] | None = None
+        self._queue: asyncio.Queue[tuple[str, PipelineProfile]] | None = None
         self._workers: list[asyncio.Task[None]] = []
         self._loop: asyncio.AbstractEventLoop | None = None  # the server's, set on first submit
         self._listeners: dict[str, set[asyncio.Future[None]]] = {}
@@ -149,7 +167,7 @@ class RunManager:
         self._loop = asyncio.get_running_loop()
         now = datetime.now(UTC)
         case = _Case(f"CASE-{secrets.token_hex(4)}", question, now)
-        run = _Run(new_run_id(profile.name), case.case_id, question, profile, now)
+        run = _Run(new_run_id(profile.name), case.case_id, question, profile.name, now)
         case.run_ids.append(run.run_id)
         self._cases[case.case_id] = case
         self._runs[run.run_id] = run
@@ -160,8 +178,32 @@ class RunManager:
                 corpus_snapshot_id=self.system(profile.kind).corpus_snapshot_id,
             )
         )
-        self._start_workers().put_nowait(run.run_id)
+        self._start_workers().put_nowait((run.run_id, profile))
         return CaseCreated(case_id=case.case_id, run_id=run.run_id)
+
+    def restore(self) -> int:
+        """Rebuild the cases and runs the store holds and this manager does not (at startup);
+        returns how many. A run with no end stored was cut off by the last shutdown: it is
+        closed with ``run_failed``, so its record and its stream end honestly."""
+        restored = 0
+        for first, last in self.store.bounds():
+            payload = first.payload
+            if first.run_id in self._runs or not isinstance(payload, CaseCreatedPayload):
+                continue
+            case = self._cases.setdefault(
+                first.case_id, _Case(first.case_id, payload.question, first.ts)
+            )
+            run = _Run(first.run_id, first.case_id, payload.question, payload.profile, first.ts)
+            if last.type not in {"run_completed", "run_failed"}:
+                EventEmitter(self.store, run_id=run.run_id, case_id=run.case_id).emit(
+                    RunFailedPayload(reason=INTERRUPTED)
+                )
+            run.status = "completed" if last.type == "run_completed" else "failed"
+            run.done.set()
+            case.run_ids.append(run.run_id)
+            self._runs[run.run_id] = run
+            restored += 1
+        return restored
 
     def case(self, case_id: str) -> CaseInfo | None:
         case = self._cases.get(case_id)
@@ -174,7 +216,7 @@ class RunManager:
             created_at=case.created_at,
             runs=[
                 RunInfo(
-                    run_id=r.run_id, profile=r.profile.name, status=r.status,
+                    run_id=r.run_id, profile=r.profile, status=r.status,
                     created_at=r.created_at,
                 )
                 for r in runs
@@ -225,7 +267,7 @@ class RunManager:
 
     # ---- execution ---------------------------------------------------------------------
 
-    def _start_workers(self) -> asyncio.Queue[str]:
+    def _start_workers(self) -> asyncio.Queue[tuple[str, PipelineProfile]]:
         """The queue, with its workers started on first use (inside the server's loop)."""
         if self._queue is None:
             self._queue = asyncio.Queue()
@@ -238,10 +280,11 @@ class RunManager:
     async def _work(self) -> None:
         assert self._queue is not None
         while True:
-            run = self._runs[await self._queue.get()]
+            run_id, profile = await self._queue.get()
+            run = self._runs[run_id]
             run.status = "running"
             try:
-                await asyncio.to_thread(asyncio.run, self._execute(run))
+                await asyncio.to_thread(asyncio.run, self._execute(run, profile))
             except Exception as exc:  # a broken run must not stop the worker
                 view = self.view(run.run_id)
                 if view is None or view.status == "running":
@@ -254,8 +297,7 @@ class RunManager:
                 run.done.set()
                 self._queue.task_done()
 
-    async def _execute(self, run: _Run) -> None:
-        profile = run.profile
+    async def _execute(self, run: _Run, profile: PipelineProfile) -> None:
         config = resolve_run_config(self.settings, profile)
         system = self.system(profile.kind)
         # in this run's thread: its own model clients and cache connection (module docstring)
@@ -273,6 +315,7 @@ class RunManager:
             ledger=gateway.ledger,
             runs_dir=self.out_dir,
             seeds={"item": profile.seed},
+            db_url=self._db_url,
             run_id=run.run_id,
         )
         item = free_item(run.question, run.case_id)

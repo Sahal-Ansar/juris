@@ -1,4 +1,5 @@
-"""Append-only event storage. In-memory now; Postgres-backed in PLAN 9.3."""
+"""Append-only event storage: in memory here; in Postgres for the API (``juris.db.events``,
+PLAN 9.3). Both keep the same ordering rules (``check_next``)."""
 
 from collections.abc import Callable
 from datetime import UTC, datetime
@@ -22,22 +23,27 @@ class EventStore(Protocol):
     def last_seq(self, run_id: str) -> int: ...
 
 
+def check_next(event: Event, last_seq: int, last_case_id: str | None) -> None:
+    """Raise ``EventOrderError`` unless ``event`` may follow the run's last stored event (none
+    yet: ``last_seq`` 0): a run starts with ``case_created``, its seq increases, its case stays."""
+    if last_case_id is None:
+        if event.type != "case_created":
+            raise EventOrderError(f"run {event.run_id} must start with case_created")
+        return
+    if event.seq <= last_seq:
+        raise EventOrderError(f"run {event.run_id}: seq {event.seq} is not after {last_seq}")
+    if event.case_id != last_case_id:
+        raise EventOrderError(f"run {event.run_id} belongs to case {last_case_id}")
+
+
 class InMemoryEventStore:
     def __init__(self) -> None:
         self._runs: dict[str, list[Event]] = {}
 
     def append(self, event: Event) -> None:
         events = self._runs.setdefault(event.run_id, [])
-        if events:
-            last = events[-1]
-            if event.seq <= last.seq:
-                raise EventOrderError(
-                    f"run {event.run_id}: seq {event.seq} is not after {last.seq}"
-                )
-            if event.case_id != last.case_id:
-                raise EventOrderError(f"run {event.run_id} belongs to case {last.case_id}")
-        elif event.type != "case_created":
-            raise EventOrderError(f"run {event.run_id} must start with case_created")
+        last = events[-1] if events else None
+        check_next(event, last.seq if last else 0, last.case_id if last else None)
         events.append(event)
 
     def read(self, run_id: str, after_seq: int = 0) -> list[Event]:
@@ -46,6 +52,10 @@ class InMemoryEventStore:
     def last_seq(self, run_id: str) -> int:
         events = self._runs.get(run_id)
         return events[-1].seq if events else 0
+
+    def bounds(self) -> list[tuple[Event, Event]]:
+        """Each stored run's first and last event, in the order the runs were stored."""
+        return [(events[0], events[-1]) for events in self._runs.values() if events]
 
 
 _PAYLOAD_TO_EVENT: dict[type[JurisModel], type[EnvelopeBase]] = {

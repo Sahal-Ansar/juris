@@ -1,32 +1,41 @@
-"""The REST API (PLAN 9.1-9.2) through ``httpx.AsyncClient``: a case runs end to end on a
+"""The REST API (PLAN 9.1-9.3) through ``httpx.AsyncClient``: a case runs end to end on a
 scripted model and a fake retrieval service, and every response validates against the exported
-schemas; the event stream delivers every event once, in order, also across a reconnect. The
-document route reads a fake store here and Postgres in the ``db`` test."""
+schemas; the event stream delivers every event once, in order, also across a reconnect; replay
+keeps the recorded pace; mock mode serves the fixtures. The document route reads a fake store
+here and Postgres in a ``db`` test; another ``db`` test restarts the server on its database."""
 
 import asyncio
 import datetime as dt
 import json
 import threading
+import time
 from collections.abc import AsyncIterator
 from dataclasses import dataclass
+from itertools import pairwise
 from pathlib import Path
 from typing import Any
 
 import httpx
 import jsonschema
 import pytest
+from sqlalchemy import text
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
 
 from juris.api.app import create_app
 from juris.api.documents import DbDocuments
-from juris.api.runs import RunManager
+from juris.api.mock import FIXTURES, fixture_events, gap
+from juris.api.runs import INTERRUPTED, RunManager
 from juris.api.schemas import DocumentDetail, DocumentParagraph
 from juris.baselines.base import RunContext
 from juris.config import REPO_ROOT, ModelsConfig, ModelSpec, Settings
 from juris.db import models as m
+from juris.db.events import DbEventStore
 from juris.eval.runner import GatewayFactory
+from juris.events.catalog import CaseCreatedPayload, StageStartedPayload
+from juris.events.store import EventEmitter
 from juris.models import Document
+from juris.models.common import Stage
 from juris.pipeline.system import JurisSystem
 from tests.conftest import migrate
 from tests.test_b1 import HITS
@@ -83,11 +92,11 @@ class Api:
     model: Model
 
 
-def settings(tmp_path: Path) -> Settings:
+def settings(tmp_path: Path, **extra: Any) -> Settings:
     spec = ModelSpec(provider="fake", name="m", effort=None)
     return Settings(  # type: ignore[call-arg]
         _env_file=None, models=ModelsConfig(default=spec), data_dir=tmp_path,
-        api_sse_ping_seconds=0.05,
+        api_sse_ping_seconds=0.05, **extra,
     )  # fmt: skip
 
 
@@ -353,3 +362,149 @@ async def test_a_wake_up_with_nothing_new_does_not_end_the_wait(api: Api) -> Non
     gated.gate.set()
     [completed] = await api.runs.wait_events(run_id, last, 5)
     assert completed.type == "run_completed"
+
+
+# ---- persistence, replay and mock mode (PLAN 9.3) -----------------------------------------
+
+
+async def test_replay_restreams_a_finished_run_at_its_pace(tmp_path: Path) -> None:
+    app = create_app(settings=settings(tmp_path, api_mode="mock"))
+    runs: RunManager = app.state.runs
+    stored = runs.store.read("run_mock_failure")
+    expected = sum(gap(a, b, 50, 0.1) for a, b in pairwise(stored))
+    transport = httpx.ASGITransport(app=app)
+    async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+        started = time.monotonic()
+        response = await client.get(
+            "/runs/run_mock_failure/events", params={"replay": True, "speed": 50, "max_gap": 0.1}
+        )
+        took = time.monotonic() - started
+        assert sent(response.text) == [e.model_dump(mode="json") for e in stored]
+        messages = blocks(response.text)
+        assert messages[0] == {"retry": "3000"} and messages[-1] == {"event": "end", "data": "{}"}
+        assert {":": "ping"} in messages  # gaps of 0.1 s are longer than the 0.05 s ping
+        assert expected > 0.5 and expected * 0.9 <= took <= expected + 2
+        resumed = await client.get(
+            "/runs/run_mock_failure/events",
+            params={"replay": True, "speed": 1000},
+            headers={"Last-Event-ID": "20"},
+        )
+        assert [e["seq"] for e in sent(resumed.text)] == list(range(21, len(stored) + 1))
+        done = await client.get(
+            "/runs/run_mock_failure/events",
+            params={"replay": True},
+            headers={"Last-Event-ID": str(len(stored))},
+        )
+        assert done.status_code == 204
+    await runs.close()
+
+
+async def test_a_run_still_going_cannot_be_replayed(api: Api) -> None:
+    created = await api.client.post("/cases", json={"question": QUESTION, "profile": "b2"})
+    run_id = created.json()["run_id"]
+    response = await api.client.get(f"/runs/{run_id}/events", params={"replay": True})
+    assert response.status_code == 409 and "has not finished" in response.json()["detail"]
+    gated = api.runs.system("b2")
+    assert isinstance(gated, Gated)
+    gated.gate.set()
+
+
+async def test_mock_mode_serves_the_fixtures_through_the_same_routes(tmp_path: Path) -> None:
+    app = create_app(settings=settings(tmp_path, api_mode="mock", api_mock_speed=2000))
+    runs: RunManager = app.state.runs
+    fixture = fixture_events("coercion_full")
+    transport = httpx.ASGITransport(app=app)
+    async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+        # the fixtures' own runs, finished
+        case = (await client.get("/cases/CASE-MOCK-001")).json()
+        check("api_case_info", case)
+        assert [(r["run_id"], r["status"]) for r in case["runs"]] == [
+            ("run_mock_coercion_full", "completed")
+        ]
+        failed = (await client.get("/runs/run_mock_failure")).json()
+        check("case_view", failed)
+        assert failed["status"] == "failed"
+        view = (await client.get("/runs/run_mock_coercion_full")).json()
+        expected = json.loads((FIXTURES / "coercion_full.caseview.json").read_text("utf-8"))
+        assert view == expected
+        check("case_analysis", (await client.get("/runs/run_mock_coercion_full/analysis")).json())
+        evidence_id = next(iter(view["evidence"]))
+        detail = await client.get(f"/evidence/run_mock_coercion_full/{evidence_id}")
+        check("api_evidence_detail", detail.json())
+        doc_id = detail.json()["document"]["id"]
+        document = (await client.get(f"/documents/{doc_id}")).json()
+        check("api_document_detail", document)
+        assert document["document"]["title"].startswith("[MOCK]") and document["paragraphs"]
+        assert (await client.get("/documents/SC-1")).status_code == 404
+
+        # a new case replays the coercion run's proceedings, live
+        created = await client.post("/cases", json={"question": QUESTION, "profile": "b1"})
+        run_id = created.json()["run_id"]
+        events = sent((await client.get(f"/runs/{run_id}/events")).text)
+        for event in events:
+            check("event", event)
+        assert [e["type"] for e in events] == [e.type for e in fixture]
+        assert [e["payload"] for e in events[1:-1]] == [
+            e.payload.model_dump(mode="json") for e in fixture[1:-1]
+        ]
+        assert events[0]["payload"]["question"] == QUESTION
+        live = (await client.get(f"/runs/{run_id}")).json()
+        assert live["status"] == "completed" and live["analysis"] == view["analysis"]
+    await runs.close()
+
+
+@pytest.mark.db
+async def test_runs_outlive_the_server(engine: Engine, tmp_path: Path) -> None:
+    """A finished run, and one cut off by a shutdown, read back by a new server on the same
+    database: the same events, view and case; the cut-off run is closed as failed."""
+    with engine.begin() as conn:
+        migrate(conn)
+
+    def server() -> RunManager:
+        return RunManager(
+            settings=settings(tmp_path),
+            systems={"juris": lambda: JurisSystem(service=lambda: FullService(hits=list(HITS)))},
+            gateways=GatewayFactory({"fake": Model()}, prices={}),
+            store=DbEventStore(engine),
+            db_url=engine.url.set(drivername="postgresql").render_as_string(hide_password=False),
+        )
+
+    first = server()
+    created = first.submit(QUESTION, "juris_full")
+    await first.wait(created.run_id)
+    before = [e.model_dump(mode="json") for e in first.store.read(created.run_id)]
+    view_before = first.view(created.run_id)
+    cut = EventEmitter(first.store, run_id="run-cut", case_id="CASE-cut")  # died mid-run
+    cut.emit(CaseCreatedPayload(question=QUESTION, profile="b2", corpus_snapshot_id="snap"))
+    cut.emit(StageStartedPayload(), stage=Stage.S0)
+    await first.close()
+
+    second = server()
+    app = create_app(second, FakeDocuments())  # restores what the store holds
+    assert second.restore() == 0  # once only
+    transport = httpx.ASGITransport(app=app)
+    async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+        case = (await client.get(f"/cases/{created.case_id}")).json()
+        assert [(r["run_id"], r["status"]) for r in case["runs"]] == [(created.run_id, "completed")]
+        assert case["question"] == QUESTION
+        view = (await client.get(f"/runs/{created.run_id}")).json()
+        assert view_before is not None and view == view_before.model_dump(mode="json")
+        stream = await client.get(f"/runs/{created.run_id}/events")
+        assert sent(stream.text) == before
+        replayed = await client.get(
+            f"/runs/{created.run_id}/events", params={"replay": True, "speed": 1000}
+        )
+        assert sent(replayed.text) == before
+
+        cut_case = (await client.get("/cases/CASE-cut")).json()
+        assert [(r["run_id"], r["status"]) for r in cut_case["runs"]] == [("run-cut", "failed")]
+        cut_view = (await client.get("/runs/run-cut")).json()
+        assert cut_view["status"] == "failed" and cut_view["error"] == INTERRUPTED
+        cut_events = sent((await client.get("/runs/run-cut/events")).text)
+        assert [e["type"] for e in cut_events] == ["case_created", "stage_started", "run_failed"]
+    await second.close()
+    with engine.connect() as conn:
+        status = conn.execute(
+            text("SELECT status FROM runs WHERE run_id = :r"), {"r": created.run_id}
+        ).scalar()
+    assert status == "completed"  # the manifest too

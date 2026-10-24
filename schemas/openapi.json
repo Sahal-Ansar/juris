@@ -216,7 +216,7 @@
     "/runs/{run_id}/events": {
       "get": {
         "summary": "Get Events",
-        "description": "Stream the run's events, from the start or after ``Last-Event-ID`` (or ``after``).",
+        "description": "Stream the run's events, from the start or after ``Last-Event-ID`` (or ``after``);\nlive, or with ``replay`` as recorded.",
         "operationId": "get_events_runs__run_id__events_get",
         "parameters": [
           {
@@ -246,6 +246,46 @@
               "title": "After"
             },
             "description": "Resume after this seq"
+          },
+          {
+            "name": "replay",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Re-stream a finished run at its recorded pace",
+              "default": false,
+              "title": "Replay"
+            },
+            "description": "Re-stream a finished run at its recorded pace"
+          },
+          {
+            "name": "speed",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "maximum": 1000,
+              "exclusiveMinimum": 0,
+              "description": "Replay: this many times faster",
+              "default": 1.0,
+              "title": "Speed"
+            },
+            "description": "Replay: this many times faster"
+          },
+          {
+            "name": "max_gap",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "maximum": 60,
+              "minimum": 0,
+              "description": "Replay: longest wait (seconds)",
+              "default": 2.0,
+              "title": "Max Gap"
+            },
+            "description": "Replay: longest wait (seconds)"
           },
           {
             "name": "last-event-id",
@@ -279,6 +319,9 @@
           },
           "204": {
             "description": "The run has ended and the client has every event"
+          },
+          "409": {
+            "description": "Replay of a run that has not finished"
           },
           "404": {
             "description": "No such case, run or object"

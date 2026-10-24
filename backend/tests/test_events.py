@@ -4,7 +4,9 @@ from typing import Any
 
 import pytest
 from pydantic import ValidationError
+from sqlalchemy.engine import Engine
 
+from juris.db.events import DbEventStore
 from juris.events import (
     EVENT_TYPES,
     CaseView,
@@ -31,6 +33,7 @@ from juris.models import (
     VerificationResult,
 )
 from juris.models.common import ClaimStatus, Stage
+from tests.conftest import migrate
 from tests.test_models import EXAMPLES
 
 SPEC_CATALOG = {
@@ -304,3 +307,33 @@ def test_emitter_derives_ids_and_rejects_non_payloads() -> None:
     emitter = EventEmitter(store, run_id="run_abc", case_id="CASE-001")
     with pytest.raises(TypeError, match="not an event payload"):
         emitter.emit(m(Claim))
+
+
+@pytest.mark.db
+def test_the_database_store_gives_back_what_it_was_given(engine: Engine) -> None:
+    """Every event type through Postgres and back (PLAN 9.3): equal events, the same fold, the
+    in-memory store's ordering rules."""
+    with engine.begin() as conn:
+        migrate(conn)
+    memory, events = recorded_run()
+    store = DbEventStore(engine)
+    for event in events:
+        store.append(event)
+    assert store.read("run_abc") == events
+    assert [e.seq for e in store.read("run_abc", after_seq=20)] == list(range(21, len(events) + 1))
+    assert fold(store.read("run_abc")) == fold(events)
+    assert store.last_seq("run_abc") == len(events)
+    with pytest.raises(EventOrderError, match="not after"):
+        store.append(events[3])
+    with pytest.raises(EventOrderError, match="belongs to case"):
+        store.append(events[-1].model_copy(update={"seq": 999, "case_id": "CASE-999"}))
+    with pytest.raises(EventOrderError, match="must start with case_created"):
+        store.append(events[1].model_copy(update={"run_id": "run_new"}))
+    assert store.read("no_such_run") == [] and store.last_seq("no_such_run") == 0
+    other = events[0].model_copy(update={"run_id": "run_b", "ts": T0 - timedelta(days=1)})
+    store.append(other)
+    assert (
+        store.bounds()
+        == [(other, other), (events[0], events[-1])]
+        == [(other, other), *memory.bounds()]
+    )

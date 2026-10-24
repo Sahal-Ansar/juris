@@ -38,6 +38,14 @@ To simulate the live stream (SSE frames with realistic delays):
 uv run scripts/replay_fixture.py fixtures/runs/coercion_full.jsonl --speed 5
 ```
 
+Or run the API in mock mode, which serves these fixtures through the real routes, the stream included (`docs/api.md`):
+
+```bash
+JURIS_API_MODE=mock uv run uvicorn --factory juris.api.app:create_app --port 8000
+```
+
+Then `GET /runs/run_mock_coercion_full/events?replay=true&speed=5` replays the full run, and `POST /cases` starts a new run that re-emits it live.
+
 ## The mock case: coercion
 
 **Question:** "Can a contract be enforced when consent was obtained through coercion?" A contractor signed a reduced "full and final" settlement after the developer withheld dues it had admitted.
